@@ -16,5 +16,9 @@ router.post('/admin-add-product',upload.array("productImages"),adminDatas.imageA
 router.post('/api/users/update/:userId',upload.single("productImage"),adminDatas.updateData);
 router.post('/api/block-user/:userId',adminDatas.blockUser);
 router.post('/add-category',adminDatas.addCatagory);
+//put method
+router.put('/updateDeliveryStatus/:orderId',adminDatas.changeSts);
+
+//delete
 router.delete('/api/delete/:userID',adminDatas.deleteProduct);
 module.exports = router;

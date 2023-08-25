@@ -26,17 +26,17 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     shippingMethodForms.addEventListener('change', (event) => {
         const selectedShippingMethod = event.target.value;
         
-        // Define shipping costs based on selected method
+
         const shippingCosts = {
             free: 0,
             express: 14
         };
         
-        // Update shipping cost element based on selected method
+
         shippingCostElement.textContent = `+ $${shippingCosts[selectedShippingMethod].toFixed(2)}`;
         let shippingCost = document.getElementById('del');
         shippingCost.value  = `${shippingCosts[selectedShippingMethod]}`;
-        // Calculate the new total amount
+
         
     
        
@@ -46,7 +46,6 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         console.log(newTotalAmt);
         let subtotal = document.getElementById('subtotal');
         subtotal.value = newTotalAmt;
-        // Update the final total amount
         const totalAmt = document.getElementById('finalAmts');
         totalAmt.textContent = `$${newTotalAmt.toFixed(2)}`;
     });
@@ -58,13 +57,13 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     const codSection = document.getElementById('cod');
     const paymentMethodInput = document.getElementById('paymentMethod');
   
-    // Initially hide the COD section
+
     codSection.style.display = 'none';
     
     creditCardTab.addEventListener('click', () => {
       creditCardSection.style.display = 'block';
       codSection.style.display = 'none';
-      paymentMethodInput.value = 'Credit Card'; // Set the value to Credit Card
+      paymentMethodInput.value = 'Credit Card'; 
     });
   
     codTab.addEventListener('click', () => {
@@ -143,7 +142,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
          newTotalAmt: newTotalAmt
       };
       
-      // Make a POST request to your backend API
+     
       fetch('/submit-order', {
         method: 'POST',
         headers: {
@@ -151,18 +150,14 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         },
         body: JSON.stringify({orderData})
       })
-      .then(response => {
-        if (response.ok) {
-          alert('Order placed successfully!');
-          // Optionally, you can redirect or perform other actions here
-        } else {
-          alert('Error placing the order. Please try again.');
-        }
-      })
+
+       
       .catch(error => {
         console.error('Error:', error);
         alert('An error occurred while placing the order.');
       });
+
+      window.location.href = '/payment-success';
     }
     
   

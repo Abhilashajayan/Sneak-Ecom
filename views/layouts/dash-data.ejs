@@ -14,7 +14,7 @@
               <p class="justify-content-center d-flex mt-2 fs-2 d-flex justify-content-center align-items-cente"><%= totalOrders %></p>
             </label>
           </div>
-  
+          
           <div id="ov-p-3" class="ms-4 mt-3 col-lg-3 col-md-4 col-6 d-flex justify-content-center align-items-center">
             <label >Total Sales
               <br>
@@ -23,9 +23,11 @@
           </div>
       </div>
       <div class="col py-3 mt-4">
+        <div class="d-none" id="backendData" data-total-products="<%= dailySales[1].todays %>" data-total-orders="<%= totalOrders %>" data-total-sales="<%= totalSales[0].totalAmount %>" data-todays-orders="<%= todaysOrders %>"></div>
+
       <div class="charts">
         <div class="chart">
-            <h2>Earnings (past 12 months)</h2>
+            <h2>Overview Graph</h2>
             <div>
                 <canvas id="lineChart"></canvas>
             </div>
@@ -34,36 +36,40 @@
     </div>
       <div class="col py-3 mt-4">
           <h3 class="ms-4">Recent Orders</h3>
-          <div class="ms-4">
-            <table class="table table-striped">
+          <div class="ms-4 mt-2">
+            <table class="table table-responsive">
               <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
-                </tr>
+                  <tr>
+                      <th>ORDER ID</th>
+                      <th>ORDER DATE</th>
+                      <th>SHIPPING ADDRESS</th>
+                      <th>PAYMENT METHOD</th>
+                      <th>ORDER AMOUNT</th>
+                      <th>STATUS</th>
+                  </tr>
               </thead>
-              <tbody class="bg-light">
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td colspan="2">Larry the Bird</td>
-                  <td>@twitter</td>
-                </tr>
+              <tbody>
+                  <% recentOrders.forEach((order, index) => { %>
+                  <tr >
+                      <td><%= String(order._id).slice(-6) %></td>
+                      <td><%= formatDate(order.createdOn) %></td>
+                      <td><%= order.shippingAddress.streetAddress %></td>
+                      <td><%= order.paymentMethod %></td>
+                      <td>$<%= order.subtotals %>.00</td>
+                      <td data-bs-toggle="tooltip" data-bs-placement="top" title="<%= order.status %>">
+                          <span class="badge <%= (order.status == 'Pending') ? 'bg-warning' : (order.status === 'Delivered') ? 'bg-success' : 'badge-other' %> text-dark">
+                            <%= order.status  %>
+                          </span>
+                        </td>
+                                                                                                                           
+                  </tr>
+                  <% }) %>
               </tbody>
-            </table>
+          </table>
+          <% function formatDate(date) {
+              const createdDate = new Date(date);
+              return createdDate.toDateString();
+          } %>
           </div>
       </div>
   </section>

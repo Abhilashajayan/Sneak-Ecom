@@ -21,8 +21,7 @@ router.get('/product-cart', authMiddleware, userDas.productCart);
 router.get('/user-Dash',authMiddleware,userDas.userDash);
 router.get('/users/address/:addressId',authMiddleware,userDas.addSearch);
 router.get('/checkout',authMiddleware,userDas.checkOut);
-
-
+router.get('/payment-success',authMiddleware,userDas.animation);
 
 
 //post methods

@@ -6,6 +6,15 @@ body{
 
     font-weight: 600;
 }
+table td {
+    font-weight: 400;
+    font-family: 'Space Grotesk', sans-serif;
+}
+table tr{
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
 
 i{
     text-decoration: none;

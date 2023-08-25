@@ -30,7 +30,25 @@ const dashboards = async (req,res) =>{
            const today = new Date();
             today.setHours(0, 0, 0, 0);
              const todaysOrders = await Order.countDocuments({ createdOn: { $gte: today } });
-             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders});
+             const dailySales = await Order.aggregate([
+              {
+                  $group: {
+                      _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdOn" } },
+                      todays: { $sum: "$totalAmount" }
+                  }
+              },
+              {
+                  $sort: { _id: 1 }
+              }
+          ]);
+
+          const recentOrders = await Order.find({})
+          .sort({ createdOn: -1 }) 
+           .limit(4);
+           console.log(recentOrders);
+
+               
+             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders});
     }catch(err){
         console.log(err);
     
@@ -251,6 +269,30 @@ const cataCheck = async (req, res) => {
       }
     }
 
+
+const changeSts = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const { status } = req.body;
+    console.log(status);
+    
+    const updatedOrder = await Order.findByIdAndUpdate(
+        orderId,
+        { status: status },
+        { new: true } 
+    );
+    if (!updatedOrder) {
+        return res.status(404).json({ message: 'Order not found' });
+    }
+
+} catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred' });
+}
+};
+
+
+
   
 module.exports = {
     adminLog,
@@ -262,5 +304,6 @@ module.exports = {
     deleteProduct,
     blockUser,
     imageAdd,
-    cataCheck
+    cataCheck,
+    changeSts
 }

@@ -10,6 +10,7 @@
                     <th>PAYMENT METHOD</th>
                     <th>ORDER AMOUNT</th>
                     <th>STATUS</th>
+                    <th>ACTION</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +26,12 @@
                           <%= order.status  %>
                         </span>
                       </td>
+
+                      <td>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#changeStatusModal" onclick="changeSts('<%= order._id %>')">
+                            <i class="bi bi-pencil-square"></i> 
+                        </button>
+                    </td>
                                                                                                                          
                 </tr>
                 <% }) %>
@@ -38,3 +45,31 @@
   </div>
 
   
+
+  <!-- Modal for changing delivery status -->
+<div class="modal fade" id="changeStatusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Delivery Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="deliveryStatus" class="form-label">Select Delivery Status:</label>
+                        <select class="form-select" id="deliveryStatus">
+                            <option value="Delivered">Delivered</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="updateDeliveryStatus()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

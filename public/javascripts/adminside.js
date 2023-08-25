@@ -260,3 +260,31 @@ sub.addEventListener("submit", function(event) {
 
 
 
+// change sts
+
+var orderId;
+
+function changeSts(id) {
+    orderId = id;
+    
+}
+
+function updateDeliveryStatus() {
+  location.reload();
+    const status = document.getElementById('deliveryStatus').value;
+   
+    fetch(`/updateDeliveryStatus/${orderId}`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ status })
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+  
+}
+
+
+

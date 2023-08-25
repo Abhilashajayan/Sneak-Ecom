@@ -330,8 +330,10 @@ const orderData = async (req, res) => {
       }
     }
     await Cart.deleteOne({ user: userId });
-   
-   res.redirect('/');
+    console.log('Before redirect');
+
+    console.log('After redirect');
+
   } catch (error) {
 
     console.error('Error placing order:', error);
@@ -339,6 +341,10 @@ const orderData = async (req, res) => {
   }
 };
 
+
+const animation = async (req , res) => {
+  res.render('animation/tick');
+}
 
 
 
@@ -355,6 +361,7 @@ module.exports = {
     addToCart,
     increData,
     checkOut,
-    orderData
+    orderData,
+    animation
     
 }
