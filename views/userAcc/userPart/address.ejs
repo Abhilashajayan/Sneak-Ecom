@@ -1,0 +1,39 @@
+<section id="address" style="display: none;" class="flex-grow-1 mt-md-5">
+
+    <% if (userData.addresses.length >= 3 ) { %>
+        <button class=" btn btn-secondary mb-3 d-flex ml-auto ">Reached address limit </button>
+      <% } else { %>
+        <button class="btn btn-dark edit-button ms-auto justify-content-end d-flex" data-bs-toggle="modal"   data-bs-target="#addAddressModal">Add Address</button>
+    
+      <% } %>
+       
+
+       
+        <div class="row">
+            <% userData.addresses.forEach((address, index) => { %>
+            <div class="col-md-6">
+               
+                    <div class="card address-card">
+                        <div class="card-header">
+                            Shipping Address
+                            <button class="btn btn-dark  edit-button d-flex justify-content-end" data-bs-toggle="modal" data-address-id="<%= address._id %>" data-bs-target="#editAddressModal">Edit</button>
+                        </div>
+                       
+                        <div class="card-body">
+                            <h5 class="card-title"><%= address.name || 'Your name' %></h5>
+                            <p class="card-text">Country: <%= address.country || 'Country' %></p>
+                            <p class="card-text">Street Address: <%= address.streetAddress || 'Street' %></p>
+                            <p class="card-text">City: <%= address.city || 'City' %></p>
+                            <p class="card-text">Pincode: <%= address.pincode || 'Pincode' %></p>
+                            <p class="card-text">State: <%= address.state || 'State' %></p>
+                        </div>
+                    </div>
+              
+                
+            </div>
+            <% }) %>
+            
+        </div>
+      
+    </div>
+</section>

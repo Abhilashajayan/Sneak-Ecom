@@ -1,0 +1,74 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@600&family=Space+Grotesk:wght@300;400;500;600&display=swap');
+
+
+body{
+
+    font-weight: 600;
+}
+
+i{
+    text-decoration: none;
+    color:#000;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+
+}
+span{
+    color: #1e2023;
+}
+span:hover{
+    color: #000;
+}
+#logo{
+    font-family: 'Creepster', cursive; 
+    font-size: 30px;
+    color: #000;
+}
+#nav-1{
+    font-size: 30px;
+    color: #000;
+}
+#ov-p-1{
+    /* width: 400px; */
+    height: 200px;
+    border-radius: 20px;
+    background-color: #93C5FD;
+}
+#ov-p-2{
+    border-radius: 20px;
+    background-color: #D8B4FE;
+}
+
+#ov-p-3{
+    border-radius: 20px;
+    background-color: #2DD4BF;
+}
+
+.active-sts{
+    border-radius: 10px;
+    width: 20px;
+    height: 5px !important;
+}
+
+.charts {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+    width: 100%;
+    padding: 20px;
+    padding-top: 0;
+}
+.chart {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    width: 100%;
+}
+.chart h2 {
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #666;
+    text-align: center
+}

@@ -1,0 +1,40 @@
+<div id="orders" style="display: none;" class="content col py-3 ">
+    <h1>Orders</h1>
+    <div class="container mt-5">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>ORDER ID</th>
+                    <th>ORDER DATE</th>
+                    <th>SHIPPING ADDRESS</th>
+                    <th>PAYMENT METHOD</th>
+                    <th>ORDER AMOUNT</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% orderData.forEach((order, index) => { %>
+                <tr>
+                    <td><%= String(order._id).slice(-6) %></td>
+                    <td><%= formatDate(order.createdOn) %></td>
+                    <td><%= order.shippingAddress.streetAddress %></td>
+                    <td><%= order.paymentMethod %></td>
+                    <td>$<%= order.subtotals %>.00</td>
+                    <td data-bs-toggle="tooltip" data-bs-placement="top" title="<%= order.status %>">
+                        <span class="badge <%= (order.status == 'Pending') ? 'bg-warning' : (order.status === 'Delivered') ? 'bg-success' : 'badge-other' %> text-dark">
+                          <%= order.status  %>
+                        </span>
+                      </td>
+                                                                                                                         
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% function formatDate(date) {
+            const createdDate = new Date(date);
+            return createdDate.toDateString();
+        } %>
+    </div>
+  </div>
+
+  

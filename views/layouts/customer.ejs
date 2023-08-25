@@ -1,0 +1,48 @@
+<div id="customers" class="content col py-3 ">
+    <div id="cust-data" style="display: none;"> 
+    <h3 class="ms-4">Customers</h3>
+    <div>
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col-2">#</th>
+                <th scope="col-2">User</th>
+                <th scope="col-2">Email</th>
+                <th scope="col-2">Status</th>
+                <th scope="col-2">Action</th>
+                <th scope="col-2"></th>
+                <th scope="col-2"></th>
+    
+                
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+             <% userData.forEach((user, index) => { %>
+                      <tr>
+                        <th scope="row"><%= index + 1 %></th>
+                        <td><%= user.username %></td>
+                        <td><%= user.email %></td>
+                        <td class="active-sts"><% if (user.status == false) { %>
+                          <span class="badge bg-success"><%= user.status %></span>
+                        <% } else if (user.status == true) { %>
+                          <span class="badge bg-danger"><%= user.status %></span>
+                        <% } %>
+                        
+                      </td>                         
+                        <td>
+                          <button type="button" id="blockButton_<%= user._id %>" class="buttonOne btn " data-toggle="modal" data-target="#UserModal" onclick="BlockUser('<%= encodeURIComponent(user._id) %>')">
+                            <i class="fa fa-user-slash" style="color: #41c8b8;"></i>Block
+                          </button>
+                        </td>
+                        <td>
+                          <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#addUserModal" onclick="DeleteUser('<%= encodeURIComponent(user._id) %>')">
+                            <i class="fa-solid fa-trash-can fa-lg" style="color: #41c8b8;"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    <% }) %>
+            </tbody>
+          </table>
+    </div>
+</div>
+</div>

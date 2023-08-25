@@ -1,0 +1,70 @@
+<div id="dashboard" class="content" >
+    <section class="col py-3 bg-light" >
+      <h3 class="ms-4">Overview</h3>
+      <div class="row">
+          <div id="ov-p-1" class="ms-4 mt-3 col-6 col-lg-3 col-md-4 d-flex justify-content-center align-items-center" >
+            <label >Today's Order
+            <br>
+            <p class="justify-content-center d-flex mt-2 fs-2 d-flex justify-content-center align-items-center"><%= todaysOrders %></p>
+          </label>
+          </div>
+          <div id="ov-p-2" class="ms-4 mt-3 col-lg-3 col-md-4 col-6 d-flex justify-content-center align-items-center">
+            <label >Total Orders
+              <br>
+              <p class="justify-content-center d-flex mt-2 fs-2 d-flex justify-content-center align-items-cente"><%= totalOrders %></p>
+            </label>
+          </div>
+  
+          <div id="ov-p-3" class="ms-4 mt-3 col-lg-3 col-md-4 col-6 d-flex justify-content-center align-items-center">
+            <label >Total Sales
+              <br>
+              <p class="justify-content-center d-flex mt-2 fs-2 d-flex justify-content-center align-items-cente">$<%= totalSales[0].totalAmount %></p>
+            </label>
+          </div>
+      </div>
+      <div class="col py-3 mt-4">
+      <div class="charts">
+        <div class="chart">
+            <h2>Earnings (past 12 months)</h2>
+            <div>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+    </div>
+    </div>
+      <div class="col py-3 mt-4">
+          <h3 class="ms-4">Recent Orders</h3>
+          <div class="ms-4">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+              </thead>
+              <tbody class="bg-light">
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td colspan="2">Larry the Bird</td>
+                  <td>@twitter</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+  </section>
+</div>

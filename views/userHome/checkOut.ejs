@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css">    
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="stylesheets/check.css" /> 
+    <title>Document</title>
+    <style>
+      .rounded{border-radius: 1rem}.nav-pills .nav-link{color: #555}.nav-pills .nav-link.active{color: white}input[type="radio"]{margin-right: 5px}.bold{font-weight:bold}
+    </style>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+   <div class="justify-content-center d-flex">
+        <h1>Checkout</h1>
+   </div>
+      <section class=" py-5">
+        <div class="container">
+          <div class="row">
+            
+            <div class="col-xl-8 col-lg-8 mb-4">
+             
+              <fieldset class="card mb-4 border shadow">
+                <div class="panel-heading d-flex justify-content-center">Express Checkout</div>
+                <div class="p-4 d-flex justify-content-center">
+                  <button class="btn btn-light btn-block border d-flex align-items-center justify-content-center">
+                    <i class="fab fa-google-pay fa-2x" style="color: #3d511f;"></i>
+                  </button>
+                </div>
+              </fieldset>
+              
+              <hr>
+              
+              
+      
+              <!-- Checkout -->
+              <!-- <div class="card shadow border">
+                <div class="p-4">
+                  <h5 class="card-title mb-3">Contact Informations</h5>
+                  <div class="row">
+                    <div class="col-6 mb-3">
+                      <p class="mb-0">First name</p>
+                      <div class="form-outline">
+                        <input type="text" id="typeText" placeholder="Type here" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <p class="mb-0">Last name</p>
+                      <div class="form-outline">
+                        <input type="text" id="typeText" placeholder="Type here" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <p class="mb-0">Phone</p>
+                      <div class="form-outline">
+                        <input type="tel" id="typePhone" value="+9 " class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <p class="mb-0">Email</p>
+                      <div class="form-outline">
+                        <input type="email" id="typeEmail" placeholder="example@gmail.com" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                    <label class="form-check-label" for="flexCheckDefault">Keep me up to date on news</label>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="card shadow border mt-4">
+                <div class="p-4">
+                  <h5 class="card-title mb-3">Shipping info</h5>
+                  <div class="row">
+                    <div class="col-lg-4 mb-3">
+                      <div class="form-check h-100 border rounded-3">
+                        <div class="p-3">
+                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
+                          <label class="form-check-label" for="flexRadioDefault1">
+                            Address One <br />
+                            <small class="text-muted">3-4 days via Fedex </small>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                      <div class="form-check h-100 border rounded-3">
+                        <div class="p-3">
+                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                          <label class="form-check-label" for="flexRadioDefault2">
+                            Address Two <br />
+                            <small class="text-muted">20-30 days via post </small>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-8 mb-3">
+                      <p class="mb-0">Address</p>
+                      <div class="form-outline">
+                        <input type="text" id="typeText" placeholder="Type here" class="form-control" />
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <!-- <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
+                    <label class="form-check-label" for="flexCheckDefault1">Save this address</label>
+                  </div> -->
+                  <!-- <div class="float-end">
+                    <button class="btn btn-light border">Cancel</button>
+                    <button class="btn btn-success shadow-0 border">Continue</button>
+                  </div> -->
+                  <div class="card shadow border mt-4">
+                    <div class="p-4">
+
+                        <h5 class="card-title mb-3">Shipping info</h5>
+                        <div class="row">
+                          <% add.forEach((add, index) => { %>
+                            <div class="col-lg-4 mb-3">
+                                <div class="form-check h-100 border rounded-3">
+                                    <div class="p-3">
+                                        <input class="form-check-input" type="radio" value="<%= add._id %>" name="flexRadioDefault" id="flexRadioDefault1"  />
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Address One <br />
+                                            <small class="text-muted"><%= add.name %>, </small>
+                                            <small class="text-muted"><%= add.pincode %> ,</small>
+                                            <small class="text-muted"><%= add.city %> </small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } )%>
+                        </div>
+                        <hr>
+                        <div id="add">
+                          <% if (add.length <= 3) { %>
+                          <form id="userAddAddressForm">
+                            <div class="row">
+                                <div class="col-sm-8 mb-3">
+                                    <p class="mb-0">Name</p>
+                                    <div class="form-outline">
+                                        <input type="text" name="name" placeholder="Type here" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-3">
+                                    <p class="mb-0">Country</p>
+                                    <div class="form-outline">
+                                        <input type="text" name="country" placeholder="Type here" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 mb-3">
+                                    <p class="mb-0">Street Address</p>
+                                    <div class="form-outline">
+                                        <input type="text" name="streetAddress" placeholder="Type here" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-6 mb-3">
+                                    <p class="mb-0">City</p>
+                                    <div class="form-outline">
+                                        <input type="text" name="city" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-6 mb-3">
+                                    <p class="mb-0">Pincode</p>
+                                    <div class="form-outline">
+                                        <input type="text" name="pincode" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-6 mb-3">
+                                  <input id="getUser"  type="hidden" value="<%= user._id %>" >
+                                    <p class="mb-0">State</p>
+                                    <div class="form-outline">
+                                        <input type="text" name="state" class="form-control" required />
+                                    </div>
+                                </div>
+                              
+                                    <button type="submit" class="btn btn-dark">Add Address</button>
+                                
+                            </div>
+                        </form>
+                        <% } %>
+                      </div>
+                    </div>
+                </div>
+                
+                
+              <div class="card shadow border mt-4">
+                <div class="p-4">
+                    <h5 class="card-title mb-3">Shipping Method</h5>
+                    <form id="shippingMethodForm">
+                        <div class="mb-3 row">
+                            <div class="col-sm-8">
+                                <div class="form-check border mt-1">
+                                    <input class="form-check-input" type="radio" name="shippingMethod" id="freeShipping" value="free">
+                                    <label class="form-check-label p-2" for="freeShipping">
+                                        <span class="">Free Shipping</span>
+                                    </label>
+                                </div>
+                                <div class="form-check border mt-1">
+                                    <input class="form-check-input" type="radio" name="shippingMethod" id="expressShipping" value="express">
+                                    <label class="form-check-label p-2" for="expressShipping">
+                                        <span class="">Express Shipping</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            
+            <div class="card mt-2 border shadow">
+              <div class="card-header">
+                <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
+                  <!-- Credit card form tabs -->
+                  <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                    <li class="nav-item"> <a data-toggle="pill" href="#credit-card" class="nav-link active"> <i class="fas fa-credit-card mr-2"></i> Credit Card </a> </li>
+                    <li class="nav-item"> <a data-toggle="pill" href="#cod" class="nav-link"> <i class="fab fa-paypal mr-2"></i> COD </a> </li>
+                  </ul>
+                </div>
+               
+                  <div id="credit-card" class="tab-pane show ">
+                    <form role="form">
+                      <input type="hidden" name="paymentMethod" id="paymentMethod" value="Credit Card">
+                      <div class="form-group"> <label for="username">
+                          <h6>Card Owner</h6>
+                        </label> <input type="text" name="username" placeholder="Card Owner Name"  class="form-control "> </div>
+                      <div class="form-group"> <label for="cardNumber">
+                          <h6>Card number</h6>
+                        </label>
+                        <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " >
+                          <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-8">
+                          <div class="form-group"> <label><span class="hidden-xs">
+                                    <h6>Expiration Date</h6>
+                                  </span></label>
+                            <div class="input-group"> <input type="number" placeholder="MM" name="expirationMonth" class="form-control" > <input type="number" placeholder="YY" name="expirationYear" class="form-control" > </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
+                                  <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
+                              </label> <input type="text"  class="form-control"> </div>
+                        </div>
+                      </div>
+                      <div class="card-footer"> <button type="button" id="creditCardPlaceOrderButton" class="btn btn-dark btn-block shadow-sm credit-card-placeOrderButton">Place Order</button> </div>
+                    </form>
+                  </div> 
+                  <div >
+                    <div id="cod" class="tab-pane">
+                      <form id="codForm" action="">
+                        <input type="hidden" name="paymentMethod" id="paymentMethod" value="COD">
+                        <input type="hidden" name="addressId" id="addessId1" >
+                        <input type="hidden" name="delMethod" id="del" >
+                        <input type="hidden" name="total" id="total" >
+                        <input type="hidden" name="subtotal" id="subtotal" >
+                        <p class="mt-2">Cash on Delivery (COD) is a payment method where you can pay for your order in cash when it is delivered to your doorstep. Please note that COD orders may have additional fees or restrictions depending on your location and the store's policies.</p>
+                        <button type="button" id="codPlaceOrderButton" class="btn btn-dark btn-block shadow-sm " onclick="handleCodButtonClick()">Place Order</button>
+                      </form>
+                    </div>
+                </div> <!-- End -->
+              </div>            
+          </div>
+         
+              <!-- Checkout -->
+            </div>
+            <div class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
+              <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
+                <h6 class="mb-3">Summary</h6>
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Total price:</p>
+                  <p class="mb-2" id="totalAmount">$0.00</p>
+                </div>
+                <!-- <div class="d-flex justify-content-between">
+                  <p class="mb-2">Discount:</p>
+                  <p class="mb-2 text-danger">- $60.00</p>
+                </div> -->
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Shipping cost:</p>
+                  <p class="mb-2" id="shippingCost">+ $0.00</p>
+              </div>
+              
+                <hr />
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Total price:</p>
+                  <p class="mb-2 fw-bold" id="finalAmts">$0.00</p>
+                </div>
+      
+                <div class="input-group mt-3 mb-4">
+                  <input type="text" class="form-control border" name="" placeholder="Promo code" />
+                  <button class="btn btn-light text-primary border">Apply</button>
+                </div>
+      
+                <hr />
+                <h6 class="text-dark my-4">Items in cart</h6>
+                <% cartItems.forEach((user, index) => { %>
+                <div class="d-flex align-items-center mb-4">
+                  <div class="me-3 position-relative">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
+                      <%= user.quantity %>
+                    </span>
+                    <img src="<%= user.product.productImages[0].secure_url %>" style="height: 96px; width: 96x;" class="img-sm rounded border" />
+                  </div>
+                  <div class="">
+                    <a href="#" class="nav-link">
+                      <%= user.product.productTitle %> 
+                      
+                    </a>
+                    
+                    <div class="product">
+                      <div class="price text-muted">Total: <span class="total-price"><%= user.product.productPrice *  user.quantity %></span></div>
+                  </div>
+                  </div>
+                </div>
+                <% }) %>  
+              
+      
+         
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Footer -->
+     
+      <!-- Footer -->
+    <script src="javascripts/check.js"></script>
+</body>
+</html>

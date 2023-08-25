@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap');
+body{
+    font-family: 'Space Grotesk', sans-serif;
+}
+#images {
+    display: block;
+    /* max-width: 70%; */
+    height: auto;
+  }
+  #form2Example27 {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
+  }
+  #form2Example26 {
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
+  }
+  input::placeholder{
+    font-size: 16px;
+  }
+  .navbar { margin-top: -50px }
+  #head{
+    margin-top: -50px;
+  }

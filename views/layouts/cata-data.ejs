@@ -1,0 +1,58 @@
+<div id="catagories" class="content bg-light" style="display: none;">
+    <div class="container">
+        <h2 class="">Catagories</h2>
+        <button type="button" class="btn btn-dark ms-auto" data-bs-toggle="modal" data-bs-target="#categoryModal">
+          Add Category
+        </button>
+
+        <div class="mt-4">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">ProductId</th>
+                <th scope="col">productCategory</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <% productData.forEach((user, index) => { %>
+            <tbody>
+              <tr>
+                <th scope="row"><%= index+1 %></th>
+                <td><%= user._id %></td>
+                <td><%= user.productCategory %></td>
+                <td >
+                  <button class="btn"  onclick="editUsers('<%= user._id %>')">
+                    <i class="fas fa-trash fa-lg"  style="color: #605F5F;"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <% }) %>  
+          </table>
+        </div>
+    </div>
+  </div>
+  <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="categoryModalLabel">Add Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="categoryForm" action="add-category" method="post">
+            <div class="mb-3">
+              <label for="categoryName" class="form-label">Category Name</label>
+              <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Enter category name" required>
+            </div>
+          </form>
+          <p id="result"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" form="categoryForm" class="btn btn-dark">Add Category</button>
+        </div>
+      </div>
+    </div>
+  </div>

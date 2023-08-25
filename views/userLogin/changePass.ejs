@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/login.css" /> 
+    <title>Login</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md ">
+        <div class="container ">
+            <img src="images/logo.png" alt="" width="160" height="150">
+        </div>
+      </nav>
+    <section id="head" class="row">
+        <div class="col-sm col-6 mh-100 d-md-block">
+            <div class=" ">
+                <img id="images" src="images/Login.jpg" class="img-fluid" alt="Responsive image">
+            </div>
+        </div>
+        <div class="col-sm mh-100 align-self-center">
+            <form action="/change-password" method="POST" id="changePasswordForm">
+
+                <div class="d-flex align-items-center mb-3 pb-1">
+                  <span class="h1 fw-bold mb-0">Change Password</span>
+                </div>
+                <div>
+                    <p>Change your password here!!</p>
+                </div>
+
+                <div class="form-outline col-lg-6 col-md-6 mb-4 ">
+                  <input type="password" id="form2Example27" name="newpass" placeholder="New Password" class="form-control  p-0 form-control-lg" />
+                </div>
+                <div class="form-outline col-lg-6 col-md-6 mb-4 ">
+                    <input type="password" id="form2Example26" name="pass"  placeholder="Confirm Password" class="form-control  p-0 form-control-lg" />
+                  </div>
+                  
+                
+                <div class="pt-1 mb-4 ">
+                  <button class="btn btn-dark col-lg-6 col-md-6 col-12 btn-lg btn-block" id="submitButton" type="button">CONFIRM</button>
+                </div>
+              </form>
+
+    </section>
+    <script>
+       document.addEventListener("DOMContentLoaded", function () {
+            const newPasswordInput = document.getElementById("form2Example27");
+            const confirmPasswordInput = document.getElementById("form2Example26");
+            const submitButton = document.getElementById("submitButton");
+            const form = document.getElementById("changePasswordForm");
+
+            submitButton.addEventListener("click", function () {
+                if (newPasswordInput.value !== confirmPasswordInput.value) {
+                    alert("Passwords do not match. Please make sure the passwords match.");
+                } else {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

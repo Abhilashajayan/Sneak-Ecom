@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/cart.css">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <section class="container d-flex justify-content-center mt-3">
+        <div>
+            <h2>Cart</h2>
+        </div>
+        <div class="d-flex position-absolute mt-5">
+            <p>Shop more to enjoy the <span class="spans text-dark fs-5">Free Shipping</span> </p>
+        </div>
+    </section>
+
+    <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-8">
+                
+                <% cartItems.forEach((user, index) => { %>
+                <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
+                    <div class="mr-1"><img class="rounded" src="<%= user.product.productImages[0].secure_url %>" width="70"></div>
+                    <div class="d-flex flex-column align-items-center product-details"><span class="font-weight-bold"><%= user.product.productTitle %></span>
+                        <div class="d-flex flex-row product-desc">
+                            <div class="size mr-1"><span class="text-grey">Size:</span><span class="font-weight-bold">&nbsp;M</span></div>
+                            <div class="color"><span class="text-grey">Color:</span><span class="font-weight-bold">&nbsp;Grey</span></div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row align-items-center qty"><i class="fa fa-minus text-danger"></i>
+                        <!-- <h5 class="text-grey mt-1 mr-1 ml-1">2</h5><i class="fa fa-plus text-success"></i></div> -->
+                        <div class="cart-item">
+                          <div class="d-flex flex-row align-items-center qty">
+                            <i class="fa fa-minus text-danger decreaseQty" data-product-id="<%= user.product._id %>"></i>
+                            <h5 class="text-grey mt-1 mr-1 ml-1 quantity"><%= user.quantity %></h5>
+                            <i class="fa fa-plus text-success increaseQty" data-product-id="<%= user.product._id %>"></i>
+                          </div>
+                        </div>
+                        
+                        
+                        
+                            <!-- ... other HTML content ... -->
+                        </div>
+                    <div>
+                        <h5 class="text-grey price" >$<%= user.product.productPrice %></h5>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <a href="" class="text-secondary ml-1">
+                          <i class="fa fa-trash mb-1" style="color: #605F5F; margin-right: 5px;"></i>
+                          Remove
+                        </a>
+                      </div>
+                </div>
+                <hr>
+                <% }) %> 
+               
+            </div>
+        </div>
+    </div>
+    <section class=" d-flex justify-content-center">
+    <div class="col-lg-4 payment-summary">
+        <div class="card px-md-3 px-2 pt-4">
+            <div class="unregistered mb-4 fw-bold"> <span class="py-1">Cart Summary</span> </div>
+        
+            <div class="d-flex justify-content-between b-bottom"> <input type="text" class="ps-2" placeholder="COUPON CODE">
+                <div class="btn btn-dark">Apply</div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between pb-2">
+              <small class="text-muted">Subtotal</small>
+              <p id="subtotalAmount">$<span id="subtotalValue">0.00</span></p>
+          </div>
+          <div class="d-flex justify-content-between">
+              <small class="text-muted">Total Amount</small>
+              <p id="totalAmounts">$<span id="totalValue">0.00</span></p>
+          </div>
+          
+            <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><button class="btn btn-dark btn-block btn-lg ml-2 pay-button" type="button"><a class="text-light underline-none" href="/checkout ">Checkout</a></button></div>
+        </div>
+    </div>
+</section>
+<div>
+    <h1>hello</h1>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+  
+document.addEventListener('DOMContentLoaded', function() {
+  const decreaseButtons = document.querySelectorAll('.decreaseQty');
+  const increaseButtons = document.querySelectorAll('.increaseQty');
+  const quantityElements = document.querySelectorAll('.quantity');
+  const unitPrice = 20; // Adjust the unit price as needed
+  let subtotalValue = 0.00;
+
+  updateTotalAmounts(); // Initial update
+
+  decreaseButtons.forEach((decreaseButton, index) => {
+    decreaseButton.addEventListener('click', async () => {
+      let currentQuantity = parseInt(quantityElements[index].textContent);
+      if (currentQuantity > 0) {
+        currentQuantity--;
+        quantityElements[index].textContent = currentQuantity;
+        await updateQuantityInDatabase(decreaseButton.getAttribute('data-product-id'), currentQuantity);
+        updateTotalAmounts(); // Update subtotal and total
+        if (currentQuantity <= 0) {
+          window.location.reload();
+        }
+      }
+    });
+  });
+
+  increaseButtons.forEach((increaseButton, index) => {
+    increaseButton.addEventListener('click', async () => {
+      let currentQuantity = parseInt(quantityElements[index].textContent);
+      currentQuantity++;
+      quantityElements[index].textContent = currentQuantity;
+      await updateQuantityInDatabase(increaseButton.getAttribute('data-product-id'), currentQuantity);
+      updateTotalAmounts(); 
+    });
+  });
+
+  function updateTotalAmounts() {
+    subtotalValue = 0.00;
+    quantityElements.forEach((quantityElement, index) => {
+      const currentQuantity = parseInt(quantityElement.textContent);
+      subtotalValue += currentQuantity * unitPrice;
+    });
+
+    const subtotalElement = document.getElementById('subtotalValue');
+    subtotalElement.textContent = subtotalValue.toFixed(2);
+
+    const totalValue = subtotalValue; // You might add taxes or shipping here
+    const totalElement = document.getElementById('totalValue');
+    totalElement.textContent = totalValue.toFixed(2);
+  }
+
+  async function updateQuantityInDatabase(productId, newQuantity) {
+    try {
+      const response = await fetch('/update-quantity', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId, quantity: newQuantity }),
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update quantity in the database');
+      }
+    } catch (error) {
+      console.error('Error updating quantity in the database:', error);
+    }
+  }
+});
+
+
+
+
+
+
+    </script>
+</body>
+</html>

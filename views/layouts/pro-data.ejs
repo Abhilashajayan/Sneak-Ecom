@@ -1,0 +1,143 @@
+
+<div id="products" class="content bg-light">
+    <section class="col py-3 " id="products-sec"  style="display: none;">
+      <h3 class="ms-4">Products</h3>
+      <div class=" ms-3 ">
+        <div class="row">
+          <div class="col-md-6 col-lg-6">
+            <div class="input-group input-group-lg mt-3">
+              <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="inputGroup-sizing-sm" />
+              <button type="button" class="btn btn-dark">search</button>
+            </div>
+           </div>
+
+           <div class="col-md mt-3 ms-5">
+              <div >
+               
+                <button id="showAddProductForm" class="btn btn-dark btn-lg ">Add Product</button>
+
+                
+              </div>
+           </div>
+        </div>
+      
+      </div>
+     
+      
+     
+    </section>
+    <section class="ms-3 mt-5 bg-none" id="product-data" style="display: none;">
+      <table class="table">
+        <thead>
+          <tr >
+            <th scope="col">#</th>
+            <th scope="col">PRODUCT NAME</th>
+            <th scope="col">CATEGORY</th>
+            <th scope="col">PRICE</th>
+            <th scope="col">STOCK</th>
+            <th scope="col">STATUS</th>
+            <th scope="col">DISCOUNT</th>
+            <th scope="col">ACTIVE</th>
+            <th scope="col">ACTION</th>
+          </tr>
+        </thead>
+        <% productData.forEach((user, index) => { %>
+        <tbody >
+          <tr class="bg-white">
+            <th scope="row" > <img src="<%= user.productImages[0].secure_url %>" alt="hugenerd" width="30" height="30" class="rounded-circle"></th>
+           
+            <td ><%= user.productTitle %></td>
+            <td><%= user.productCategory %></td>
+            <td><%= user.productPrice %></td>
+            <td><%= user.stock %></td>
+            <td data-bs-toggle="tooltip" data-bs-placement="top" title="<%= (user.stock !== 0) ? 'In Stock' : 'Out of Stock' %>">
+              <span class="badge <%= (user.stock !== 0) ? 'bg-success text-dark' : 'bg-danger text-dark' %>">
+                <%= (user.stock !== 0) ? 'In Stock' : 'Out of Stock' %>
+              </span>
+            </td>
+            
+            
+            
+            <td><%= user.discount %></td>
+            <td>Yes</td>
+            <td> <button type="submit" class="btn"  >
+              <i class="fa-solid fa-trash-can fa-lg" onclick="editUsers('<%= user._id %>')" style="color: #41c8b8;"></i>
+            </button>
+          </td>
+          <td id="btnEdit">
+            <button  type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editProductModal" onclick="editUser('<%= user._id %>')">
+              <i class="fas fa-edit fa-lg"  style="color: #cf3a3a;"></i>
+            </button>
+          </td>
+          
+          </tr>
+          <!-- More rows here -->
+        </tbody>
+        <% }) %>  
+      </table>
+    </section>
+    
+  </div>
+  
+  <div id="addProduct" class="contents" style="display: none;">
+    <div  tabindex="1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div >
+        <div class="col-md-6">
+          <div class="modal-header">
+            <h1 class="modal-title font-semibold text-2xl">Add Product</h1>
+          </div>
+          <div class="modal-body">
+            <form action="/admin-add-product" method="post" enctype="multipart/form-data">
+              <!-- images simple upload -->
+              <div class="mb-4">
+                <label for="productImages" class="form-label">Product Images</label>
+                <input type="file" id="productImages" name="productImages" class="form-control" multiple>
+                <small class="text-muted">(Only *.jpg, *.jpeg, *.png and *.webp images are accepted)</small>
+              </div>
+              <!-- product title -->
+              <div class="mb-4">
+                <label for="productTitle" class="form-label">Product Title</label>
+                <input type="text" required id="productTitle" value="" name="productTitle" placeholder="Product title" class="form-control">
+              </div>
+             
+              <!-- product category -->
+              
+                <div class="mb-3" >
+                  <label class="form-label">Category</label>
+                  <select class="form-select" id="category" name="productCategory" required>
+                      <option value="" disabled selected>Select a category</option>
+                      <% categoryData.forEach((category) => { %>
+                          <option value="<%= category.categoryName%>"><%= category.categoryName %></option>
+                      <% }); %>
+                  </select>
+          
+              </div>
+              <!-- product price -->
+              <div class="mb-4">
+                <label for="productPrice" class="form-label">Product Price</label>
+                <input type="number" required id="productPrice" name="productPrice" placeholder="Product price" class="form-control">
+              </div>
+              <!-- Sale price -->
+              <div class="mb-4">
+                <label for="discount" class="form-label">Discount</label>
+                <input type="number" id="discount" name="discount" placeholder="Discount" class="form-control">
+              </div>
+              <!-- stock -->
+              <div class="mb-4">
+                <label for="stock" class="form-label">Stock</label>
+                <input type="number" required id="stock" name="stock"  placeholder="Stock" class="form-control">
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">ADD PRODUCT</button>
+                <button id="cancelModalBtn" type="reset" class="btn btn-secondary">CANCEL</button>
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+</div>
+
+<%- include('./edituser') %>
+

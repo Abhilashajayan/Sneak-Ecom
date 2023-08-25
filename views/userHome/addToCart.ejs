@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="stylesheets/productSel.css"> -->
+    <title>Document</title>
+  
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+    <section class="py-5">
+        <div class="container">
+          <div class="row gx-5">
+            <aside class="col-lg-6">
+              <div class="rounded-4 mb-3 bg-light d-flex justify-content-center image-container" >
+                <div class="mt-3 sale ">
+                  <div class="btn bg-success ">SALE</div>
+              </div>
+                <a data-fslightbox="mygalley" class="rounded-4 item-thumb" target="_blank" data-type="image" href="<%= products.productImages[0].secure_url %>">
+                  <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit zoom-image" src="<%= products.productImages[0].secure_url %>" />
+                </a>
+              </div>
+              <div class="d-flex justify-content-center mb-3">
+                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="<%= products.productImages[0].secure_url %>" class="item-thumb">
+                  <img width="60" height="60" class="rounded-2" src="<%= products.productImages[0].secure_url %>" />
+                </a>
+                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="<%= products.productImages[0].secure_url %>" class="item-thumb">
+                  <img width="60" height="60" class="rounded-2" src="<%= products.productImages[0].secure_url %>" />
+                </a>
+                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="<%= products.productImages[0].secure_url %>" class="item-thumb">
+                  <img width="60" height="60" class="rounded-2" src="<%= products.productImages[0].secure_url %>" />
+                </a>
+                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="<%= products.productImages[0].secure_url %>" class="item-thumb">
+                  <img width="60" height="60" class="rounded-2" src="<%= products.productImages[0].secure_url %>" />
+                </a>
+                <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="<%= products.productImages[0].secure_url %>" class="item-thumb">
+                  <img width="60" height="60" class="rounded-2" src="<%= products.productImages[0].secure_url %>" />
+                </a>
+              </div>
+              <!-- thumbs-wrap.// -->
+              <!-- gallery-wrap .end// -->
+            </aside>
+            <main class="col-lg-6">
+              <div class="ps-lg-3">
+                <h4 class="title text-dark"><%= products.productTitle %>
+                </h4>
+                <div class="d-flex flex-row my-3">
+                  <div class="text-warning mb-1 me-2">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span class="ms-1">
+                      4.5
+                    </span>
+                  </div>
+                  <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i><%= products.stock %></span>
+                  <span class="text-success ms-2">In stock</span>
+                </div>
+      
+                <div class="mb-3">
+                  <span class="h5">$<%= products.productPrice %></span>
+                  <span class="text-muted">/per pair</span>
+                </div>
+      
+                <p class="mb-3 border-bottom">
+                  Modern look and quality demo item is a streetwear-inspired collection that continues to break away from the conventions of mainstream fashion. Made in Italy, these black and brown clothing low-top shirts for
+                  men.
+                </p>
+                
+                <div class="row">
+                  <dt class="col-3">Color :</dt>
+                  <dd class="col-9  ">Brown</dd>
+                </div>
+      
+               
+      
+                <div class="row mb-1 mt-3">
+                  <div class="col-md-12 col-6">
+                    <div class="col-xs-6" > <span class="product_options">Size</span><br> <button class="btn btn-outline-dark btn-md">7</button> <button class="btn btn-outline-dark btn-md ml-2">8</button> <button class="btn btn-outline-dark btn-md ml-2  border-1">9</button> </div>
+                  </div>
+                  <br>
+                  <!-- col.// -->
+                  <div class="col-md-12 col-6 mb-2 ">
+                      <div class="input-group mb-3 mt-3">
+                          <button class="btn btn-white bg-light decrease-btn" type="button">
+                              <i class="fas fa-minus"></i>
+                          </button>
+                          <input type="text" class="form-control text-center border-0 bg-light quantity-input" id="quantity" name="quantity" value="1" />
+                          <button class="btn btn-white bg-light increase-btn" type="button">
+                              <i class="fas fa-plus"></i>
+                          </button>
+                      </div>
+                  </div>
+                    <form action="">
+                      <input type="hidden" name="productId" id="productId" value="<%= products.id %>" >
+                    </form>
+                   
+                  </div>
+                  <a href="#" id="addToCartBtn" class="btn btn-dark shadow-0 col-md-12 col-12  mt-3"> <i class="me-4 fa fa-shopping-basket"></i> Add to cart </a>
+                  
+                </div>
+               
+                <!-- <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a> -->
+              </div>
+            </main>
+          </div>
+        </div>
+      </section>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script>
+        const imageContainer = document.querySelector('.image-container');
+        const zoomImage = imageContainer.querySelector('.zoom-image');
+
+       imageContainer.addEventListener('mousemove', (e) => {
+         const { left, top, width, height } = imageContainer.getBoundingClientRect();
+         const x = (e.clientX - left) / width;
+       const y = (e.clientY - top) / height;
+
+       const scale = 1.5; 
+       const translateX = (width * scale - width) * x;
+       const translateY = (height * scale - height) * y;
+
+      zoomImage.style.transform = `scale(${scale}) translate(${-translateX}px, ${-translateY}px)`;
+     });
+
+    imageContainer.addEventListener('mouseleave', () => {
+      zoomImage.style.transform = 'scale(1) translate(0, 0)';
+    });
+
+    const addToCartBtns = document.querySelectorAll('#addToCartBtn');
+
+    addToCartBtns.forEach(button => {
+    button.addEventListener('click', () => {
+        
+        const productId = document.getElementById('productId').value;
+        const quantity = document.getElementById('quantity').value
+        console.log(productId);
+        fetch(`/add-to-cart`,{
+            method: 'POST',
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({productId,quantity})
+        })
+
+    })
+})
+
+const decreaseBtn = document.querySelector('.decrease-btn');
+    const increaseBtn = document.querySelector('.increase-btn');
+    const quantityInput = document.querySelector('.quantity-input');
+
+    decreaseBtn.addEventListener('click', () => {
+        if (quantityInput.value > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+        }
+    });
+
+    increaseBtn.addEventListener('click', () => {
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+    });
+      </script>
+</body>
+</html>
