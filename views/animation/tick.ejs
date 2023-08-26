@@ -1,14 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="stylesheets/animation.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Placed Animation</title>
+  <!-- Link to your external CSS file -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="stylesheets/animation.css">
 </head>
 <body>
-    <div class="wrapper"> <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-    </svg>
-    </div>
-</body>
+    <script
+      defer
+      src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+    ></script>
+    <main>
+      <section class="flex flex-col justify-center items-center mt-10 mb-20 relative">
+        <lottie-player
+          src="https://assets9.lottiefiles.com/packages/lf20_lg6lh7fp.json"
+          background="transparent"
+          speed="1"
+          style="width: 300px; height: 300px"
+          autoplay
+          class="absolute top-0"
+        ></lottie-player>
+        <lottie-player
+          src="https://assets1.lottiefiles.com/packages/lf20_6sk53u8z.json"
+          background="transparent"
+          speed="1"
+          style="width: 300px; height: 300px"
+          autoplay
+        ></lottie-player>
+
+        <h1 class="font-semibold text-xl text-veryDarkGray">
+          Order Placed Successfully
+        </h1>
+        <a
+          href="/user-Dash"
+          class="inline-block bg-turquoise font-medium py-2 px-5 uppercase mt-2 hover:bg-teal-300 transition-all"
+          >See Orders</a
+        >
+        <a
+          href="/"
+          class="mt-10 text-darkGray hover:text-turquoise hover:underline text-center block"
+          ><i class="bi bi-chevron-double-left"></i> Continue shopping</a
+        >
+      </section>
+    </main>
+  </body>
 </html>
