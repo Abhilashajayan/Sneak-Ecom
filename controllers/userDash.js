@@ -66,7 +66,7 @@ const productCart = async (req, res) => {
       model: "Product"
     });
     if (!userCart) {  
-      return res.status(404).json({ message: "User's cart not found" });
+      res.redirect('/empty-Cart');
     }
     const cartItems = userCart.cartItems;
     console.log(cartItems,"cartItems");
@@ -347,6 +347,10 @@ const animation = async (req , res) => {
 }
 
 
+const emptyCart = async (req , res) => {
+  res.render('animation/emptycart');
+}
+
 
 module.exports = {
     userHome,
@@ -362,6 +366,7 @@ module.exports = {
     increData,
     checkOut,
     orderData,
-    animation
+    animation,
+    emptyCart
     
 }

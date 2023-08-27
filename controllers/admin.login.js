@@ -292,6 +292,18 @@ const changeSts = async (req, res) => {
 };
 
 
+const deleteUser = async (req, res) => {
+  const userId = req.params.userId;
+
+  try{
+    const user = await User.findByIdAndDelete(userId);
+    console.log(user,"user is deleted");
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred' });
+  }
+}
 
   
 module.exports = {
@@ -305,5 +317,6 @@ module.exports = {
     blockUser,
     imageAdd,
     cataCheck,
-    changeSts
+    changeSts,
+    deleteUser
 }

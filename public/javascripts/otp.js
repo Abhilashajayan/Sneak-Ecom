@@ -77,3 +77,33 @@ const inputs = document.querySelectorAll('input[type="text"]');
       });
     
     }
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+      var resendButton = document.getElementById("resend");
+  
+      if (resendButton) {
+          resendButton.addEventListener("click", function() {
+              var email = document.getElementById('email').value;  // Replace with the actual email
+              var xhr = new XMLHttpRequest();
+              xhr.open("POST", "/verify-email", true);
+              xhr.setRequestHeader("Content-Type", "application/json");
+  
+              xhr.onload = function() {
+                  if (xhr.status >= 200 && xhr.status < 300) {
+                      alert('OTP resend successful!');
+                  } else {
+                      alert('Error resending OTP: ' + xhr.statusText);
+                  }
+              };
+  
+              xhr.onerror = function() {
+                  alert('Network error while resending OTP.');
+              };
+  
+              var data = JSON.stringify({ email: email });
+              xhr.send(data);
+          });
+      }
+  });
+  

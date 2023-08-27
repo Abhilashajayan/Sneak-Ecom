@@ -288,3 +288,29 @@ function updateDeliveryStatus() {
 
 
 
+
+
+
+// user delete 
+
+async function deleteUser(userId) {
+  try {
+    const response = await fetch(`/delete-user/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+     
+    });
+    if (response.ok) {
+      console.log('User deleted successfully');
+      location.reload(); // Reload the page
+    } else {
+      throw new Error('Error deleting user');
+    }
+  
+  } catch (error) {
+    console.error('Error:', error);
+  }
+  location.reload();
+}

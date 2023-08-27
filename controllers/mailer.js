@@ -9,7 +9,7 @@ let emails;
 const registerMail = async (req, res)=>{
 try{
     const { email } = req.body;
-   
+    req.session.email = email;
     const otp = OTPGenerator.generate(4, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false, digits: true });
     emails = email;
     const newOTP = new OTP({

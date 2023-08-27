@@ -22,7 +22,7 @@ router.get('/user-Dash',authMiddleware,userDas.userDash);
 router.get('/users/address/:addressId',authMiddleware,userDas.addSearch);
 router.get('/checkout',authMiddleware,userDas.checkOut);
 router.get('/payment-success',authMiddleware,userDas.animation);
-
+router.get('/empty-Cart',authMiddleware,userDas.emptyCart);
 
 //post methods
 router.post('/signup',signinCont.userRegister);

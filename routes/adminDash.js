@@ -21,4 +21,5 @@ router.put('/updateDeliveryStatus/:orderId',adminDatas.changeSts);
 
 //delete
 router.delete('/api/delete/:userID',adminDatas.deleteProduct);
+router.delete('/delete-user/:userId',adminDatas.deleteUser);
 module.exports = router;

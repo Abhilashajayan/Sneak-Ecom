@@ -10,7 +10,9 @@ const signup  = (req, res) =>{
 
 
 const signemail  = (req, res) => {
+
     res.render('userLogin/signemail');
+   
 };
 
 
@@ -20,7 +22,8 @@ const signin = (req, res) => {
 
 
 const emailotp = (req, res) => {
-    res.render('userLogin/otp');
+  const email = req.session.email;
+    res.render('userLogin/otp',{email});
 };
 
 
