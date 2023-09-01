@@ -36,5 +36,6 @@ router.post('/add-to-cart',authMiddleware,userDas.addToCart);
 router.post('/add-address/:userId',authMiddleware,userDas.addAddress);
 router.post('/update-quantity',userDas.increData);
 router.post('/submit-order',authMiddleware,userDas.orderData);
-router.post('/return-request/:orderId',authMiddleware,userDas.returnRequest)
+router.post('/return-request/:orderId',authMiddleware,userDas.returnRequest);
+router.post('/orders/:orderId/cancel',authMiddleware,userDas.cancelRequest);
 module.exports = router;

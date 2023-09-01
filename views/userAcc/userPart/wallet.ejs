@@ -7,7 +7,7 @@
 		<div class="amount-box text-center">
 			<img src="https://lh3.googleusercontent.com/ohLHGNvMvQjOcmRpL4rjS3YQlcpO0D_80jJpJ-QA7-fQln9p3n7BAnqu3mxQ6kI4Sw" alt="wallet">
 			<p>Total Balance</p>
-			<p class="amount">$ 123</p>
+			<p class="amount">$ <%= walletData.balance %></p>
 		</div>
 
 		<div class="btn-group text-center">
@@ -17,9 +17,13 @@
 
 			<div class="txn-history">
 				<p><b>History</b></p>
-				<p class="txn-list">Payment to xyz shop<span class="debit-amount">-$100</span></p>
-                <p class="txn-list">Payment to xyz shop<span class="debit-amount">-$100</span></p>
-			</div>
+				<% walletData.transactions.forEach(transaction => { %>
+				  <p class="txn-list"><%= transaction.type === 'deposit' ? 'Deposit' : 'Purchase' %> - <%= transaction.amount %><span class="<%= transaction.type === 'deposit' ? 'credit-amount' : 'debit-amount' %>">
+					<%= transaction.type === 'deposit' ? '+$' : '-$' %><%= transaction.amount %></span>
+				  </p>
+				<% }); %>
+			  </div>
+			  
             </div>
 </div>
 </section>

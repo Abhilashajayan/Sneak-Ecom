@@ -1,0 +1,43 @@
+<div id="return" class="content " style="display: none;">
+    <h2 class="ms-4">Return</h1>
+    <div class="container">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>ORDER ID</th>
+                    <th>APPLIED DATE</th>
+                    <th>REASON</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% Return.forEach((order, index) => { %>
+                <tr>
+                    <td><%= String(order._id).slice(-6) %></td>
+                    <td><%= formatDate(order.createdAt) %></td>
+                    <td><%= order.returnReason%></td>
+                    <td data-bs-toggle="tooltip" data-bs-placement="top" title="<%= order.status %>">
+                        <span class="badge <%= (order.status === 'Pending') ? 'bg-warning' : (order.status === 'Approved') ? 'bg-success' : (order.status === 'Rejected') ? 'bg-secondary' : 'badge-other' %> text-dark">
+                          <%= order.status %>
+                        </span>
+                      </td>
+                    <td>
+                        <% if (order.status === 'Pending') { %>
+                          <button type="button" data-return-id="<%= order._id %>" class="btn btn-sm btn-success approveBtn">Approve</button>
+                          <button type="button" data-return-id="<%= order._id %>" class="btn btn-sm btn-danger rejectBtn">Reject</button>
+                        <% } else { %>
+                          N/A   
+                        <% } %>
+                      </td>
+                                                                                                                         
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% function formatDate(date) {
+            const createdDate = new Date(date);
+            return createdDate.toDateString();
+        } %>
+    </div>
+</div>

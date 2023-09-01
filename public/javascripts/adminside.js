@@ -334,3 +334,48 @@ async function deleteCategory(categoryId) {
       console.error('Error:', error);
   }
 }
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  async function handleApprovalOrRejection(returnId, isApproved) {
+    try {
+      const response = await fetch(`/api/return-requests/${returnId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ isApproved: isApproved })
+      });
+
+      if (response.ok) {
+        alert(`Return request ${isApproved ? 'approved' : 'rejected'} successfully.`);
+      } else {
+        alert('Return request could not be processed.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred while processing the request.');
+    }
+  }
+  const approveButtons = document.querySelectorAll('.approveBtn');
+  const rejectButtons = document.querySelectorAll('.rejectBtn');
+
+  approveButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const returnId = this.getAttribute('data-return-id');
+      handleApprovalOrRejection(returnId, true);
+    });
+  });
+
+  rejectButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const returnId = this.getAttribute('data-return-id');
+      handleApprovalOrRejection(returnId, false); 
+    });
+  });
+});
+
+
+

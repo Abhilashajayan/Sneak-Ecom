@@ -3,7 +3,7 @@ const User = require('../models/userSchema');
 const Cart = require('../models/cartSchema');
 const Order = require('../models/orderSchema');
 const OrderReturn = require('../models/returnSchema');
-
+const Wallet = require('../models/walletSchema');
 
 const userHome = async (req, res)=>{
     try{
@@ -83,11 +83,13 @@ const userDash = async (req, res) => {
   try{
     
     const userId = req.userId;
+    const walletData = await Wallet.findOne({ userId: userId });
     const userData = await User.findById(userId);
     const orders = await Order.find({ user: userId })
+ 
     .select('items.productTitle createdOn status totalAmount') 
     .populate('items.productId', 'productTitle');
-    res.render('userAcc/user-dash',{userData,orders});
+    res.render('userAcc/user-dash',{userData,orders,walletData});
   }catch(err){
     console.log(err);
   }
@@ -387,6 +389,65 @@ const returnRequest = async (req, res) => {
   }
 };
 
+// const cancelRequest = async (req, res) => {
+//   const orderId = req.params.orderId;
+//   console.log(orderId ,"the id of the order");
+//   try{
+//     const cancelOrder = await Order.findById(orderId);
+//     cancelOrder.status = "Cancelled";
+//     await cancelOrder.save();
+   
+//   }catch(err){
+//     res.status(501);
+//     console.log(err);
+//   }
+// }
+
+const cancelRequest = async (req, res) => {
+  const { orderId } = req.body;
+
+  try {
+    const cancelOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { status: 'Cancelled' },
+      { new: true }
+    );
+
+    if (!cancelOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    const canceledAmount = cancelOrder.totalAmount;
+    const userId = cancelOrder.user;
+
+    let wallet = await Wallet.findOne({ userId });
+
+    if (!wallet) {
+      wallet = new Wallet({ userId, balance: canceledAmount, transactions: [] });
+      wallet.transactions.push({ type: 'deposit', amount: canceledAmount, orderId, timestamp: new Date() });
+    } else {
+      wallet.balance += canceledAmount;
+      wallet.transactions.push({ type: 'deposit', amount: canceledAmount, orderId, timestamp: new Date() });
+    }
+
+    const itemsToUpdate = cancelOrder.items;
+    const promises = itemsToUpdate.map(async item => {
+      const product = await Product.findById(item.productId);
+      if (product) {
+        product.stock += item.quantity; 
+        await product.save();
+        console.log('Product not found for item:', item.productId);
+      }
+    });
+
+    await Promise.all([wallet.save(), cancelOrder.save(), ...promises]); 
+
+    res.json({ message: 'Order canceled successfully' });
+  } catch (error) {
+    console.error('Error canceling order:', error);
+    res.status(500).json({ message: 'Error canceling order' });
+  }
+};
 
 
 module.exports = {
@@ -405,6 +466,7 @@ module.exports = {
     orderData,
     animation,
     emptyCart,
-    returnRequest
+    returnRequest,
+    cancelRequest
     
 }

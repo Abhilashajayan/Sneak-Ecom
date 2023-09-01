@@ -5,6 +5,7 @@ const Product = require("../models/productSchema");
 const User = require("../models/userSchema");
 const Cata = require("../models/categorySchema");
 const Order = require('../models/orderSchema');
+const Returns = require('../models/returnSchema');
 
 const adminLog = (req,res) =>{
     res.render('adminLog/adminLog');
@@ -18,7 +19,7 @@ const dashboards = async (req,res) =>{
         const categoryData = await Cata.find({},{});
         const userData = await User.find({},{});
         const orderData = await Order.find({});
-        
+        const Return = await Returns.find({},{});
         const totalProducts = await Product.countDocuments();
         const totalOrders = await Order.countDocuments();
 
@@ -33,7 +34,7 @@ const dashboards = async (req,res) =>{
              const dailySales = await Order.aggregate([
               {
                   $group: {
-                      _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdOn" } },
+                      _id: { $dateToString: {  date: "$createdOn" } },
                       todays: { $sum: "$totalAmount" }
                   }
               },
@@ -48,7 +49,7 @@ const dashboards = async (req,res) =>{
            console.log(recentOrders);
 
                
-             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders});
+             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return});
     }catch(err){
         console.log(err);
     
@@ -326,6 +327,28 @@ const cataDelete = async (req, res) => {
   }
 };
 
+const returnReq = async (req, res) => {
+  const returnId = req.params.returnId;
+  const { isApproved } = req.body;
+
+  try {
+    const returnRequest = await Returns.findById(returnId);
+
+    if (!returnRequest) {
+      return res.status(404).json({ message: 'Return request not found' });
+    }
+    returnRequest.isWholeOrder = isApproved;
+    returnRequest.status = isApproved ? 'Approved' : 'Rejected';
+    await returnRequest.save();
+
+    res.status(200).json({ message: 'Return request updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
   
 module.exports = {
     adminLog,
@@ -340,5 +363,8 @@ module.exports = {
     cataCheck,
     changeSts,
     deleteUser,
-    cataDelete
+    cataDelete,
+    returnReq
+    
+    
 }

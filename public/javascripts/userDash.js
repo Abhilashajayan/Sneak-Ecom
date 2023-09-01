@@ -250,3 +250,36 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   });
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    async function handleCancelOrder(orderId) {
+      try {
+        const response = await fetch(`/orders/${orderId}/cancel`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ orderId })
+        });
+        if (response.ok) {
+            
+          console.log('Order canceled successfully.');
+        } else {
+          console.error('Order cancellation failed.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    const cancelOrderButtons = document.querySelectorAll('.orderCancelBtn');
+    cancelOrderButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const orderId = this.getAttribute('data-order-id');
+        const userId = this.getAttribute('data-user-id');
+        location.reload();
+        handleCancelOrder(orderId, userId);
+      });
+    });
+  });
