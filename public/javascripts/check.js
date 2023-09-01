@@ -129,6 +129,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
       }
     
       const paymentMethod = document.getElementById('paymentMethod').value;
+      console.log(paymentMethod);
       const addressId = document.getElementById('addessId1').value; 
       const methodAddress = document.getElementById('del').value;
       const totalAmount = document.getElementById('total').value;
@@ -159,6 +160,55 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
 
       window.location.href = '/payment-success';
     }
+
+
+       
+    function handleCreditButtonClick() {
+      const selectedRadioButton = document.querySelector('input[name="flexRadioDefault"]:checked');
+      if (!selectedRadioButton) {
+        alert('Please select an address before placing the order.');
+        return;
+      }
+    
+      const paymentMethod = document.getElementById('paymentMethod').value;
+      console.log(paymentMethod);
+      const addressId = document.getElementById('addessId1').value; 
+      const methodAddress = document.getElementById('del').value;
+      const totalAmount = document.getElementById('total').value;
+      const newTotalAmt = document.getElementById('subtotal').value;
+      
+      const orderData = {
+         paymentMethod: paymentMethod,
+         address: addressId,
+         methodAddress: methodAddress,
+         totalAmount: totalAmount,
+         newTotalAmt: newTotalAmt
+      };
+      
+     
+      fetch('/submit-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({orderData})
+      })
+
+       
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while placing the order.');
+      });
+
+      window.location.href = '/payment-success';
+    }
+    
+
+
+    
+
+
+    
     
   
 

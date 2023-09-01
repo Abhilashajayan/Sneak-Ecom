@@ -19,11 +19,76 @@
                             </td>
                             <td>$<%= order.totalAmount %></td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"  data-bs-target="#exampleModal">
-                                    Track
-                                  </button>                
-                            </td>
-                        </tr>
+                              <td>
+                                <% if (order.status === 'Delivered' && order.paymentMethod !== 'COD') { %>
+                                  <button data-bs-toggle="modal" data-bs-target="#orderReturn<%= order._id %>" class="btn btn-sm btn-outline-secondary">Return</button>
+                                  <div class="modal fade" id="orderReturn<%= order._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLongTitle">Order Return</h5>
+                                          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <form action="/return-request/<%= order._id %>" method="POST">
+                                            <div class="form-group">
+                                              <label for="returnProductSelect<%= order._id %>">Select Product to Return:</label>
+                                              <select class="form-control" id="returnProductSelect<%= order._id %>" name="returnProduct" required>
+                                                <option value="all">All Products</option>
+                                                <% order.items.forEach(item => { %>
+                                                  <% if (item.productId && item.productId.productTitle) { %>
+                                                    <option value="<%= item.productId._id %>"><%= item.productId.productTitle %></option>
+                                                  <% } %>
+                                                  <% }); %>
+
+                                              </select>
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="reasonInput<%= order._id %>">Enter the reason for return:</label>
+                                              <input type="text" name="returnReason" class="form-control" id="reasonInput<%= order._id %>" required>
+                                            </div>
+                                            <p class="text-info">Note: Your return request will be considered only within a business day</p>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                              <button type="submit" class="btn btn-danger orderReturnBtn">Return Product</button>
+                                            </div>
+                                            <input type="hidden" name="userId" value="<%= order.user %>">
+                                          </form>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                <% } else if (order.status === 'Canceled') { %>
+                                  <p class="text-muted">Order Canceled</p>
+                                <% } else if (order.status === 'Pending' || order.status === 'Canceled' || order.status === 'Placed') { %>
+                                  <button type="button" data-order-id="<%= order._id %>" data-bs-toggle="modal" data-bs-target="#orderCancel<%= order._id %>" class="btn btn-sm btn-outline-danger">Cancel</button>
+                                <% } %>
+                              
+                                <div class="modal fade" id="orderCancel<%= order._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Order Cancel</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <h5 class="text-danger text-sm">Are you sure about the order cancel</h5>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button data-order-id="<%= order._id %>" data-user-id="<%= order.user %>"  type="button" class="btn btn-danger orderCancelBtn">Cancel Order</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                              
+                             
+                           </tr>
                         <% }); %>
                     </tbody>
                 </table>
@@ -36,61 +101,3 @@
 
   
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content text-white" style="background-color: #6d5b98; border-radius: 10px;">
-        <div class="modal-header border-bottom-0">
-          <button type="button" class="btn-close btn-close-white" data-mdb-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-start px-4 pt-0 pb-4">
-          <div class="text-center">
-            <h5 class="mb-3">Order Status</h5>
-            <h5 class="mb-5">AWB Number-5335T5S</h5>
-          </div>
-  
-          <div class="d-flex justify-content-between mb-5">
-            <div class="text-center">
-              <i class="fas fa-circle"></i>
-              <p>Order placed</p>
-            </div>
-            <div class="text-center">
-              <i class="fas fa-circle"></i>
-              <p>In Transit</p>
-            </div>
-            <div class="text-center">
-              <i class="fas fa-circle"></i>
-              <p class="lead fw-normal">Out of Delivery</p>
-            </div>
-            <div class="text-center">
-              <i class="fas fa-circle" style="color: #979595;"></i>
-              <p style="color: #979595;">Delivered</p>
-            </div>
-          </div>
-  
-          <div class="row justify-content-center">
-            <div class="col-md-4 text-center">
-              <p class="lead fw-normal">Shipped with</p>
-            </div>
-            <div class="col-md-4 text-center">
-              <p class="lead fw-normal">UPS Expedited</p>
-            </div>
-            <div class="col-md-2 text-center">
-              <i class="fas fa-phone fa-lg"></i>
-            </div>
-          </div>
-  
-          <div class="row justify-content-center">
-            <div class="col-md-4 text-center">
-              <p class="lead fw-normal">Estimated Delivery</p>
-            </div>
-            <div class="col-md-4 text-center">
-              <p class="lead fw-normal">02/12/2017</p>
-            </div>
-            <div class="col-md-2 text-center">
-              <i class="fas fa-envelope fa-lg"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>   

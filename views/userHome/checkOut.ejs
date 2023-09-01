@@ -234,35 +234,17 @@
                 </div>
                
                   <div id="credit-card" class="tab-pane show ">
-                    <form role="form">
-                      <input type="hidden" name="paymentMethod" id="paymentMethod" value="Credit Card">
-                      <div class="form-group"> <label for="username">
-                          <h6>Card Owner</h6>
-                        </label> <input type="text" name="username" placeholder="Card Owner Name"  class="form-control "> </div>
-                      <div class="form-group"> <label for="cardNumber">
-                          <h6>Card number</h6>
-                        </label>
-                        <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " >
-                          <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-8">
-                          <div class="form-group"> <label><span class="hidden-xs">
-                                    <h6>Expiration Date</h6>
-                                  </span></label>
-                            <div class="input-group"> <input type="number" placeholder="MM" name="expirationMonth" class="form-control" > <input type="number" placeholder="YY" name="expirationYear" class="form-control" > </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
-                                  <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
-                              </label> <input type="text"  class="form-control"> </div>
-                        </div>
-                      </div>
-                      <div class="card-footer"> <button type="button" id="creditCardPlaceOrderButton" class="btn btn-dark btn-block shadow-sm credit-card-placeOrderButton">Place Order</button> </div>
+                    <form id="codForm">
+                      <input type="hidden" name="paymentMethod" id="paymentMethod" value="Razorpay">
+                      <input type="hidden" name="addressId" id="addessId1" >
+                      <input type="hidden" name="delMethod" id="del" >
+                      <input type="hidden" name="total" id="total" >
+                      <input type="hidden" name="subtotal" id="subtotal" >
+                      <p class="mt-2">UPI Payment, or Unified Payments Interface, offers a convenient and seamless way to make transactions digitally. With UPI, you can link your bank account to a UPI ID and effortlessly transfer funds, pay bills, and make purchases. UPI transactions are fast, secure, and can be done 24/7, enabling you to make payments with just a few taps on your smartphone. It eliminates the need for sharing sensitive bank details during transactions and provides a swift and efficient way to manage your payments</p>
+                      <button type="button" id="creditCardPlaceOrderButton" class="btn btn-dark btn-block shadow-sm credit-card-placeOrderButton" onclick="handleCreditButtonClick()">Place Order</button> </div>
                     </form>
                   </div> 
+    
                   <div >
                     <div id="cod" class="tab-pane">
                       <form id="codForm" action="">
@@ -277,7 +259,7 @@
                     </div>
                 </div> <!-- End -->
               </div>            
-          </div>
+          
          
               <!-- Checkout -->
             </div>

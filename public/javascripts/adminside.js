@@ -92,8 +92,6 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
 
-
-
     // const form = document.getElementById('editProductForm');
     // form.addEventListener('submit', async (event) => {
     //     event.preventDefault();
@@ -313,4 +311,26 @@ async function deleteUser(userId) {
     console.error('Error:', error);
   }
   location.reload();
+}
+
+
+//delete category
+
+async function deleteCategory(categoryId) {
+  try {
+      const response = await fetch(`/delete-category/${categoryId}`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      });
+
+      if (response.ok) {
+          console.log('Category deleted successfully');
+          location.reload(); 
+      } 
+
+  } catch (error) {
+      console.error('Error:', error);
+  }
 }

@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const ordersContent = document.getElementById('orders');
     const addressLink = document.getElementById('addressLink');
     const addressContent = document.getElementById('address');
+    const walletLink = document.getElementById('walletLink');
+    const walletLinkContent = document.getElementById('wallet');
     function hideContent() {
         contentContainer.style.display = 'none';
     }
@@ -34,13 +36,24 @@ document.addEventListener("DOMContentLoaded", function() {
         dashboardContent.style.display = 'block';
         ordersContent.style.display = 'none';
         addressContent.style.display ='none';
+        walletLinkContent.style.display = 'none';
         toggleSidebar();
-        hideContent();
+       
     });
 
     ordersLink.addEventListener('click', () => {
         dashboardContent.style.display = 'none';
         ordersContent.style.display = 'block';
+        addressContent.style.display ='none';
+        walletLinkContent.style.display = 'none';
+        toggleSidebar();
+        hideContent();
+    });
+
+    walletLink.addEventListener('click', () => {
+        walletLinkContent.style.display = 'block';
+        dashboardContent.style.display = 'none';
+        ordersContent.style.display = 'none';
         addressContent.style.display ='none';
         toggleSidebar();
         hideContent();
@@ -48,9 +61,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     addressLink.addEventListener('click', () => {
         dashboardContent.style.display = 'none';
+        walletLinkContent.style.display = 'none';
         ordersContent.style.display = 'none';
         addressContent.style.display ='block';
         toggleSidebar();
+        hideContent();
       
 
     });
@@ -209,3 +224,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const returnForm = document.getElementById('returnForm');
+  
+    returnForm.addEventListener('submit', function(event) {
+      event.preventDefault(); 
+      const formData = new FormData(returnForm);
+      fetch(returnForm.action, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('Return request submitted successfully!');
+        } else {
+          alert('Return request failed. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+      });
+    });
+  });

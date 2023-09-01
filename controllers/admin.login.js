@@ -305,6 +305,27 @@ const deleteUser = async (req, res) => {
   }
 }
 
+const cataDelete = async (req, res) => {
+  try {
+    const cataId = req.params.categoryId;
+    console.log(cataId);
+
+    const category = await Cata.findById(cataId);
+   
+    console.log(category);
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    const categoryName = category.categoryName;
+    await Product.deleteMany({ productCategory: categoryName });
+    const cataDel = await Cata.findByIdAndDelete(cataId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+};
+
   
 module.exports = {
     adminLog,
@@ -318,5 +339,6 @@ module.exports = {
     imageAdd,
     cataCheck,
     changeSts,
-    deleteUser
+    deleteUser,
+    cataDelete
 }

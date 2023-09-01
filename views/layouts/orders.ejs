@@ -22,8 +22,8 @@
                     <td><%= order.paymentMethod %></td>
                     <td>$<%= order.subtotals %>.00</td>
                     <td data-bs-toggle="tooltip" data-bs-placement="top" title="<%= order.status %>">
-                        <span class="badge <%= (order.status == 'Pending') ? 'bg-warning' : (order.status === 'Delivered') ? 'bg-success' : 'badge-other' %> text-dark">
-                          <%= order.status  %>
+                        <span class="badge <%= (order.status === 'Pending') ? 'bg-warning' : (order.status === 'Delivered') ? 'bg-success' : (order.status === 'Cancelled') ? 'bg-secondary' : 'badge-other' %> text-dark">
+                          <%= order.status %>
                         </span>
                       </td>
 

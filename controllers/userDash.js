@@ -2,7 +2,7 @@ const Product = require('../models/productSchema');
 const User = require('../models/userSchema');
 const Cart = require('../models/cartSchema');
 const Order = require('../models/orderSchema');
-
+const OrderReturn = require('../models/returnSchema');
 
 
 const userHome = async (req, res)=>{
@@ -49,6 +49,7 @@ catch(err){
 }
 }
 
+
 // const productCart = async (req, res) => {
 //   try{
 //     const userData = await Product.find({}, {} );
@@ -83,7 +84,9 @@ const userDash = async (req, res) => {
     
     const userId = req.userId;
     const userData = await User.findById(userId);
-    const orders = await Order.find({ user: userId }).select('items.productId createdOn status totalAmount ').populate('items.productId');
+    const orders = await Order.find({ user: userId })
+    .select('items.productTitle createdOn status totalAmount') 
+    .populate('items.productId', 'productTitle');
     res.render('userAcc/user-dash',{userData,orders});
   }catch(err){
     console.log(err);
@@ -290,7 +293,7 @@ const orderData = async (req, res) => {
   try {
     const orderData = req.body.orderData;
     const userId = req.userId; 
-
+    const paymentMethod = orderData.paymentMethod;
    
     const user = await User.findById(userId); 
     const selectedAddress = user.addresses.find(address => address._id.toString() == orderData.address);
@@ -317,22 +320,33 @@ const orderData = async (req, res) => {
       subtotals: orderData.newTotalAmt,
       totalAmount: orderData.totalAmount,
     });
-
+    if (paymentMethod == "COD"){
     await order.save();
 
     for (const item of cartItems) {
       const product = await Product.findById(item.productId);
-      // console.log(product,"the product");
       if (product) {
         product.stock -= item.quantity;
 
         await product.save();
       }
     }
-    await Cart.deleteOne({ user: userId });
-    console.log('Before redirect');
+    console.log("this is not razor pay is implemented here")
+  }else if (paymentMethod == "Razorpay"){
+    await order.save();
 
-    console.log('After redirect');
+    for (const item of cartItems) {
+      const product = await Product.findById(item.productId);
+      if (product) {
+        product.stock -= item.quantity;
+
+        await product.save();
+      }
+    }
+    console.log("this is razor pay is implemented here")
+  }
+    await Cart.deleteOne({ user: userId });
+   
 
   } catch (error) {
 
@@ -340,6 +354,7 @@ const orderData = async (req, res) => {
     res.status(500).json({ error: 'An error occurred while placing the order' });
   }
 };
+
 
 
 const animation = async (req , res) => {
@@ -350,6 +365,28 @@ const animation = async (req , res) => {
 const emptyCart = async (req , res) => {
   res.render('animation/emptycart');
 }
+
+
+const returnRequest = async (req, res) => {
+  const orderId = req.params.orderId;
+  console.log(orderId,"orderId: " );
+  try {
+  
+    const orderReturn = new OrderReturn({
+      orderId: orderId,
+      userId: req.body.userId,
+      returnReason: req.body.returnReason,
+      
+    });
+    await orderReturn.save();
+    console.log("success");
+    res.redirect('/user-Dash');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 
 
 module.exports = {
@@ -367,6 +404,7 @@ module.exports = {
     checkOut,
     orderData,
     animation,
-    emptyCart
+    emptyCart,
+    returnRequest
     
 }

@@ -58,7 +58,7 @@
                             </a>
                         </li>
                         <li class="mt-2">
-                            <a href="#account" class="nav-link px-0" onclick="scrollToSection('#account')">
+                            <a href="#wallet" class="nav-link px-0" id="walletLink"  onclick="scrollToSection('#wallet')">
                                 <span class="ms-1 d-sm-inline hide-on-small">Sneak Wallet</span>
                             </a>
                         </li>
@@ -73,8 +73,11 @@
                 <%- include('./userPart/dashboard') %>
                 
                 <%- include('./userPart/orders') %>
+                <%- include('./userPart/wallet') %>
                 
                 <%- include('./userPart/address') %>
+
+             
 
         </section>
         
