@@ -4,6 +4,14 @@ const Cart = require('../models/cartSchema');
 const Order = require('../models/orderSchema');
 const OrderReturn = require('../models/returnSchema');
 const Wallet = require('../models/walletSchema');
+const Razorpay = require('razorpay');
+const crypto = require('crypto');
+
+
+const instance = new Razorpay({
+  key_id: 'rzp_test_yo3IwIuNagxMzt',
+  key_secret: 'OeuoUOM1gfBUaG4MCtAx4aHv',
+});
 
 const userHome = async (req, res)=>{
     try{
@@ -291,28 +299,119 @@ const checkOut = async(req, res) => {
 };
 
 
+// const orderData = async (req, res) => {
+//   try {
+//     const orderData = req.body.orderData;
+//     const userId = req.userId; 
+//     const paymentMethod = orderData.paymentMethod;
+   
+//     const user = await User.findById(userId); 
+//     const selectedAddress = user.addresses.find(address => address._id.toString() == orderData.address);
+
+  
+//     const userCart = await Cart.findOne({ user: userId }).populate({
+//       path: "cartItems.product",
+//       model: "Product"
+//     });
+//     const cartItems = userCart.cartItems.map(item => ({
+//       productId: item.product._id, 
+//       quantity: item.quantity,
+//       price: item.product.productPrice 
+//     }));
+    
+
+  
+//     const order = new Order({
+//       user: userId,
+//       items: cartItems,
+//       shippingAddress: selectedAddress,
+//       paymentMethod: orderData.paymentMethod,
+//       shippingCharge: orderData.methodAddress,
+//       subtotals: orderData.newTotalAmt,
+//       totalAmount: orderData.totalAmount,
+//     });
+//     if (paymentMethod == "COD"){
+//     await order.save();
+
+//     for (const item of cartItems) {
+//       const product = await Product.findById(item.productId);
+//       if (product) {
+//         product.stock -= item.quantity;
+
+//         await product.save();
+//       }
+//     }
+//     console.log("this is not razor pay is implemented here")
+   
+//   }else if (paymentMethod == "Razorpay") {
+//     const saveOrder = await order.save();
+//     try {
+//       await order.save();
+//       for (const item of cartItems) {
+//         const product = await Product.findById(item.productId);
+//         if (product) {
+//           product.stock -= item.quantity;
+//           await product.save();
+//         }
+//       }
+
+  
+//       const orderAmount = orderData.totalAmount * 100;
+//       const options = {
+//         amount: orderAmount,
+//         currency: 'INR',
+//         receipt: "",
+//         payment_capture: 1,
+//       };
+  
+//       instance.orders.create(options, function (err, razorpayOrder) {
+//         if (err) {
+//           console.error(err);
+//           return res.status(500).json({ error: 'An error occurred while creating the Razorpay order' });
+//         }
+//         saveOrder.razorpayOrderId = razorpayOrder.id; 
+        
+//            saveOrder.save();
+//           console.log(razorpayOrder);
+//           res.json(razorpayOrder);
+//       });
+      
+  
+//       console.log("Razorpay is implemented here");
+  
+//     } catch (error) {
+//       console.error('Error placing order:', error);
+//       return res.status(500).json({ error: 'An error occurred while placing the order' });
+//     }
+//   }
+//   await Cart.deleteOne({ user: userId });
+//   } catch (error) {
+//     console.error('Error placing order:', error);
+//     return res.status(500).json({ error: 'An error occurred while placing the order' });
+//   }
+// }  
+
 const orderData = async (req, res) => {
   try {
     const orderData = req.body.orderData;
-    const userId = req.userId; 
+    const userId = req.userId;
     const paymentMethod = orderData.paymentMethod;
-   
-    const user = await User.findById(userId); 
-    const selectedAddress = user.addresses.find(address => address._id.toString() == orderData.address);
 
-  
+    const user = await User.findById(userId);
+    const selectedAddress = user.addresses.find(
+      (address) => address._id.toString() == orderData.address
+    );
+
     const userCart = await Cart.findOne({ user: userId }).populate({
       path: "cartItems.product",
       model: "Product"
     });
-    const cartItems = userCart.cartItems.map(item => ({
-      productId: item.product._id, 
+    const cartItems = userCart.cartItems.map((item) => ({
+      productId: item.product._id,
       quantity: item.quantity,
-      price: item.product.productPrice 
+      price: item.product.productPrice
     }));
-    
 
-  
     const order = new Order({
       user: userId,
       items: cartItems,
@@ -322,40 +421,70 @@ const orderData = async (req, res) => {
       subtotals: orderData.newTotalAmt,
       totalAmount: orderData.totalAmount,
     });
-    if (paymentMethod == "COD"){
-    await order.save();
 
-    for (const item of cartItems) {
-      const product = await Product.findById(item.productId);
-      if (product) {
-        product.stock -= item.quantity;
+    if (paymentMethod == "COD") {
+      await order.save();
 
-        await product.save();
+      for (const item of cartItems) {
+        const product = await Product.findById(item.productId);
+        if (product) {
+          product.stock -= item.quantity;
+          await product.save();
+        }
+      }
+      console.log("This is not Razorpay, it's implemented here");
+    } else if (paymentMethod == "Razorpay") {
+      try {
+        const saveOrder = await order.save();
+
+        for (const item of cartItems) {
+          const product = await Product.findById(item.productId);
+          if (product) {
+            product.stock -= item.quantity;
+            await product.save();
+          }
+        }
+
+        const orderAmount = orderData.totalAmount * 100;
+
+        const options = {
+          amount: orderAmount,
+          currency: 'INR',
+          receipt: 'orderId', // Set your receipt ID here
+          payment_capture: 1,
+        };
+
+        instance.orders.create(options, function (err, razorpayOrder) {
+          if (err) {
+            console.error('error on razor payyyyy',err);
+            // return res.status(500).json({ error: 'An error occurred while creating the Razorpay order' });
+          }else{
+            console.log(razorpayOrder , 'razorpay order created');
+             saveOrder.razorpayOrderId = razorpayOrder.id;
+          
+          saveOrder.save().then(() => {
+            console.log(razorpayOrder);
+           return res.json(razorpayOrder);
+          });
+          }
+         
+        });
+
+        console.log("Razorpay is implemented here");
+      } catch (error) {
+        console.error('Error placing order:', error);
+        return res.status(500).json({ error: 'An error occurred while placing the order' });
       }
     }
-    console.log("this is not razor pay is implemented here")
-  }else if (paymentMethod == "Razorpay"){
-    await order.save();
 
-    for (const item of cartItems) {
-      const product = await Product.findById(item.productId);
-      if (product) {
-        product.stock -= item.quantity;
-
-        await product.save();
-      }
-    }
-    console.log("this is razor pay is implemented here")
-  }
     await Cart.deleteOne({ user: userId });
-   
-
   } catch (error) {
-
     console.error('Error placing order:', error);
-    res.status(500).json({ error: 'An error occurred while placing the order' });
+    return res.status(500).json({ error: 'An error occurred while placing the order' });
   }
 };
+
+
 
 
 
@@ -449,6 +578,41 @@ const cancelRequest = async (req, res) => {
   }
 };
 
+const verifyPayment = async (req, res) => {
+  
+  const { paymentData } = req.body; 
+  console.log('Payment data:', paymentData);
+
+      const hmac = crypto.createHmac('sha256', 'OeuoUOM1gfBUaG4MCtAx4aHv');
+      console.log(paymentData.response.razorpay_order_id);
+      hmac.update(paymentData.response.razorpay_order_id + '|' + paymentData.response.razorpay_payment_id);
+
+      // Creating the hmac in the required format
+    const generated_signature = hmac.digest('hex');
+  
+    if (paymentData.response.razorpay_signature === generated_signature) {
+      try {
+        const order = await Order.findOne({ razorpayOrderId: paymentData.razorpay_order_id });
+  
+        if (order) {
+          // order.status = 'Placed';
+          // await order.save();
+  
+          console.log('Order status updated to "Placed"');
+        } else {
+          console.log('Order not found with razorpayOrderId:', paymentData.razorpay_order_id);
+        }
+       console.log('Order status updated to "Placed"');
+      } catch (error) {
+        console.error('Error updating order status:', error);
+      }
+    } else {
+      console.log('payment failed');
+    }
+  
+  }
+
+
 
 module.exports = {
     userHome,
@@ -467,6 +631,7 @@ module.exports = {
     animation,
     emptyCart,
     returnRequest,
-    cancelRequest
+    cancelRequest,
+    verifyPayment
     
 }

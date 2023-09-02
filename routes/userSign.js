@@ -38,4 +38,6 @@ router.post('/update-quantity',userDas.increData);
 router.post('/submit-order',authMiddleware,userDas.orderData);
 router.post('/return-request/:orderId',authMiddleware,userDas.returnRequest);
 router.post('/orders/:orderId/cancel',authMiddleware,userDas.cancelRequest);
+router.post('/verify-payment',authMiddleware,userDas.verifyPayment);
+
 module.exports = router;

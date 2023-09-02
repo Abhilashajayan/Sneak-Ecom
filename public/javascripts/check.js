@@ -63,7 +63,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     creditCardTab.addEventListener('click', () => {
       creditCardSection.style.display = 'block';
       codSection.style.display = 'none';
-      paymentMethodInput.value = 'Credit Card'; 
+      paymentMethodInput.value = 'Razorpay'; 
     });
   
     codTab.addEventListener('click', () => {
@@ -92,7 +92,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     
     
 
-    document.getElementById('userAddAddressForm').addEventListener('submit', function (event) {
+    document.getElementById('userAddAddressForm').addEventListener('submit', function () {
         
         const userId = document.getElementById('getUser').value;
         console.log(userId);
@@ -162,8 +162,12 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     }
 
 
-       
-    function handleCreditButtonClick() {
+   
+   
+
+   
+
+    async function handleCreditButtonClick() {
       const selectedRadioButton = document.querySelector('input[name="flexRadioDefault"]:checked');
       if (!selectedRadioButton) {
         alert('Please select an address before placing the order.');
@@ -172,50 +176,104 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     
       const paymentMethod = document.getElementById('paymentMethod').value;
       console.log(paymentMethod);
-      const addressId = document.getElementById('addessId1').value; 
+      const addressId = document.getElementById('addessId1').value;
       const methodAddress = document.getElementById('del').value;
-      const totalAmount = document.getElementById('total').value;
-      const newTotalAmt = document.getElementById('subtotal').value;
-      
+      const totalAmountInput = document.getElementById('total');
+      const newTotalAmtInput = document.getElementById('subtotal');
+    
+      // Parse the input values as numbers
+      const totalAmount = parseFloat(totalAmountInput.value);
+      const newTotalAmt = parseFloat(newTotalAmtInput.value);
+    
+      if (isNaN(totalAmount) || isNaN(newTotalAmt)) {
+        alert('Invalid total amount or subtotal.');
+        return;
+      }
+    
       const orderData = {
-         paymentMethod: paymentMethod,
-         address: addressId,
-         methodAddress: methodAddress,
-         totalAmount: totalAmount,
-         newTotalAmt: newTotalAmt
+        paymentMethod: paymentMethod,
+        address: addressId,
+        methodAddress: methodAddress,
+        totalAmount: totalAmount,
+        newTotalAmt: newTotalAmt,
       };
       
-     
-      fetch('/submit-order', {
+
+      const options = {
+        key: 'rzp_test_yo3IwIuNagxMzt',
+        amount: totalAmount * 100,
+        currency: 'INR',
+        order_id: "",
+        name: 'SNEAK E-COM',
+        description: 'Payment for Order',
+        image: 'YOUR_LOGO_URL_HERE',
+        handler: async function (response) {
+          console.log(response, 'this is response from Razorpay handler');
+          paymetVarification(response);
+          location.href = '/payment-sucess';
+        },
+      };
+      try {
+        const response = await sendOrderData(orderData);
+        options.order_id = String(response.id)
+        console.log(response, 'this is response from send order');
+        // Create Razorpay options here after getting the response
+        const rzp = new Razorpay(options);
+        rzp.open();
+    
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle the error here
+      }
+    }
+   
+    
+    function paymetVarification(response) {
+      const paymentData = {
+        response: response,
+      };
+      console.log(paymentData);
+      fetch('/verify-payment', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({orderData})
+        body: JSON.stringify({paymentData}),
       })
+        .then((verificationResponse) => verificationResponse.json())
+        .then((verificationResult) => {
+          if (verificationResult.success) {
+            console.log('Payment verification is successful');
 
-       
-      .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while placing the order.');
-      });
-
-      window.location.href = '/payment-success';
+          } else {
+            console.error('Payment verification failed');
+          }
+        })
+        .catch((error) => {
+          console.error('Error verifying payment:', error);
+          alert('An error occurred while verifying the payment.');
+        });
     }
+
+    async function sendOrderData(orderData) {
+      try {
+        const response = await fetch('/submit-order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ orderData }),
+        });
     
-
-
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
     
-
-
-    
-    
-  
-
-
-
-
-    
-    
-    
+        return response.json(); // Return response.json() directly
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle the error here
+        throw error; // Re-throw the error to be caught by the caller
+      }
+    }
     

@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const connectToMongoDB = require('./config/database');
 const session = require('express-session');
-
+const cors = require('cors');
 const userRouter = require('./routes/userSign');
 const adminRouter = require('./routes/adminDash');
 connectToMongoDB();
@@ -19,6 +19,13 @@ connectToMongoDB();
       saveUninitialized: true,
     })
   );
+  const corsOptions = {
+    origin: '', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, 
+    optionsSuccessStatus: 204, 
+  }
+  app.use(cors(corsOptions));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
