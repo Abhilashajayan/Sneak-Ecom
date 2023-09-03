@@ -210,7 +210,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         handler: async function (response) {
           console.log(response, 'this is response from Razorpay handler');
           paymetVarification(response);
-          location.href = '/payment-sucess';
+          location.href = '/payment-success';
         },
       };
       try {

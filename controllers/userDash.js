@@ -6,11 +6,12 @@ const OrderReturn = require('../models/returnSchema');
 const Wallet = require('../models/walletSchema');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
+require('dotenv').config();
 
 
 const instance = new Razorpay({
-  key_id: 'rzp_test_yo3IwIuNagxMzt',
-  key_secret: 'OeuoUOM1gfBUaG4MCtAx4aHv',
+  key_id: process.env.RAZOR_KEY,
+  key_secret: process.env.RAZOR_SECRET,
 });
 
 const userHome = async (req, res)=>{
@@ -578,12 +579,13 @@ const cancelRequest = async (req, res) => {
   }
 };
 
+
 const verifyPayment = async (req, res) => {
   
   const { paymentData } = req.body; 
   console.log('Payment data:', paymentData);
 
-      const hmac = crypto.createHmac('sha256', 'OeuoUOM1gfBUaG4MCtAx4aHv');
+      const hmac = crypto.createHmac('sha256', process.env.RAZOR_SECRET);
       console.log(paymentData.response.razorpay_order_id);
       hmac.update(paymentData.response.razorpay_order_id + '|' + paymentData.response.razorpay_payment_id);
 
@@ -592,11 +594,11 @@ const verifyPayment = async (req, res) => {
   
     if (paymentData.response.razorpay_signature === generated_signature) {
       try {
-        const order = await Order.findOne({ razorpayOrderId: paymentData.razorpay_order_id });
+        const order = await Order.findOne({ razorpayOrderId: paymentData.response.razorpay_order_id });
   
         if (order) {
-          // order.status = 'Placed';
-          // await order.save();
+          order.status = 'Placed';
+          await order.save();
   
           console.log('Order status updated to "Placed"');
         } else {
