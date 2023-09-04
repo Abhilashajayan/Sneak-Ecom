@@ -23,6 +23,10 @@ router.get('/users/address/:addressId',authMiddleware,userDas.addSearch);
 router.get('/checkout',authMiddleware,userDas.checkOut);
 router.get('/payment-success',authMiddleware,userDas.animation);
 router.get('/empty-Cart',authMiddleware,userDas.emptyCart);
+router.get('/SearchProduct/:inputField',userDas.SearchProduct);
+router.get('/404',userDas.notfound);
+router.get('/logout',authMiddleware,userDas.logout);
+
 
 //post methods
 router.post('/signup',signinCont.userRegister);
@@ -39,5 +43,7 @@ router.post('/submit-order',authMiddleware,userDas.orderData);
 router.post('/return-request/:orderId',authMiddleware,userDas.returnRequest);
 router.post('/orders/:orderId/cancel',authMiddleware,userDas.cancelRequest);
 router.post('/verify-payment',authMiddleware,userDas.verifyPayment);
+router.post('/filterData',userDas.filterData);
+
 
 module.exports = router;

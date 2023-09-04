@@ -1,5 +1,6 @@
 const Product = require('../models/productSchema');
 const User = require('../models/userSchema');
+const cata = require('../models/categorySchema');
 const Cart = require('../models/cartSchema');
 const Order = require('../models/orderSchema');
 const OrderReturn = require('../models/returnSchema');
@@ -7,6 +8,7 @@ const Wallet = require('../models/walletSchema');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
 
 const instance = new Razorpay({
@@ -36,7 +38,7 @@ const productData = async (req, res) => {
       console.log(cartItems.length)
       res.render('userHome/addToCart',{products , cartItems});
       if (!products) {
-        return res.status(404).json({ message: 'Product not found' });
+        res.redirect('/404')
       }
   
       res.status(200);
@@ -50,7 +52,8 @@ const productData = async (req, res) => {
 const shopPage = async (req, res) => {
   try{
   const userData = await Product.find({}, {} );
-  res.render('userHome/shopeList',{ userData });
+  const cartItems = await cata.find({},{});
+  res.render('userHome/shopeList',{ userData, cartItems });
 }
   
 catch(err){
@@ -614,6 +617,76 @@ const verifyPayment = async (req, res) => {
   
   }
 
+const SearchProduct = async (req , res )  => {
+  try {
+    const inputField = req.params.inputField;
+    console.log(inputField);
+    const regex = new RegExp(inputField, 'i');
+    const Datas = await Product.find({ productTitle: { $regex: regex } });
+    console.log(Datas);
+    if (Datas.length > 0) {
+      res.json({ Datas });
+    } else {
+        console.log("nothing found");
+    }
+  } catch (error) {
+    console.error("Search error:", error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+}
+
+
+const notfound = async (req , res ) => {
+  res.render('animation/notfound');
+}
+
+
+const filterData = async(req, res) => {
+  try{
+    const receivedData = req.body.selectedValue;
+    const Datas = await Product.find({ productCategory: receivedData });
+    console.log(Datas);
+    if (Datas.length > 0) {
+      res.json({ Datas });
+    } else {
+        console.log("nothing found");
+    }
+  }catch(err){
+  console.log(err);
+}
+}
+  
+// // Logout route
+// const logout =  (req, res) => {
+//   const token = req.cookies.jwt;
+//   if (!token) {
+//     return res.redirect("/signin");
+//   }
+
+//   // Check if the Redis client is still connected
+//   if (client.status !== "connected") {
+//     client.connect();
+//     return res.status(500).json({ message: 'Redis client is closed' });
+//   }
+
+//   client.del(token, (err, reply) => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).json({ message: 'Logout failed' });
+//     }
+//     res.redirect("/signin");
+//   });
+// };
+
+  const logout = async (req, res) => {
+   res.clearCookie('refreshToken');
+   res.clearCookie('jwt');
+
+   res.redirect("/signin")
+  };
+
+
+
 
 
 module.exports = {
@@ -634,6 +707,10 @@ module.exports = {
     emptyCart,
     returnRequest,
     cancelRequest,
-    verifyPayment
+    verifyPayment,
+    SearchProduct,
+    notfound,
+    filterData,
+    logout
     
 }

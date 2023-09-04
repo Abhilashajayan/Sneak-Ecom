@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Product Not Found</title>
+    <style>
+        /* Add custom CSS styles */
+        #animation-container {
+            text-align: center;
+            width: 200px; /* Adjust the width as needed */
+            height: 200px; /* Adjust the height as needed */
+            margin: 0 auto; /* Center the animation horizontally */
+        }
+
+        #animation {
+            display: inline-block;
+            width: 100%; /* Ensure the animation fills its container */
+        }
+
+        .content {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Include the Lottie animation here -->
+                <div id="animation-container">
+                    <div id="animation"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row content">
+            <div class="col-md-12">
+                <h1 class="display-4">Product Not Found</h1>
+                <p class="lead">Sorry, the product you are looking for does not exist.</p>
+                <a href="/" class="btn btn-dark btn-home">Go Back to Home</a>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the Bootstrap and Lottie libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.6/lottie.min.js"></script>
+
+    <script>
+        // lottie-animation.js
+        document.addEventListener('DOMContentLoaded', function () {
+            const animationContainer = document.getElementById('animation');
+            const animation = lottie.loadAnimation({
+                container: animationContainer,
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'https://lottie.host/57e38dbe-915a-40bd-a732-30451222d51f/pwoQB0Z9lz.json',
+            });
+        });
+    </script>
+</body>
+</html>

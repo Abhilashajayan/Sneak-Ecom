@@ -86,7 +86,6 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
           }
         });
       });
-     
     });
     
     

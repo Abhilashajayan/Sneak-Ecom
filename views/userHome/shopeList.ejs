@@ -11,6 +11,8 @@
     <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
    <link rel="stylesheet" href="stylesheets/productSel.css">
+   
+   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Document</title>
 </head>
@@ -50,19 +52,47 @@
                 
             </div>
         </section> -->
-        <section class="container bg-light d-flex justify-content-center">
-            <h1>hello</h1>
-            <div class="searchBox">
-
-                <input class="searchInput"type="text" name="" placeholder="Search">
-                <button class="searchButton" href="#">
-                    <i class="fa fa-search">
-                    </i>
+        <section class="container bg-light d-flex justify-content-end align-content-center  py-3 " >
+            <div class="searchBox mr-2">
+                <input class="searchInput" type="text" name="" placeholder="Search">
+                <button class="searchButton border-0 ">
+                    <i class="fa fa-search" style="color: black;"></i>
                 </button>
             </div>
-    
+            <div class="btn-group mr-2">
+                <button class="btn  dropdown-toggle" type="button" style="background-color:#f1f1f1 ;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter <i class="bi bi-filter"></i>
+                </button>
+              
+                <div class="dropdown-menu ">
+                    <form class="px-4 py-3" id="filterForm">
+                        <% cartItems.forEach((user, index) => { %>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" id="<%= 'filterOption' + index %>" name="category" value="<%= user.categoryName %>">
+                              <label class="form-check-label" for="<%= 'filterOption' + index %>">
+                                <%= user.categoryName %>
+                              </label>
+                            </div>
+                          <% }) %>
+                          
+                    </form>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  Sort
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="#">$10</a></li>
+                  <li><a class="dropdown-item" href="#">$10</a></li>
+                  <li><a class="dropdown-item" href="#">$10</a></li>
+                </ul>
+            </div>
+                 
+                  
         </section>
-    <div class="container bg-white">
+        
+    <div class="container bg-white"   id="productContainer">
     
         <div class="row container-fluid">
             <% userData.forEach((user, index) => { %>
@@ -85,5 +115,152 @@
     <div class="d-flex justify-content-center align-items-center">
         <button class="btn  btn-dark">Load More</button>
    </div>
+
+   <script>
+ 
+        const productContainer = document.getElementById('productContainer');
+        const searchInput = document.querySelector('.searchInput');
+        let selectedValue;
+        searchInput.addEventListener('input', () => {
+        const searchBox = document.querySelector('.searchBox');
+           if (searchInput.value.trim() !== '') {
+                searchBox.classList.add('expanded');
+            } else {
+        searchBox.classList.remove('expanded');
+        }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+    const radioButtons = document.querySelectorAll('input[type="radio"][name="category"]');
+    
+    radioButtons.forEach(radioButton => {
+      radioButton.addEventListener('change', (event) => {
+        if (event.target.checked) {
+          selectedValue = event.target.value;
+          console.log('Selected value:', selectedValue);
+          sendDataToServer(selectedValue);
+        }
+      });
+    });
+  });
+
+
+    searchInput.addEventListener('input', async function() {
+    const inputValue = searchInput.value.trim();
+    console.log(inputValue);
+    });
+
+    searchInput.addEventListener('keyup', async function(event) {
+    if (searchInput.value) {
+        const inputValue = searchInput.value.trim();
+        
+        try {
+            const response = await fetch(`/SearchProduct/${encodeURIComponent(inputValue)}`);
+            const data = await response.json();
+            if (data.Datas && data.Datas.length > 0) {
+                const row = productContainer.querySelector('.row');
+                row.innerHTML = ''; // Clear existing products
+                
+                data.Datas.forEach(result => {
+                    const productItem = document.createElement('div');
+                    productItem.className = 'col-lg-3 col-sm-6 d-flex c flex-column align-items-center justify-content-center product-item my-3';
+                    productItem.innerHTML = `
+                        <!-- Your HTML structure for each product -->
+                        <div class="product"> 
+                            <img src="${result.productImages[0].secure_url}" alt="">
+                            <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
+                                <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
+                                <li class="icon mx-3"><span class="far fa-heart"></span></li>
+                                <li class="icon"><span class="fas fa-shopping-bag"></span></li>
+                            </ul>
+                        </div>
+                        <div class="tag bg-red">Best Selling</div>
+                        <div class="title pt-4 pb-1">${result.productTitle}</div>
+                        <div class="d-flex align-content-center justify-content-center"> 
+                            <span class="fas fa-star"></span> 
+                            <span class="fas fa-star"></span> 
+                            <span class="fas fa-star"></span> 
+                            <span class="fas fa-star"></span> 
+                            <span class="fas fa-star"></span>
+                        </div>
+                        <div class="price">$ ${result.productPrice}.0</div>
+                    `;
+                    
+                    // Append the product item to the row
+                    row.appendChild(productItem);
+                });
+            }
+            
+        } catch (error) {
+            console.error("Fetch error:", error);
+        }
+    }
+});
+
+  // Define a function to fetch and render product data
+  async function sendDataToServer(selectedValue) {
+                        try {
+                            const response = await fetch(`/filterData`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({selectedValue})
+                            });
+
+                            if (response.ok) {
+                                const data = await response.json();
+                                if (data.Datas && data.Datas.length > 0) {
+                                    const row = productContainer.querySelector('.row');
+                                    row.innerHTML = ''; // Clear existing products
+
+                                    data.Datas.forEach(result => {
+                                        const productItem = document.createElement('div');
+                                        productItem.className = 'col-lg-3 col-sm-6 d-flex c flex-column align-items-center justify-content-center product-item my-3';
+                                        productItem.innerHTML = `
+                                          <!-- Your HTML structure for each product -->
+                                      <div class="product"> 
+                                         <img src="${
+                                            result.productImages[0].secure_url
+                                        }" alt="">
+                                         <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
+                                           <li class="icon"><span class="fas fa-expand-arrows-alt"></span></li>
+                                           <li class="icon mx-3"><span class="far fa-heart"></span></li>
+                                           <li class="icon"><span class="fas fa-shopping-bag"></span></li>
+                                         </ul>
+                                           </div>
+                                             <div class="tag bg-red">Best Selling</div>
+                                         <div class="title pt-4 pb-1">${
+                                            result.productTitle
+                                         }</div>
+                                         <div class="d-flex align-content-center justify-content-center"> 
+                                        <span class="fas fa-star"></span> 
+                                      <span class="fas fa-star"></span> 
+                                      <span class="fas fa-star"></span> 
+                                     <span class="fas fa-star"></span> 
+                                        <span class="fas fa-star"></span>
+                                             </div>
+                                  <div class="price">$ ${
+                                            result.productPrice
+                                        }.0</div>
+                                             `;
+
+                                        // Append the product item to the row
+                                        row.appendChild(productItem);
+                                    });
+                                }
+
+                            } else {
+                                console.error('Failed to send data to server');
+                            }
+                        } catch (error) {
+                            console.error('Fetch error:', error);
+                        }
+                    }
+
+
+
+
+   </script>
+   
 </body>
 </html>

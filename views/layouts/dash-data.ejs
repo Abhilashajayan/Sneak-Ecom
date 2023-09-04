@@ -23,16 +23,10 @@
           </div>
       </div>
       <div class="col py-3 mt-4">
-        <div class="d-none" id="backendData" data-total-products="<%= dailySales[1].todays %>" data-total-orders="<%= totalOrders %>" data-total-sales="<%= totalSales[0].totalAmount %>" data-todays-orders="<%= todaysOrders %>"></div>
+        <div class="d-none" id="backendData" data-total-products="<%= dailySales[1].todays %>" data-total-orders="<%= totalOrders %>" data-total-sales="<%= totalSales[0].totalAmount %>" data-weekly-sales="<%= weeklySales %>" data-todays-orders="<%= todaysOrders %>"></div>
+        
+        <div id="chart"></div>
 
-      <div class="charts">
-        <div class="chart">
-            <h2>Overview Graph</h2>
-            <div>
-                <canvas id="lineChart"></canvas>
-            </div>
-        </div>
-    </div>
     </div>
       <div class="col py-3 mt-4">
           <h3 class="ms-4">Recent Orders</h3>

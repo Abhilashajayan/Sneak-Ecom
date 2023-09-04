@@ -22,6 +22,28 @@ const dashboards = async (req,res) =>{
         const Return = await Returns.find({},{});
         const totalProducts = await Product.countDocuments();
         const totalOrders = await Order.countDocuments();
+        const weeklySalesData = await Order.aggregate([
+          {
+            $project: {
+              dayOfWeek: { $dayOfWeek: "$createdOn" }, // Get the day of the week (1 = Sunday, 2 = Monday, ..., 7 = Saturday)
+              totalAmount: "$totalAmount"
+            }
+          },
+          {
+            $group: {
+              _id: "$dayOfWeek",
+              totalAmount: { $sum: "$totalAmount" }
+            }
+          }
+        ]);
+        
+        const weeklySales = Array(7).fill(0);
+        weeklySalesData.forEach(data => {
+          const dayOfWeek = data._id - 1; 
+          weeklySales[dayOfWeek] = data.totalAmount;
+        });
+        console.log(weeklySales, " the sales");
+
 
          const totalSales = await Order.aggregate([
          { $group: { _id: null, totalAmount: { $sum: '$totalAmount' } } }
@@ -49,7 +71,7 @@ const dashboards = async (req,res) =>{
            console.log(recentOrders);
 
                
-             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return});
+             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return,weeklySales});
     }catch(err){
         console.log(err);
     

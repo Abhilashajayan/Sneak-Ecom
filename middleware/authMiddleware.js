@@ -1,38 +1,3 @@
-// const { compareSync } = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-// const secretKey = process.env.SECRET_KEY; 
-
-// const authMiddleware = (req, res, next) => {
-//   const token = req.cookies.jwt;
-
-//   if (!token) {
-//    res.redirect("/signin")
-//   }
-
-  
-//     const decodedTokens = jwt.decode(token);
-//     const userStatus = decodedTokens.status;
-//     if(!userStatus){
-//         try {
-//         const decodedToken = jwt.verify(token, secretKey);
-       
-//         req.user = decodedToken; 
-//         req.userId = decodedToken.userId;
-//         next(); 
-//         console.log("verrified user: ");
-        
-//       } catch (error) {
-//         return res.status(403).json({ message: 'Invalid token' });
-//       }
-//     }else{
-//         const error = "you are blocked by admin";
-//         res.render('userLogin/Login',{ error });
-//         console.log(blocked);
-//     }
-   
-// };
-
-// module.exports = authMiddleware;
 
 const { compareSync } = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -61,7 +26,15 @@ const authMiddleware = async (req, res, next) => {
     const userStatus = user.status;
 
     if (!userStatus) {
-      next(); 
+      const refreshToken = jwt.sign({
+        userId: user.id,
+      }, secretKey, {
+        expiresIn: "1 day",
+      });
+
+      // Set the refresh token in the cookie
+      res.cookie('refreshToken', refreshToken);
+      next();
       console.log("Verified user:", user);
     } else {
       const error = "You are blocked by admin";
@@ -69,8 +42,9 @@ const authMiddleware = async (req, res, next) => {
       console.log("Blocked");
     }
   } catch (error) {
-    return res.status(403).json({ message: 'Invalid token' });
+    console.log(error);
   }
 };
 
 module.exports = authMiddleware;
+

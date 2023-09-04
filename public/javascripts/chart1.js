@@ -1,52 +1,45 @@
-document.addEventListener("DOMContentLoaded", function() {
-    var ctx = document.getElementById('lineChart').getContext('2d');
-    var backendDataElement = document.getElementById('backendData');
-    var totalProducts = parseInt(backendDataElement.getAttribute('data-total-products'));
-    var totalOrders = parseInt(backendDataElement.getAttribute('data-total-orders'));
-    var totalSalesValue = parseFloat(backendDataElement.getAttribute('data-total-sales'));
-    var todaysOrdersValue = parseInt(backendDataElement.getAttribute('data-todays-orders'));
+var backendDataElement = document.getElementById('backendData');
+var weeklySalesDataString = backendDataElement.getAttribute('data-weekly-sales');
+var weeklySalesData = JSON.parse(weeklySalesDataString);
 
-    var daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    var today = new Date().getDay();
-    var adjustedDaysOfWeek = daysOfWeek.slice(today).concat(daysOfWeek.slice(0, today));
+// Calculate the current day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+var today = new Date().getDay();
 
+// Create an array to represent the day numbers of the week
+var dayNumbersOfWeek = [];
+for (var i = 0; i < 7; i++) {
+  dayNumbersOfWeek.push(i + 1);
+}
 
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: adjustedDaysOfWeek,
-            datasets: [
-                {
-                    label: 'Total Products',
-                    data: [totalProducts, 0, 0, 0, 0, 0, 0],
-                    borderColor: 'rgb(41, 155, 99)',
-                    borderWidth: 1,
-                    fill: false
-                },
-                {
-                    label: 'Total Sales ($)',
-                    data: [totalSalesValue, 0, 0, 0, 0, 0, 0], 
-                    borderColor: 'rgb(255, 99, 132)',
-                    borderWidth: 1,
-                    fill: false
-                },
-                {
-                    label: "Today's Orders",
-                    data: [todaysOrdersValue, 0, 0, 0, 0, 0, 0], 
-                    borderColor: 'rgb(255, 205, 86)',
-                    borderWidth: 1,
-                    fill: false
-                }
-            ]
-        },
-        options: {
-            responsive: true
-        }
-    });
+// Use the dayNumbersOfWeek array for x-axis categories
+var options = {
+  series: [{
+    name: 'series1',
+    data: weeklySalesData,
+  }, {
+    name: 'series2',
+    data: [11, 32, 45, 32, 34, 52, 41] // Replace with your data
+  }],
+  chart: {
+    height: 350,
+    type: 'area'
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'smooth'
+  },
+  xaxis: {
+    type: 'category',
+    categories: dayNumbersOfWeek // Use the modified dayNumbersOfWeek array
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM/yy HH:mm'
+    },
+  },
+};
 
-    myChart.data.datasets[0].label += ` (${totalProducts} Total Orders)`;
-    myChart.data.datasets[1].label += ` ($${totalSalesValue} Total Sales)`;
-    myChart.data.datasets[2].label += ` (${todaysOrdersValue} Today's Orders)`;
-
-    myChart.update();
-});
+var chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
