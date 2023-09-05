@@ -8,6 +8,8 @@ const Wallet = require('../models/walletSchema');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 require('dotenv').config();
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 const Coupon  = require('../models/couponSchema');
 const jwt = require('jsonwebtoken');
 
@@ -657,36 +659,16 @@ const filterData = async(req, res) => {
 }
 }
   
-// // Logout route
-// const logout =  (req, res) => {
-//   const token = req.cookies.jwt;
-//   if (!token) {
-//     return res.redirect("/signin");
-//   }
 
-//   // Check if the Redis client is still connected
-//   if (client.status !== "connected") {
-//     client.connect();
-//     return res.status(500).json({ message: 'Redis client is closed' });
-//   }
-
-//   client.del(token, (err, reply) => {
-//     if (err) {
-//       console.error(err);
-//       return res.status(500).json({ message: 'Logout failed' });
-//     }
-//     res.redirect("/signin");
-//   });
-// };
-
-  const logout = async (req, res) => {
+ const logout = async (req, res) => {
    res.clearCookie('refreshToken');
    res.clearCookie('jwt');
 
    res.redirect("/signin")
-  };
+ };
 
-  const couponCheck = async (req, res) => {
+
+const couponCheck = async (req, res) => {
     try {
       const promoCode = req.params.promoCode; 
       const couponData = await Coupon.findOne({ couponCode: promoCode });
@@ -701,12 +683,71 @@ const filterData = async(req, res) => {
       console.error(err);
       return res.status(500).json({ error: "Internal server error" });
     }
-  };
+};
   
-  module.exports = {
-    couponCheck,
-  };
-  
+
+
+
+function generateFooter(doc) {
+	doc.fontSize(
+		10,
+	).text(
+		'Thank you for Purchasing !!!.',
+		50,
+		280,
+		{ align: 'center', width: 500 },
+	);
+}
+const invoiceDownload = async (req, res) => {
+  const { orderId } = req.body;
+  console.log("Invoice", orderId);
+  try {
+    const orderData = await Order.findOne({ _id: orderId });
+    if (orderData) {
+      const doc = new PDFDocument();
+
+      // Generate the header
+     
+
+      try {
+        doc.info.Title = 'Invoice';
+        doc.info.Author = 'Sneak-Ecom Pvt Ltd';
+        doc.fontSize(18).text('Invoice', { align: 'center' });
+        doc.fontSize(14).text('Sneak-Ecom Pvt Ltd', { align: 'center' });
+        doc.moveDown();
+
+        const currentDate = new Date().toLocaleDateString('en-US');
+        doc.fontSize(12).text('Date: ' + currentDate, { align: 'center' });
+        doc.moveDown();
+        doc.fontSize(12).text(`Order ID: ${orderData._id}`);
+        doc.fontSize(12).text(`Payment Method: ${orderData.paymentMethod}`);
+        doc.fontSize(12).text(`Shipping Charge: $${orderData.shippingCharge.toFixed(2)}`);
+        doc.fontSize(12).text(`Subtotals: $${orderData.subtotals.toFixed(2)}`);
+        doc.fontSize(12).text(`Total Amount: $${orderData.totalAmount.toFixed(2)}`);
+        doc.moveDown();
+
+        // Generate the footer
+        generateFooter(doc);
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="invoice_${orderData._id}.pdf"`);
+        doc.pipe(res);
+        doc.end();
+        console.log('Invoice generated and sent for download.');
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    } else {
+      console.log('Order not found.');
+      res.status(404).json({ error: 'Order not found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 
 
@@ -734,6 +775,7 @@ module.exports = {
     notfound,
     filterData,
     logout,
-    couponCheck
+    couponCheck,
+    invoiceDownload
     
 }

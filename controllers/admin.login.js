@@ -3,11 +3,13 @@ const cloudinary = require("../services/cloudinary");
 const upload = require("../services/multer");
 const Product = require("../models/productSchema");
 const User = require("../models/userSchema");
+const PDFDocument = require('pdfkit');
 const Cata = require("../models/categorySchema");
 const Order = require('../models/orderSchema');
 const Returns = require('../models/returnSchema');
 const Coupon = require('../models/couponSchema');
 const jwt = require('jsonwebtoken');
+const session = require('express-session');
 
 const adminLog = (req,res) =>{
     res.render('adminLog/adminLog');
@@ -25,6 +27,7 @@ const dashboards = async (req,res) =>{
         const CoupenData = await Coupon.find({},{});
         const totalProducts = await Product.countDocuments();
         const totalOrders = await Order.countDocuments();
+        
         const weeklySalesData = await Order.aggregate([
           {
             $project: {
@@ -96,7 +99,7 @@ const dashboards = async (req,res) =>{
          { $group: { _id: null, totalAmount: { $sum: '$totalAmount' } } }
           ]);
           
-          
+          const totalSaless = totalSales[0].totalAmount;
            const today = new Date();
             today.setHours(0, 0, 0, 0);
              const todaysOrders = await Order.countDocuments({ createdOn: { $gte: today } });
@@ -117,7 +120,8 @@ const dashboards = async (req,res) =>{
            .limit(4);
            console.log(recentOrders);
 
-               
+             req.session.salesReportData = [totalOrders,totalSaless,todaysOrders];
+             console.log(req.session.salesReportData);
              res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return,weeklySales,dailyOrdersCountLastSevenDays,CoupenData});
     }catch(err){
         console.log(err);
@@ -504,6 +508,41 @@ const postCoponEdit = async (req, res) => {
 };
 
 
+const salesReportManagement = (req, res) => {
+  const salesReportData = req.session.salesReportData;
+
+  try {
+    const doc = new PDFDocument();
+    doc.info.Title = 'Sales Report';
+    doc.info.Author = 'Sneak Ecommerce Pvt. Ltd';
+    doc.fontSize(18).text('Sales Report', { align: 'center' });
+    doc.fontSize(14).text('Sneak Ecommerce Pvt. Ltd', { align: 'center' });
+    doc.moveDown();
+    const currentDate = new Date().toLocaleDateString('en-US');
+    doc.fontSize(12).text('Date: ' + currentDate, { align: 'center' });
+
+    doc.moveDown();
+    doc.moveDown();
+    doc.fontSize(12).text('This report provides a summary of our sales data for the given period.', { align: 'center' });
+    
+    doc.moveDown();
+    doc.fontSize(16).text('Total Sales: $' + salesReportData[1].toFixed(2));
+    doc.fontSize(16).text('Total Orders: ' + salesReportData[0]);
+    doc.fontSize(16).text("Today's Orders: " + salesReportData[2]);
+    doc.moveDown();
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="sales-report.pdf"');
+    doc.pipe(res);
+    doc.end();
+    console.log('PDF report generated and sent for download.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
 module.exports = {
     adminLog,
     adminLogin,
@@ -522,5 +561,6 @@ module.exports = {
     coupenCode,
     deleteCoupon,
     editCoupon,
-    postCoponEdit
+    postCoponEdit,
+    salesReportManagement
 }

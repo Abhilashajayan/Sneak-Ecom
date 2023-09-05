@@ -3,7 +3,7 @@
         <h2 class="d-flex justify-content-center">Orders</h2>
         <div class="row d-flex justify-content-center">
             <div class="table-responsive d-flex justify-content-center">
-                <table class="table table">
+                <table class="table table-responsive">
                     <tbody class="">
                         <% orders.forEach(order => { %>
                         <tr>
@@ -87,6 +87,15 @@
                                 </div>
                               </td>
                               
+                              <td>
+                                <% if (order.status === 'Delivered') { %>
+                                  <form action="/Invoice" method="post">
+                                    <input type="hidden" value="<%= order._id %>" name="orderId" id="">
+                                    <button data-order-id="" type="submit" class="btn btn-sm btn-danger" id="invoiceButton">Invoice</button>
+                                  </form>
+                                 
+                                  <% } %>
+                              </td>
                              
                            </tr>
                         <% }); %>
