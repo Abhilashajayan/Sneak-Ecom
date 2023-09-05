@@ -1,44 +1,60 @@
-var backendDataElement = document.getElementById('backendData');
-var weeklySalesDataString = backendDataElement.getAttribute('data-weekly-sales');
-var weeklySalesData = JSON.parse(weeklySalesDataString);
+const backendDataElement = document.getElementById("backendData");
+const weeklySalesData = backendDataElement.getAttribute("data-weekly-sales");
+const dailyOrdersData = backendDataElement.getAttribute("data-daily-orderss");
+const dailyOrdersDatas = dailyOrdersData.split(",");
+const weeklySalesArray = weeklySalesData.split(",");
+const dailyData = dailyOrdersDatas.map(value => parseInt(value, 10));
+const weeklySalesIntegers = weeklySalesArray.map(value => parseInt(value, 10));
+console.log(weeklySalesIntegers);
 
-// Calculate the current day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-var today = new Date().getDay();
-
-// Create an array to represent the day numbers of the week
-var dayNumbersOfWeek = [];
-for (var i = 0; i < 7; i++) {
-  dayNumbersOfWeek.push(i + 1);
+// Calculate the dates for the last seven days
+const dayLabels = [];
+const currentDate = new Date();
+for (let i = 6; i >= 0; i--) {
+  const date = new Date(currentDate);
+  date.setDate(currentDate.getDate() - i);
+  dayLabels.push(date.toLocaleDateString()); // Format the date as you like
 }
 
-// Use the dayNumbersOfWeek array for x-axis categories
+// Your chart options
 var options = {
   series: [{
-    name: 'series1',
-    data: weeklySalesData,
+    name: 'daily Sales',
+    type: 'column',
+    data: weeklySalesIntegers,
   }, {
-    name: 'series2',
-    data: [11, 32, 45, 32, 34, 52, 41] // Replace with your data
+    name: 'Daily Orders',
+    type: 'line',
+    data: dailyData
   }],
   chart: {
     height: 350,
-    type: 'area'
-  },
-  dataLabels: {
-    enabled: false
+    type: 'line',
   },
   stroke: {
-    curve: 'smooth'
+    width: [0, 4]
   },
+  title: {
+    text: 'Sales Graph'
+  },
+  dataLabels: {
+    enabled: true,
+    enabledOnSeries: [1]
+  },
+  labels: dayLabels,
   xaxis: {
-    type: 'category',
-    categories: dayNumbersOfWeek // Use the modified dayNumbersOfWeek array
+    type: 'Daily Sales',
   },
-  tooltip: {
-    x: {
-      format: 'dd/MM/yy HH:mm'
+  yaxis: [{
+    title: {
+      text: 'Daily Sales',
     },
-  },
+  }, {
+    opposite: true,
+    title: {
+      text: 'Daily Orders'
+    }
+  }]
 };
 
 var chart = new ApexCharts(document.querySelector("#chart"), options);

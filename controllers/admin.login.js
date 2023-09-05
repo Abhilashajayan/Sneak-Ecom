@@ -45,6 +45,50 @@ const dashboards = async (req,res) =>{
         console.log(weeklySales, " the sales");
 
 
+        const todays = new Date(); 
+        const sevenDaysAgo = new Date(todays);
+        sevenDaysAgo.setDate(todays.getDate() - 6);
+        
+        const dailyOrdersData = await Order.aggregate([
+          {
+            $match: {
+              createdOn: {
+                $gte: sevenDaysAgo,
+                $lte: todays, 
+              },
+            },
+          },
+          {
+            $project: {
+              dayOfWeek: { $dayOfWeek: "$createdOn" }, // Get the day of the week (1 = Sunday, 2 = Monday, ..., 7 = Saturday)
+            },
+          },
+          {
+            $group: {
+              _id: "$dayOfWeek",
+              count: { $sum: 1 }, // Count the number of orders for each day
+            },
+          },
+        ]);
+        
+        // Create an array to store daily order count for the last seven days
+        const dailyOrdersCountLastSevenDays = Array(7).fill(0);
+        
+        dailyOrdersData.forEach((data) => {
+          const dayOfWeek = data._id - 1; // Adjust to be zero-based
+          dailyOrdersCountLastSevenDays[dayOfWeek] = data.count;
+        });
+        
+ 
+        
+
+
+
+
+        
+
+
+
          const totalSales = await Order.aggregate([
          { $group: { _id: null, totalAmount: { $sum: '$totalAmount' } } }
           ]);
@@ -71,7 +115,7 @@ const dashboards = async (req,res) =>{
            console.log(recentOrders);
 
                
-             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return,weeklySales});
+             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return,weeklySales,dailyOrdersCountLastSevenDays});
     }catch(err){
         console.log(err);
     
