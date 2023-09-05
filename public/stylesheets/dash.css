@@ -81,3 +81,67 @@ span:hover{
     color: #666;
     text-align: center
 }
+
+
+
+/* Style the edit button */
+.editBtn {
+    background-color: #00796b; /* Dark Green */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .editBtn:hover {
+    background-color: #005a4f; /* Lighter Green on hover */
+  }
+  
+  /* Style the delete button */
+  .dltBtn {
+    background-color: #d32f2f; /* Dark Red */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .dltBtn:hover {
+    background-color: #ab9091; /* Lighter Red on hover */
+  }
+  
+
+  .btn-shine {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 12px 48px;
+    color: #ffffff;
+    background: linear-gradient(to right, #4d4d4d 0, white 10%, #4d4d4d 20%);
+    background-position: 0;
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s infinite linear;
+    animation-fill-mode: forwards;
+    -webkit-text-size-adjust: none;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  
+  @keyframes shine {
+    0% {
+      background-position: 0;
+    }
+    60% {
+      background-position: 180px;
+    }
+    100% {
+      background-position: 180px;
+    }
+  }
+  

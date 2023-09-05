@@ -7,16 +7,14 @@ const dailyData = dailyOrdersDatas.map(value => parseInt(value, 10));
 const weeklySalesIntegers = weeklySalesArray.map(value => parseInt(value, 10));
 console.log(weeklySalesIntegers);
 
-// Calculate the dates for the last seven days
 const dayLabels = [];
 const currentDate = new Date();
 for (let i = 6; i >= 0; i--) {
   const date = new Date(currentDate);
   date.setDate(currentDate.getDate() - i);
-  dayLabels.push(date.toLocaleDateString()); // Format the date as you like
+  dayLabels.push(date.toLocaleDateString()); 
 }
 
-// Your chart options
 var options = {
   series: [{
     name: 'daily Sales',

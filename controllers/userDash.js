@@ -8,6 +8,7 @@ const Wallet = require('../models/walletSchema');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 require('dotenv').config();
+const Coupon  = require('../models/couponSchema');
 const jwt = require('jsonwebtoken');
 
 
@@ -449,7 +450,7 @@ const orderData = async (req, res) => {
           }
         }
 
-        const orderAmount = orderData.totalAmount * 100;
+        const orderAmount = orderData.newTotalAmt * 100;
 
         const options = {
           amount: orderAmount,
@@ -685,6 +686,27 @@ const filterData = async(req, res) => {
    res.redirect("/signin")
   };
 
+  const couponCheck = async (req, res) => {
+    try {
+      const promoCode = req.params.promoCode; 
+      const couponData = await Coupon.findOne({ couponCode: promoCode });
+  
+      if (!couponData) {
+        console.log("Invalid coupon code");
+        const err =  'Invalid coupon Code';
+      }
+      console.log("Coupon data:", couponData);
+      return res.json({ couponData });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  };
+  
+  module.exports = {
+    couponCheck,
+  };
+  
 
 
 
@@ -711,6 +733,7 @@ module.exports = {
     SearchProduct,
     notfound,
     filterData,
-    logout
+    logout,
+    couponCheck
     
 }

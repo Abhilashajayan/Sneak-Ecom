@@ -378,4 +378,60 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+async function coupDel(coupID){
+  try {
+    const response = await fetch(`/delete-coupen/${coupID}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+     
+    });
+    if (response.ok) {
+      console.log('User deleted successfully');
+      location.reload(); // Reload the page
+    } else {
+      throw new Error('Error deleting user');
+    }
+  
+  } catch (error) {
+    console.error('Error:', error);
+  }
+  location.reload();
+}
 
+
+function populateEditCouponForm(couponData) {
+  const couponCodeInput = document.getElementById('couponCode1');
+  const expiryDateInput = document.getElementById('expiryDate1');
+  const amountInput = document.getElementById('amount1');
+  const minPurchaseInput = document.getElementById('minPurchase1');
+  const coupId = document.getElementById('coupId1');
+  const formattedExpiryDate = new Date(couponData.expiryDate).toISOString().split('T')[0];
+  couponCodeInput.value = couponData.couponCode;
+  expiryDateInput.value = formattedExpiryDate;
+  coupId.value = couponData._id;
+  amountInput.value = couponData.  discountAmount;
+  minPurchaseInput.value = couponData.minPurchase;
+}
+
+
+
+async function editCoup(coupID) {
+  try {
+    const response = await fetch(`/getCoupon/${coupID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+    if (response.ok) {
+      const couponData = await response.json();
+      populateEditCouponForm(couponData);
+    } else {
+      throw new Error('Error retrieving coupon data');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}

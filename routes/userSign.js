@@ -26,7 +26,7 @@ router.get('/empty-Cart',authMiddleware,userDas.emptyCart);
 router.get('/SearchProduct/:inputField',userDas.SearchProduct);
 router.get('/404',userDas.notfound);
 router.get('/logout',authMiddleware,userDas.logout);
-
+router.get('/checkCoupon/:promoCode',userDas.couponCheck);
 
 //post methods
 router.post('/signup',signinCont.userRegister);

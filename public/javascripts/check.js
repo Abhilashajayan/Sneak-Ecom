@@ -1,5 +1,12 @@
 let totalAmount = 0;
 const productDivs = document.querySelectorAll('.price');
+const couponAmount = 0;
+
+
+
+
+
+
 
 productDivs.forEach(productDiv => {
 const totalPriceElement = productDiv.querySelector('.total-price');
@@ -19,6 +26,49 @@ shippingMethodForm.addEventListener('change', (event) => {
     console.log('Selected shipping method:', selectedShippingMethod);
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+  const promoCodeInput = document.getElementById("promoCodeInput");
+  const applyButton = document.getElementById("applyButton");
+  applyButton.addEventListener("click", function () {
+    const promoCode = promoCodeInput.value;
+    console.log(promoCode);
+    const url = `/checkCoupon/${promoCode}`;
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+        addCouponData(data);
+      })
+      .catch(error => {
+        console.error("Fetch error:", error);
+      });
+  });
+});
+
+ 
+function addCouponData(data) {
+  console.log(data.couponData.minPurchase);
+const couponMinPurchase = data.couponData.minPurchase;
+if (totalAmount >= couponMinPurchase) {
+  const couponAmount = data.couponData.discountAmount;
+  totalAmount = totalAmount - couponAmount;
+  
+  console.log("Coupon applied successfully. New total amount: " + totalAmount);
+} else if ( totalAmount < couponMinPurchase) {
+  console.log("Coupon cannot be applied. Minimum purchase requirement not met.");
+}
+}
 
 const shippingMethodForms = document.getElementById('shippingMethodForm');
     const shippingCostElement = document.getElementById('shippingCost');
@@ -48,6 +98,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         subtotal.value = newTotalAmt;
         const totalAmt = document.getElementById('finalAmts');
         totalAmt.textContent = `$${newTotalAmt.toFixed(2)}`;
+
     });
 
 
@@ -200,7 +251,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
 
       const options = {
         key: 'rzp_test_yo3IwIuNagxMzt',
-        amount: totalAmount * 100,
+        amount: newTotalAmt * 100,
         currency: 'INR',
         order_id: "",
         name: 'SNEAK E-COM',
@@ -276,3 +327,5 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
       }
     }
     
+
+

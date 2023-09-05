@@ -6,6 +6,8 @@ const User = require("../models/userSchema");
 const Cata = require("../models/categorySchema");
 const Order = require('../models/orderSchema');
 const Returns = require('../models/returnSchema');
+const Coupon = require('../models/couponSchema');
+const jwt = require('jsonwebtoken');
 
 const adminLog = (req,res) =>{
     res.render('adminLog/adminLog');
@@ -20,6 +22,7 @@ const dashboards = async (req,res) =>{
         const userData = await User.find({},{});
         const orderData = await Order.find({});
         const Return = await Returns.find({},{});
+        const CoupenData = await Coupon.find({},{});
         const totalProducts = await Product.countDocuments();
         const totalOrders = await Order.countDocuments();
         const weeklySalesData = await Order.aggregate([
@@ -115,7 +118,7 @@ const dashboards = async (req,res) =>{
            console.log(recentOrders);
 
                
-             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return,weeklySales,dailyOrdersCountLastSevenDays});
+             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return,weeklySales,dailyOrdersCountLastSevenDays,CoupenData});
     }catch(err){
         console.log(err);
     
@@ -126,15 +129,28 @@ const adminLogin = async (req,res) =>{
     try{
     const {ausername , password} = req.body;
     const user = await adminSign.findOne({ username: ausername });
-    // console.log(user);
     if(user.username === ausername && user.password === password){
-        res.redirect('/admin-dashboard');
-    }
-    }catch(e){
-        console.log(e);
-    }
-}
+     
 
+        const payload = {
+        userId: user._id,
+        username: user.username,
+        };
+        console.log(payload);
+        const secretKey = process.env.SECRET_KEY; 
+        const token = jwt.sign(payload, secretKey, { expiresIn: '5m' });
+  
+        res.cookie('adminJwt', token, { httpOnly: true, maxAge: 300000 }); 
+        res.redirect('/admin-Dashboard');
+  
+      } else {
+        const error = 'Password is incorrect';
+      }
+      
+    }catch(e){
+      console.log(e);
+ }
+}
 const imageAdd =  async (req, res) => {
     try {
       const files = req.files;
@@ -414,8 +430,80 @@ const returnReq = async (req, res) => {
   }
 };
 
+const coupenCode = async (req, res) => {
+  const { couponCode, expiryDate, amount, minPurchase } = req.body;
 
+  // Create a new coupon instance
+  const newCoupon = new Coupon({
+    couponCode: couponCode,
+    expiryDate: expiryDate,
+    discountAmount: amount,
+    minPurchase: minPurchase,
+  });
+  try {
+    const savedCoupon = await newCoupon.save();
+    console.log('Coupon added successfully:', savedCoupon);
+    res.redirect('/admin-dashboard');
+  } catch (error) {
+    console.error('Failed to add coupon:', error);
+    res.status(500).send('Failed to add coupon');
+  }
+};
+
+
+const deleteCoupon = async (req, res) => {
+  const coupID = req.params.coupID;
+  try{
+    const CoupenData = await Coupon.findByIdAndDelete(coupID);
+    console.log(CoupenData,"user is deleted");
+    res.redirect('/admin-dashboard');
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred' });
+  }
+}
+
+
+const editCoupon = async (req, res) => {
+  const couponId = req.params.coupID;
+  try{
+    const coupon = await Coupon.findById(couponId).exec();
   
+      if (!coupon) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      console.log(coupon);
+      res.json(coupon);
+
+  }catch (error) {
+    console.error(error);
+  }
+  
+}
+  
+
+const postCoponEdit = async (req, res) => {
+  const { coupId, couponCode, expiryDate, amount, minPurchase } = req.body;
+  console.log(coupId);
+  try {
+    const coupon = await Coupon.findById(coupId);
+    if (!coupon) {
+      return res.status(404).send('Coupon not found');
+    }
+    coupon.couponCode = couponCode;
+    coupon.expiryDate = expiryDate;
+    coupon.amount = amount;
+    coupon.minPurchase = minPurchase;
+    await coupon.save();
+    res.redirect('/admin-dashboard');
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send('Internal server error');
+  }
+};
+
+
 module.exports = {
     adminLog,
     adminLogin,
@@ -430,7 +518,9 @@ module.exports = {
     changeSts,
     deleteUser,
     cataDelete,
-    returnReq
-    
-    
+    returnReq,
+    coupenCode,
+    deleteCoupon,
+    editCoupon,
+    postCoponEdit
 }
