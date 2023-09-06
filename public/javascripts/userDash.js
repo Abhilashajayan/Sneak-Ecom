@@ -284,7 +284,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  document.getElementById('profileForm').addEventListener('submit', function (event) {
+    const phoneNumber = document.getElementById('phoneNumber').value;
 
+    // Validate the phone number using a regular expression
+    const phonePattern = /^\d{10}$/;
+    if (!phonePattern.test(phoneNumber)) {
+        event.preventDefault(); // Prevent form submission
+        document.getElementById('phoneError').textContent = 'Invalid phone number (10 digits required)';
+    } else {
+        document.getElementById('phoneError').textContent = ''; // Clear any previous error message
+    }
+});
 
   
   

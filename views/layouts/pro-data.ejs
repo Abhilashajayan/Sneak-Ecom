@@ -1,5 +1,5 @@
 
-<div id="products" class="content bg-light">
+<div id="products" class="content ">
     <section class="col py-3 " id="products-sec"  style="display: none;">
       <h3 class="ms-4">Products</h3>
       <div class=" ms-3 ">
@@ -39,6 +39,7 @@
             <th scope="col">DISCOUNT</th>
             <th scope="col">ACTIVE</th>
             <th scope="col">ACTION</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <% productData.forEach((user, index) => { %>
@@ -124,6 +125,9 @@
                 <input type="file" id="productImages" name="productImages" class="form-control" multiple>
                 <small class="text-muted">(Only *.jpg, *.jpeg, *.png and *.webp images are accepted)</small>
               </div>
+              <div id="imagePreview" class="mb-4">
+                <!-- Image previews will be displayed here -->
+            </div>
               <!-- product title -->
               <div class="mb-4">
                 <label for="productTitle" class="form-label">Product Title</label>

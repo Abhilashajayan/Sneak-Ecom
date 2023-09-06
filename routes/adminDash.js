@@ -12,7 +12,8 @@ router.get('/admin-dashboard',myMiddleware, adminDatas.dashboards);
 router.get('/api/users/:userID', adminDatas.adminEditPrt);
 router.get('/category/:categoryName', adminDatas.cataCheck)
 router.get('/getCoupon/:coupID',adminDatas.editCoupon);
-
+router.get('/logouts', adminDatas.adlogout);
+router.get('/salesReportManagement', adminDatas.salesReportManagement);
 // post method
 router.post('/admin-Login', adminDatas.adminLogin);
 router.post('/admin-add-product', upload.array("productImages"), adminDatas.imageAdd);
@@ -22,7 +23,8 @@ router.post('/add-category', adminDatas.addCatagory);
 router.post('/api/return-requests/:returnId', adminDatas.returnReq)
 router.post('/addCoupon', adminDatas.coupenCode);
 router.post('/editCoupon', adminDatas.postCoponEdit);
-router.get('/salesReportManagement', adminDatas.salesReportManagement);
+
+
 // put method
 router.put('/updateDeliveryStatus/:orderId', adminDatas.changeSts);
 

@@ -557,6 +557,12 @@ const salesReportManagement = (req, res) => {
 };
 
 
+const adlogout = async (req, res) => {
+
+  res.clearCookie('adminJwt');
+
+  res.redirect("/admin-Login")
+};
 
 module.exports = {
     adminLog,
@@ -577,5 +583,6 @@ module.exports = {
     deleteCoupon,
     editCoupon,
     postCoponEdit,
-    salesReportManagement
+    salesReportManagement,
+    adlogout
 }

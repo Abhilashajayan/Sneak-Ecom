@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(data);
   
         const productImg = document.getElementById('productImage');
+        const productImgs = document.getElementById('nn');
         const productTitle = document.getElementById('productTitles');
         const userIds = document.getElementById('userId');
         const productPriz = document.getElementById('productPrices');
@@ -74,9 +75,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const cloud = document.getElementById('cloud_id');
         const productCategory = document.getElementById('productCategory');
         const datass = data.productImages[0];
+        const datasss = data.productImages[1];
         const imgData = datass.secure_url;
+        const imgDatas = datasss.secure_url;
         console.log(imgData);
-        
+        productImgs.src = imgDatas;
         productImg.src = imgData ;
         cloud.value = data.productImages[0].cloudinary_id;
         console.log(cloud.value);

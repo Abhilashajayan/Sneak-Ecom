@@ -16,6 +16,14 @@
     <link href="path/to/bootstrap.min.css" rel="stylesheet"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
+  <style>
+    /* Style for the image previews */
+    .preview-image {
+        max-width: 100px; /* Adjust the maximum width as needed */
+        max-height: 100px; /* Adjust the maximum height as needed */
+        margin-right: 10px; /* Add margin between images */
+    }
+</style>
 <body>
   <nav class="navbar navbar-light ">
     <div class="container-fluid">
@@ -69,6 +77,22 @@
   });
 
  
+
+  const productImagesInput = document.getElementById('productImages');
+    const imagePreview = document.getElementById('imagePreview');
+    productImagesInput.addEventListener('change', function () {
+
+        imagePreview.innerHTML = '';
+
+        for (const file of productImagesInput.files) {
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.classList.add('preview-image');
+                imagePreview.appendChild(img);
+            }
+        }
+    });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-xx8mTjPwAQh65+gJxR4NTPHQEZ7LODm4Q5OrOTMmLsftrHY2Cb1f3X2sf1xs1eaC" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
