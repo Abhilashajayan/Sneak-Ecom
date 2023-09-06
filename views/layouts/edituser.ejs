@@ -48,6 +48,14 @@
               <label for="stock" class="form-label">Stock</label>
               <input type="number" id="stocks" name="stock" placeholder="Stock" class="form-control">
             </div>
+            <div class="mb-3">
+              <label for="isFeatured" class="form-label">Is Featured?</label>
+              <select class="form-select" id="isFeatured" name="isListed" required>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
                 <button type="submit" form="editProductForm" class="btn btn-primary">SAVE CHANGES</button>

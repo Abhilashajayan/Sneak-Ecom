@@ -17,12 +17,24 @@ const adminLog = (req,res) =>{
 }
 
 const dashboards = async (req,res) =>{
+  const itemsPerPage = 6;
+  const page = parseInt(req.query.page) || 1;
+  const skip = (page - 1) * itemsPerPage;
+
+  const itemsPerPages = 6;
+  const pages = parseInt(req.query.page) || 1;
+  const skips = (pages - 1) * itemsPerPages;
 
     try{
-        const productData = await Product.find({}, {} );
+      const orderData = await Order.find().skip(skip).limit(itemsPerPage);
+      const productData = await Product.find().skip(skips).limit(itemsPerPages);
+      const totalUsers = await Order.countDocuments();
+      const totalUserss = await Product.countDocuments();
+      const totalOrderPages = Math.ceil(totalUsers / itemsPerPage);
+      const totalOrderPagess = Math.ceil(totalUserss / itemsPerPages);
         const categoryData = await Cata.find({},{});
         const userData = await User.find({},{});
-        const orderData = await Order.find({});
+        // const orderData = await Order.find({});
         const Return = await Returns.find({},{});
         const CoupenData = await Coupon.find({},{});
         const totalProducts = await Product.countDocuments();
@@ -122,12 +134,13 @@ const dashboards = async (req,res) =>{
 
              req.session.salesReportData = [totalOrders,totalSaless,todaysOrders];
              console.log(req.session.salesReportData);
-             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return,weeklySales,dailyOrdersCountLastSevenDays,CoupenData});
+             res.render('adminLog/dashboard',{productData,userData,categoryData,orderData,totalProducts,totalOrders,totalSales,todaysOrders,dailySales,recentOrders,Return,weeklySales,dailyOrdersCountLastSevenDays,CoupenData,totalOrderPages,currentPage:page, totalOrderPagess ,currentPages:pages});
     }catch(err){
         console.log(err);
     
 }
 }
+
 
 const adminLogin = async (req,res) =>{
     try{
@@ -155,6 +168,8 @@ const adminLogin = async (req,res) =>{
       console.log(e);
  }
 }
+
+
 const imageAdd =  async (req, res) => {
     try {
       const files = req.files;
@@ -258,8 +273,8 @@ const updateData = async (req, res) => {
       }
     }
 
-    const { productTitle, productPrice, discount, stock } = req.body;
-    const updateFields = { productTitle, productPrice, discount, stock };
+    const { productTitle, productPrice, discount, stock , isListed  } = req.body;
+    const updateFields = { productTitle, productPrice, discount, stock, isListed };
 
     const existingProduct = await Product.findOne({ _id: userId });
 

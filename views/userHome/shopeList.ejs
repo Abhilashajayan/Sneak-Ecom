@@ -104,8 +104,10 @@
                         <li class="icon"><span class="fas fa-shopping-bag"></span></li>
                     </ul>
                 </div>
-                <div class="tag bg-red">Best Selling</div>
-                <div class="title pt-4 pb-1"><%= user.productTitle %></div>
+                <% if (user.discount > 0) { %>
+                <div class="tag bg-red"><%= user.discount %>%off</div>
+                <% } %>
+                <div class="title pt-4 pb-1"><a class="text-secondary" href="/product-Selection/<%= user._id %>" style="text-decoration: none;"><%= user.productTitle %></a></div>
                 <div class="d-flex align-content-center justify-content-center"> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> </div>
                 <div class="price">$ <%= user.productPrice %>.0</div>
             </div>
@@ -113,9 +115,12 @@
         </div>
     </div>
     <div class="d-flex justify-content-center align-items-center">
-        <button class="btn  btn-dark">Load More</button>
-   </div>
+        <a href="?page=<%= currentPage + 1 %>" class="btn btn-dark" id="loadMoreButton">Load More</a>
+    </div>
+     
+    
 
+   <%- include('../partials/footer') %>
    <script>
  
         const productContainer = document.getElementById('productContainer');
@@ -256,6 +261,7 @@
                             console.error('Fetch error:', error);
                         }
                     }
+
 
 
 

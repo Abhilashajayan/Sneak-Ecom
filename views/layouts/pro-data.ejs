@@ -59,7 +59,14 @@
             
             
             <td><%= user.discount %></td>
-            <td>Yes</td>
+            <td>
+              <% if (user.isListed) { %>
+                <span class="badge bg-success">Yes</span>
+              <% } else { %>
+                <span class="badge bg-danger">No</span>
+              <% } %>
+            </td>
+            
             <td> <button type="submit" class="btn"  >
               <i class="fa-solid fa-trash-can fa-lg" onclick="editUsers('<%= user._id %>')" style="color: #41c8b8;"></i>
             </button>
@@ -75,6 +82,29 @@
         </tbody>
         <% }) %>  
       </table>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <% if (currentPages > 1) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPages - 1 %>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+          <% } %>
+          <li class="page-item disabled">
+            <span class="page-link">Page <%= currentPages %> of <%= totalOrderPagess %></span>
+          </li>
+          <% if (currentPages < totalOrderPagess) { %>
+            <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPages + 1 %>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+          <% } %>
+        </ul>
+      </nav>
     </section>
     
   </div>

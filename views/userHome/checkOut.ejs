@@ -316,12 +316,24 @@
                                 <p class="mb-2">Total price:</p>
                                 <p class="mb-2 fw-bold" id="finalAmts">$0.00</p>
                             </div>
+                            <% let hasDiscount = false; %>
 
-                            <div class="input-group mt-3 mb-4">
+                            <% cartItems.forEach((user, index) => { %>
+                              <% if (user.product.discount > 0) { %>
+                                <% hasDiscount = true; %>
+                              <% } %>
+                            <% }) %>
+                            
+                            <% if (!hasDiscount) { %>
+                              <div class="input-group mt-3 mb-4">
                                 <input type="text" class="form-control border" id="promoCodeInput" name="code" placeholder="Promo code" />
                                 <button class="btn btn-light text-primary border" id="applyButton">Apply</button>
                               </div>
-                              
+                            <% } else { %>
+                                <div class="input-group mt-3 mb-4">
+                                    <h5 class="badge bg-secondary">Discount Applied</h5>
+                                  </div>
+                                <% } %>
                             <hr/>
                             <h6 class="text-dark my-4">Items in cart</h6>
                             <% cartItems.forEach((user, index) => { %>
@@ -340,9 +352,15 @@
 
                                         <div class="product">
                                             <div class="price text-muted">Total:
-                                                <span class="total-price"><%= user.product.productPrice *  user.quantity %></span>
+                                              <span class="total-price">
+                                                <% if (user.product.discount && user.product.discount > 0) { %>
+                                                  <%= (user.product.productPrice - (user.product.productPrice * (user.product.discount / 100))) * user.quantity %>
+                                                <% } else { %>
+                                                  <%= user.product.productPrice * user.quantity %>
+                                                <% } %>
+                                              </span>
                                             </div>
-                                        </div>
+                                          </div>                                          
                                     </div>
                                 </div>
                             <% }) %>
@@ -356,7 +374,7 @@
         </section>
 
         <!-- Footer -->
-
+        <%- include('../partials/footer') %>
         <!-- Footer -->
         <script src="javascripts/check.js"></script>
 

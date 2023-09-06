@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered and Small 404 Animation</title>
+    
+    <!-- Bootstrap CSS (you may need to adjust the path) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <style>
+        /* Center the page content */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        
+        /* Style the Lottie player container */
+        .lottie-container {
+            max-width: 700px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center">
+        <div class="lottie-container">
+            <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+            <!-- Reduce the size of the animation by specifying width and height -->
+            <lottie-player 
+                src="https://lottie.host/76c5530a-402b-449d-97e0-e895546cf66b/M75UGr6SDB.json" 
+                background="transparent" 
+                speed="1" 
+                loop 
+                autoplay
+                width="40px"
+                height="40px"
+            ></lottie-player>
+        </div>
+    </div>
+    <a href="/" class="btn btn-lg btn-secondary back-button">Back</a>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

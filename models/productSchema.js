@@ -12,6 +12,7 @@ const productSchema = mongoose.Schema({
   discount: { type: Number },
   stock: { type: Number, required: true },
   productCategory: { type: String , required: true},
+  isListed: { type: Boolean, default: true },
 },{collection : 'products'});
 
 module.exports = mongoose.model('Product', productSchema);

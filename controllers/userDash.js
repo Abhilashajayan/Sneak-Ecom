@@ -9,7 +9,7 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 require('dotenv').config();
 const PDFDocument = require('pdfkit');
-const fs = require('fs');
+const fs = require('fs');       
 const Coupon  = require('../models/couponSchema');
 const jwt = require('jsonwebtoken');
 
@@ -19,12 +19,17 @@ const instance = new Razorpay({
   key_secret: process.env.RAZOR_SECRET,
 });
 
+
 const userHome = async (req, res)=>{
     try{
-        const userData = await Product.find({}, {} );
-        const cartItems = await Cart({},{});
-        console.log(cartItems.length)
-        res.render('userHome/userHome',{ userData , cartItems });
+        const userData = await Product.find({ isListed: true });
+        const cartItems = await Cart.find({},{});
+        let cartLength = 0;
+        if (cartItems.length > 0 && cartItems[0].cartItems) {
+          cartLength = cartItems[0].cartItems.length;
+        }
+        console.log(cartLength, "the length");
+        res.render('userHome/userHome',{ userData , cartItems , cartLength });
     }
  
         catch(err){
@@ -38,8 +43,11 @@ const productData = async (req, res) => {
       const productId = req.params.userId;
       const products = await Product.findById(productId);
       const cartItems = await Cart({},{});
-      console.log(cartItems.length)
-      res.render('userHome/addToCart',{products , cartItems});
+      let cartLength = 0;
+        if (cartItems.length > 0 && cartItems[0].cartItems) {
+          cartLength = cartItems[0].cartItems.length;
+        }
+      res.render('userHome/addToCart',{products , cartItems ,cartLength});
       if (!products) {
         res.redirect('/404')
       }
@@ -54,9 +62,19 @@ const productData = async (req, res) => {
 
 const shopPage = async (req, res) => {
   try{
-  const userData = await Product.find({}, {} );
+    
+    let ITEMS_PER_PAGE = 4;
+    const page = parseInt(req.query.page) || 1; 
+    ITEMS_PER_PAGE += (page - 1) * 4;
+    const userData = await Product.find({ isListed: true })
+      .limit(ITEMS_PER_PAGE);
+  const cart = await Cart.find({},{});
   const cartItems = await cata.find({},{});
-  res.render('userHome/shopeList',{ userData, cartItems });
+  let cartLength = 0;
+    if (cart.length > 0 && cart[0].cartItems) {
+      cartLength = cart[0].cartItems.length;
+    }
+  res.render('userHome/shopeList',{ userData, cartItems, cartLength , currentPage:page });
 }
   
 catch(err){
@@ -77,16 +95,23 @@ catch(err){
 const productCart = async (req, res) => {
   try {
     const userId = req.userId;
+    const cart = await Cart.find({},{});
     const userCart = await Cart.findOne({ user: userId }).populate({
       path: "cartItems.product",
       model: "Product"
     });
+    let cartLength = 0;
+    if (cart.length > 0 && cart[0].cartItems) {
+      cartLength = cart[0].cartItems.length;
+    }
+    
     if (!userCart) {  
       res.redirect('/empty-Cart');
     }
+
     const cartItems = userCart.cartItems;
     console.log(cartItems,"cartItems");
-    res.render('userHome/productCart', { cartItems });
+    res.render('userHome/productCart', { cartItems , cartLength });
   } catch (err) {
     console.error(err);
     
@@ -210,6 +235,7 @@ const editAddress = async (req, res) => {
 
 const addToCart = async (req, res) => {
   const { productId ,quantity } = req.body;
+  
   console.log(quantity,"the quantity");
   console.log(productId,"the product id");
   const userId = req.userId;
@@ -291,16 +317,20 @@ const checkOut = async(req, res) => {
     path: "cartItems.product",
     model: "Product"
   });
+  if (!userCart) {
+    res.render('animation/404');
+    return; 
+  }
   const cartItems = userCart.cartItems;
-
+ 
+  console.log(cartItems.productTitle, "the data");
   const user = await User.findOne({ _id: userId }, { addresses: 1 });
   if (user) {
     const add = user.addresses;
-   
     // console.log(add[0].name);
     res.render('userHome/checkout', { cartItems ,add, user });
   } else {
-    console.log('User not found');
+    res.render('animation/404');
   }
  
 };
@@ -492,9 +522,6 @@ const orderData = async (req, res) => {
 };
 
 
-
-
-
 const animation = async (req , res) => {
   res.render('animation/tick');
 }
@@ -618,7 +645,8 @@ const verifyPayment = async (req, res) => {
       console.log('payment failed');
     }
   
-  }
+}
+
 
 const SearchProduct = async (req , res )  => {
   try {
@@ -698,6 +726,8 @@ function generateFooter(doc) {
 		{ align: 'center', width: 500 },
 	);
 }
+
+
 const invoiceDownload = async (req, res) => {
   const { orderId } = req.body;
   console.log("Invoice", orderId);

@@ -27,8 +27,12 @@ router.get('/SearchProduct/:inputField',userDas.SearchProduct);
 router.get('/404',userDas.notfound);
 router.get('/logout',authMiddleware,userDas.logout);
 router.get('/checkCoupon/:promoCode',authMiddleware,userDas.couponCheck);
-router.post('/Invoice',userDas.invoiceDownload);
+router.get('/loadMore/:page',authMiddleware,userDas.shopPage);
+
 //post methods
+
+router.post('/Invoice',userDas.invoiceDownload);
+
 router.post('/signup',signinCont.userRegister);
 router.post('/verify-email',mailerAuth.registerMail); 
 router.post('/otp-validate',mailerAuth.otpVerify);
