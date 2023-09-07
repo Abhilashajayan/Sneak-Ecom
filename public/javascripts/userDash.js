@@ -298,4 +298,42 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
   
+document.addEventListener("DOMContentLoaded", function () {
+    const cameraIcon = document.getElementById('cameraIcon');
+
+    cameraIcon.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.style.display = 'none';
+        document.body.appendChild(input);
+
+        input.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const formData = new FormData();
+            formData.append('userImage', file);
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Server response:', data);
+                } else {
+                    console.error('Error uploading image:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            } finally {
+                // Clean up the input element
+                document.body.removeChild(input);
+            }
+        });
+
+        input.click();
+    });
+});
   

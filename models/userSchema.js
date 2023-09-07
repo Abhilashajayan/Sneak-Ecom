@@ -13,6 +13,10 @@ const userSchema = mongoose.Schema({
     type:String,
     trim: true,
   },
+  userImage: {
+    secure_url: { type: String },
+    cloudinary_id: { type: String },
+  },
 
   status :{
     type: Boolean

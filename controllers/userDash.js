@@ -7,6 +7,8 @@ const OrderReturn = require('../models/returnSchema');
 const Wallet = require('../models/walletSchema');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
+const cloudinary = require("../services/cloudinary");
+const upload = require("../services/multer");
 require('dotenv').config();
 const PDFDocument = require('pdfkit');
 const fs = require('fs');       
@@ -784,6 +786,31 @@ const contactUS = (req, res) => {
 
 
 
+const userImageAdd = async (req, res) => {
+  try {
+    result = await cloudinary.uploader.upload(req.file.path);
+
+    const userId = req.userId; 
+    const user = await User.findById(userId);
+    console.log(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.userImage = {
+      secure_url: result.secure_url,
+      cloudinary_id: result.public_id,
+    };
+    await user.save();
+
+    res.json({ message: 'User profile image uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+};
+
+
 module.exports = {
     userHome,
     productData,
@@ -809,6 +836,7 @@ module.exports = {
     logout,
     couponCheck,
     invoiceDownload,
-    contactUS
+    contactUS,
+    userImageAdd
     
 }

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const signinCont = require('../controllers/user.signin');
 const mailerAuth = require('../controllers/mailer');
+const upload = require("../services/multer");
 const userDas = require('../controllers/userDash');
 const authMiddleware = require('../middleware/authMiddleware');
 
@@ -32,7 +33,7 @@ router.get('/contact',authMiddleware,userDas.contactUS);
 //post methods
 
 router.post('/Invoice',userDas.invoiceDownload);
-
+router.post('/upload',authMiddleware, upload.single('userImage'), userDas.userImageAdd);
 router.post('/signup',signinCont.userRegister);
 router.post('/verify-email',mailerAuth.registerMail); 
 router.post('/otp-validate',mailerAuth.otpVerify);

@@ -84,7 +84,7 @@ const inputs = document.querySelectorAll('input[type="text"]');
   
       if (resendButton) {
           resendButton.addEventListener("click", function() {
-              var email = document.getElementById('email').value;  // Replace with the actual email
+              var email = document.getElementById('email').value;  
               var xhr = new XMLHttpRequest();
               xhr.open("POST", "/verify-email", true);
               xhr.setRequestHeader("Content-Type", "application/json");
