@@ -22,7 +22,7 @@ const instance = new Razorpay({
 
 const userHome = async (req, res)=>{
     try{
-        const userData = await Product.find({ isListed: true });
+        const userData = await Product.find({}).sort({ createdAt: -1 }).limit(8);
         const cartItems = await Cart.find({},{});
         let cartLength = 0;
         if (cartItems.length > 0 && cartItems[0].cartItems) {
@@ -778,7 +778,9 @@ const invoiceDownload = async (req, res) => {
   }
 };
 
-
+const contactUS = (req, res) => {
+  res.render('userHome/contact');
+}
 
 
 
@@ -806,6 +808,7 @@ module.exports = {
     filterData,
     logout,
     couponCheck,
-    invoiceDownload
+    invoiceDownload,
+    contactUS
     
 }
