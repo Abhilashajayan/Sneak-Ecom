@@ -118,7 +118,8 @@
             <h1 class="modal-title font-semibold text-2xl">Add Product</h1>
           </div>
           <div class="modal-body">
-            <form action="/admin-add-product" method="post" enctype="multipart/form-data">
+            <div id="error-message" style="color: red;"></div>
+            <form action="/admin-add-product" method="post" id="ProForm" enctype="multipart/form-data">
               <!-- images simple upload -->
               <div class="mb-4">
                 <label for="productImages" class="form-label">Product Images</label>
@@ -162,7 +163,7 @@
                 <input type="number" required id="stock" name="stock"  placeholder="Stock" class="form-control">
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">ADD PRODUCT</button>
+                <button type="submit" id="addProBtn" class="btn btn-primary">ADD PRODUCT</button>
                 <button id="cancelModalBtn" type="reset" class="btn btn-secondary">CANCEL</button>
               </div>
             </form>

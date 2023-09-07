@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //       }
     // });
 
-    const form = document.getElementById('editProductForm');
+const form = document.getElementById('editProductForm');
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -232,8 +232,16 @@ tdElements.forEach((tdElement, index) => {
 const inputField = document.getElementById("categoryName");
 const sub = document.getElementById("categoryForm");
 const resultDiv = document.getElementById("result");
+const submitButton = document.getElementById("cataButton");
 inputField.addEventListener("input", async function() {
   const inputValue = inputField.value;
+  if (!isValidInput(inputValue)) {
+    resultDiv.textContent = "Invalid input. Please use only alphanumeric characters.";
+    resultDiv.style.color = "red";
+    submitButton.disabled = true; 
+  } else {
+    submitButton.disabled = false; 
+  }
 
   try {
     const response = await fetch(`/category/${encodeURIComponent(inputValue)}`);
@@ -251,6 +259,9 @@ inputField.addEventListener("input", async function() {
     console.error("Fetch error:", error);
   }
 });
+function isValidInput(input) {
+  return input.length >= 3 && /^[A-Za-z0-9]+$/.test(input);
+}
 
 sub.addEventListener("submit", function(event) {
   if (resultDiv.textContent === 'Category exists in the database.') {
@@ -437,4 +448,45 @@ async function editCoup(coupID) {
   } catch (error) {
     console.error('Error:', error);
   }
+}
+
+
+const forms = document.querySelector('#ProForm');
+const errorMessageDiv = document.getElementById('error-message'); // Get the error message div
+
+forms.addEventListener('input', (event) => {
+  const productTitle = document.getElementById('productTitle').value;
+  const productPrice = document.getElementById('productPrice').value;
+  const discount = document.getElementById('discount').value;
+  const stock = document.getElementById('stock').value;
+  const btn   = document.getElementById('addProBtn');
+  let errorMessage = '';
+
+  if (!isValidInput(productTitle)) {
+    errorMessage += 'Invalid input in Product Title field. ';
+  }
+
+  if (!isValidInput(productPrice)) {
+    errorMessage += 'Invalid input in Product Price field. ';
+  }
+
+  if (!isValidInput(discount)) {
+    errorMessage += 'Invalid input in Discount field. ';
+  }
+
+  if (!isValidInput(stock)) {
+    errorMessage += 'Invalid input in Stock field. ';
+  }
+
+  if (errorMessage) {
+    btn.disabled = true;
+    errorMessageDiv.textContent = errorMessage; 
+  }else{
+    errorMessageDiv.textContent = " ";
+    btn.disabled = false;
+  }
+});
+
+function isValidInput(input) {
+  return /^[A-Za-z0-9\s]+$/.test(input);
 }
