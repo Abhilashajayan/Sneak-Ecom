@@ -49,6 +49,6 @@ router.post('/return-request/:orderId',authMiddleware,userDas.returnRequest);
 router.post('/orders/:orderId/cancel',authMiddleware,userDas.cancelRequest);
 router.post('/verify-payment',authMiddleware,userDas.verifyPayment);
 router.post('/filterData',userDas.filterData);
-
+router.post('/address/:addressId',authMiddleware,userDas.userDelete);
 
 module.exports = router;

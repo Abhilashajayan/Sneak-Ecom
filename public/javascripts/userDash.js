@@ -337,3 +337,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
   
+
+
+document.querySelectorAll('.delete-button').forEach(button => {
+    button.addEventListener('click', (event) => {
+        const addressId = event.target.getAttribute('data-addresss-id');
+        console.log(addressId);
+        deleteAddress(addressId);
+    });
+});
+
+function deleteAddress(addressId) {
+    fetch(`/address/${addressId}`, {
+        method: 'POST',
+    })
+    .then(response => {
+        if (response.ok) {
+            const cardToDelete = document.querySelector(`[data-address-id="${addressId}"]`).closest('.address-card');
+            cardToDelete.remove();
+        } else {
+            console.error('Error deleting address');
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+    });
+}

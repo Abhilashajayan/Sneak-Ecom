@@ -17,6 +17,9 @@
                         <div class="card-header">
                             Shipping Address
                             <button class="btn btn-dark  edit-button d-flex justify-content-end" data-bs-toggle="modal" data-address-id="<%= address._id %>" data-bs-target="#editAddressModal">Edit</button>
+                            <button class="btn btn-danger delete-button ms-auto d-flex justify-content-end" data-addresss-id="<%= address._id %>">
+                                <i class="fas fa-trash"></i> 
+                            </button>
                         </div>
                        
                         <div class="card-body">
