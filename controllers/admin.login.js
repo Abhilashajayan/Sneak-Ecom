@@ -180,14 +180,19 @@ const imageAdd =  async (req, res) => {
           cloudinary_id: result.public_id
         };
       })); 
-      
+
+      const selectedSizes = req.body.sizes; // Retrieve the selected sizes directly from req.body
+
+      console.log('Selected Sizes:', selectedSizes);
+     
       let products = new Product({
         productImages: uploadedImages ,
         productTitle: req.body.productTitle,
         productPrice: req.body.productPrice,
         discount: req.body.discount,
         stock: req.body.stock,
-        productCategory:req.body.productCategory
+        productCategory:req.body.productCategory,
+        sizes: selectedSizes
       });
       await products.save();
       res.status(200)
