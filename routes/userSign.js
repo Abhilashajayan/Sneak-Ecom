@@ -30,6 +30,7 @@ router.get('/logout',authMiddleware,userDas.logout);
 router.get('/checkCoupon/:promoCode',authMiddleware,userDas.couponCheck);
 router.get('/loadMore/:page',authMiddleware,userDas.shopPage);
 router.get('/contact',authMiddleware,userDas.contactUS);
+router.get('/showOrder/:orderId',authMiddleware,userDas.showOrder);
 //post methods
 
 router.post('/Invoice',userDas.invoiceDownload);

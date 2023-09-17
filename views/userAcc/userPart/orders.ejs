@@ -96,7 +96,9 @@
                                  
                                   <% } %>
                               </td>
-                             
+                             <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exa" onclick="showOrder('<%= order._id %>')" >
+                              <i class="fa fa-info"></i>
+                            </button></td>
                            </tr>
                         <% }); %>
                     </tbody>
@@ -108,5 +110,31 @@
       <button class="btn btn-primary hBack d-md-none" type="button">Button</button>
 </section>
 
-  
+<div class="modal fade " id="exa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" >Order Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Order ID:</strong> <span id="ordID"></span></p>
+        <p><strong>Product ID:</strong> <span id="prdID"></span></p>
+        <p><strong>Product Title:</strong> <span id="prdTitle"></span></p>
+        <p><strong>Size:</strong> <span id="ss"></span></p>
+        <p><strong>Quantity:</strong> <span id="Qty"></span></p>
+        <p><strong>Total:</strong> <span id="Ttl"></span></p>
+        <p><strong>Payment:</strong> <span id="pymt"></span></p>
+        <div id="imageShow" class="mb-4">
+          <img id="productImage" src="" alt="Product Image" class="img-fluid img-thumbnail" style="max-width: 50px; max-height: 50px;">
+        </div>
+        
+        
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 

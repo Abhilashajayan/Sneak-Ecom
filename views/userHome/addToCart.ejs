@@ -125,13 +125,8 @@
 
 function selectSize(size) {
   selectedSize = size;
-  document.getElementById('selectedSize').value = size; // Set the selected size in the hidden input field
-  document.getElementById('selectedSizeDisplay').textContent = "Selected Size: " + size; // Update the display
+  document.getElementById('selectedSize').value = size; 
 }
-if (!selectedSize) {
-      alert("Please choose one size");
-      return; 
-    }
         const imageContainer = document.querySelector('.image-container');
         const zoomImage = imageContainer.querySelector('.zoom-image');
 

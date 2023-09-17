@@ -127,6 +127,7 @@ const userDash = async (req, res) => {
     const userId = req.userId;
     const walletData = await Wallet.findOne({ userId: userId });
     const userData = await User.findById(userId);
+    console.log(userData,"hfdhfad");
     const orders = await Order.find({ user: userId })
  
     .select('items.productTitle createdOn status totalAmount') 
@@ -449,7 +450,8 @@ const orderData = async (req, res) => {
     const cartItems = userCart.cartItems.map((item) => ({
       productId: item.product._id,
       quantity: item.quantity,
-      price: item.product.productPrice
+      price: item.product.productPrice,
+      size: item.size
     }));
 
     const order = new Order({
@@ -838,6 +840,46 @@ const userDelete = async (req, res) => {
   }
 };
 
+const showOrder = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const order = await Order.findById(orderId).populate('items.productId');
+    
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    // Extract product information from the populated items
+    const orderWithProductInfo = {
+      _id: order._id,
+      user: order.user,
+      items: order.items.map(item => ({
+        productId: item.productId._id,
+        quantity: item.quantity,
+        price: item.price,
+        size: item.size,
+        productTitle: item.productId.productTitle, 
+        productImage: item.productId.productImages, 
+      })),
+      shippingAddress: order.shippingAddress,
+      paymentMethod: order.paymentMethod,
+      shippingCharge: order.shippingCharge,
+      subtotals: order.subtotals,
+      totalAmount: order.totalAmount,
+      createdOn: order.createdOn,
+      status: order.status,
+      deliveredOn: order.deliveredOn,
+      razorpayOrderId: order.razorpayOrderId,
+    };
+
+    res.json(orderWithProductInfo);
+  } catch (error) {
+    console.error('Error fetching order:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 
 module.exports = {
     userHome,
@@ -866,5 +908,6 @@ module.exports = {
     invoiceDownload,
     contactUS,
     userImageAdd,
-    userDelete
+    userDelete,
+    showOrder
 }

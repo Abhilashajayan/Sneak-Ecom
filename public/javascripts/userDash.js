@@ -363,3 +363,37 @@ function deleteAddress(addressId) {
         console.error('Fetch error:', error);
     });
 }
+
+
+
+
+async function showOrder(orderId) {
+    try {
+        console.log('Clicked button with address ID:', orderId);
+        const response = await fetch(`/showOrder/${orderId}`, {
+            method: 'GET',
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        
+        document.getElementById('ordID').textContent = data._id;
+        document.getElementById('prdID').textContent = data.items[0].productId; 
+        document.getElementById('prdTitle').textContent = data.items[0].productTitle;
+        document.getElementById('ss').textContent = data.items[0].size; 
+        document.getElementById('Qty').textContent = data.items[0].quantity;
+        document.getElementById('Ttl').textContent = data.subtotals;
+        document.getElementById('pymt').textContent = data.paymentMethod;
+
+        let im = document.getElementById('productImage')
+        im.src = data.items[0].productImage[0].secure_url;
+        
+       
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
