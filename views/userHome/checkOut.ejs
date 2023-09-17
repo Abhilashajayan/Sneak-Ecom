@@ -300,7 +300,7 @@
                             <h6 class="mb-3">Summary</h6>
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Total price:</p>
-                                <p class="mb-2" id="totalAmount">$0.00</p>
+                                <p class="mb-2" id="totalAmount">₹0.00</p>
                             </div>
                             <!-- <div class="d-flex justify-content-between">
                                               <p class="mb-2">Discount:</p>
@@ -308,13 +308,13 @@
                                             </div> -->
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Shipping cost:</p>
-                                <p class="mb-2" id="shippingCost">+ $0.00</p>
+                                <p class="mb-2" id="shippingCost">+ ₹0.00</p>
                             </div>
 
                             <hr/>
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Total price:</p>
-                                <p class="mb-2 fw-bold" id="finalAmts">$0.00</p>
+                                <p class="mb-2 fw-bold" id="finalAmts">₹0.00</p>
                             </div>
                             <% let hasDiscount = false; %>
 
@@ -347,6 +347,10 @@
                                     <div class="">
                                         <a href="#" class="nav-link">
                                             <%= user.product.productTitle %>
+
+                                        </a>
+                                        <a href="#" class="nav-link text-secondary" style="text-decoration: none;">
+                                           Size : <%= user.size %>
 
                                         </a>
 

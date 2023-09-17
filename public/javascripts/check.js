@@ -14,7 +14,7 @@ const totalPrice = parseFloat(totalPriceElement.textContent.trim());
 totalAmount += totalPrice;
 });
 const totalAmountElement = document.getElementById('totalAmount');
-totalAmountElement.textContent = '$' + totalAmount.toFixed(2); 
+totalAmountElement.textContent = '₹' + totalAmount.toFixed(2); 
 let totAmy = document.getElementById('total');
 totAmy.value = totalAmount;
 
@@ -83,7 +83,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         };
         
 
-        shippingCostElement.textContent = `+ $${shippingCosts[selectedShippingMethod].toFixed(2)}`;
+        shippingCostElement.textContent = `+ ₹${shippingCosts[selectedShippingMethod].toFixed(2)}`;
         let shippingCost = document.getElementById('del');
         shippingCost.value  = `${shippingCosts[selectedShippingMethod]}`;
 
@@ -97,7 +97,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         let subtotal = document.getElementById('subtotal');
         subtotal.value = newTotalAmt;
         const totalAmt = document.getElementById('finalAmts');
-        totalAmt.textContent = `$${newTotalAmt.toFixed(2)}`;
+        totalAmt.textContent = `₹${newTotalAmt.toFixed(2)}`;
 
     });
 

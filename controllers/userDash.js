@@ -236,7 +236,7 @@ const editAddress = async (req, res) => {
 
 
 const addToCart = async (req, res) => {
-  const { productId ,quantity } = req.body;
+  const { productId ,quantity, selectedSize } = req.body;
   
   console.log(quantity,"the quantity");
   console.log(productId,"the product id");
@@ -251,6 +251,7 @@ const addToCart = async (req, res) => {
     const cartItem = {
       product: productId,
       quantity: quantity,
+      size: selectedSize
     };
     let userCart = await Cart.findOne({ user: userId });
 

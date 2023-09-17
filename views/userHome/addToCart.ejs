@@ -63,7 +63,7 @@
                 </div>
       
                 <div class="mb-3">
-                  <span class="h5">$<%= products.productPrice %></span>
+                  <span class="h5">₹<%= products.productPrice %></span>
                   <span class="text-muted">/per pair</span>
                 </div>
       
@@ -80,9 +80,16 @@
                
       
                 <div class="row mb-1 mt-3">
-                  <div class="col-md-12 col-6">
-                    <div class="col-xs-6" > <span class="product_options">Size</span><br> <button class="btn btn-outline-dark btn-md">7</button> <button class="btn btn-outline-dark btn-md ml-2">8</button> <button class="btn btn-outline-dark btn-md ml-2  border-1">9</button> </div>
-                  </div>
+                  <% if (products.sizes) { %>
+                    <div class="col-md-12 col-6">
+                      <div class="col-xs-6">
+                        <span class="product_options">Size</span><br>
+                        <% products.sizes.forEach(function(size) { %>
+                          <button class="btn btn-outline-dark btn-md" onclick="selectSize('<%= size %>')"><%= size %></button>
+                        <% }); %>
+                      </div>
+                    </div>
+                  <% } %>
                   <br>
                   <!-- col.// -->
                   <div class="col-md-12 col-6 mb-2 ">
@@ -114,6 +121,17 @@
 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
       <script>
+         let selectedSize = null;
+
+function selectSize(size) {
+  selectedSize = size;
+  document.getElementById('selectedSize').value = size; // Set the selected size in the hidden input field
+  document.getElementById('selectedSizeDisplay').textContent = "Selected Size: " + size; // Update the display
+}
+if (!selectedSize) {
+      alert("Please choose one size");
+      return; 
+    }
         const imageContainer = document.querySelector('.image-container');
         const zoomImage = imageContainer.querySelector('.zoom-image');
 
@@ -140,13 +158,14 @@
         
         const productId = document.getElementById('productId').value;
         const quantity = document.getElementById('quantity').value
+
         console.log(productId);
         fetch(`/add-to-cart`,{
             method: 'POST',
             headers:{
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({productId,quantity})
+            body: JSON.stringify({productId,quantity, selectedSize})
         })
 
     })

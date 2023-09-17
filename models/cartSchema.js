@@ -18,6 +18,10 @@ const cartSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
+        size: {
+          type: Number,
+          required: true,
+        },
       },
     ],
     // coupon: {

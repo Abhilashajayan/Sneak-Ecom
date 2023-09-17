@@ -30,7 +30,7 @@
                     <div class="mr-1"><img class="rounded" src="<%= user.product.productImages[0].secure_url %>" width="70"></div>
                     <div class="d-flex flex-column align-items-center product-details"><span class="font-weight-bold"><%= user.product.productTitle %></span>
                         <div class="d-flex flex-row product-desc">
-                            <div class="size mr-1"><span class="text-grey">Size:</span><span class="font-weight-bold">&nbsp;M</span></div>
+                            <div class="size mr-1"><span class="text-grey">Size:</span><span class="font-weight-bold"><%= user.size %></span></div>
                             <div class="color"><span class="text-grey">Color:</span><span class="font-weight-bold">&nbsp;Grey</span></div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                             <!-- ... other HTML content ... -->
                         </div>
                     <div>
-                        <h5 class="text-grey price" >$<%= user.product.productPrice %></h5>
+                        <h5 class="text-grey price" >₹<%= user.product.productPrice %></h5>
                     </div>
                     <div class="d-flex align-items-center">
                         <a href="" class="text-secondary ml-1">
@@ -68,18 +68,14 @@
     <div class="col-lg-4 payment-summary">
         <div class="card px-md-3 px-2 pt-4">
             <div class="unregistered mb-4 fw-bold"> <span class="py-1">Cart Summary</span> </div>
-        
-            <div class="d-flex justify-content-between b-bottom"> <input type="text" class="ps-2" placeholder="COUPON CODE">
-                <div class="btn btn-dark">Apply</div>
-            </div>
             <hr>
             <div class="d-flex justify-content-between pb-2">
               <small class="text-muted">Subtotal</small>
-              <p id="subtotalAmount">$<span id="subtotalValue">0.00</span></p>
+              <p id="subtotalAmount">₹<span id="subtotalValue">0.00</span></p>
           </div>
           <div class="d-flex justify-content-between">
               <small class="text-muted">Total Amount</small>
-              <p id="totalAmounts">$<span id="totalValue">0.00</span></p>
+              <p id="totalAmounts">₹<span id="totalValue">0.00</span></p>
           </div>
           
             <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><button class="btn btn-dark btn-block btn-lg ml-2 pay-button" type="button"><a class="text-light underline-none" href="/checkout ">Checkout</a></button></div>
