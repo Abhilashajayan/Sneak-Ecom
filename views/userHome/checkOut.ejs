@@ -299,7 +299,7 @@
                         <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
                             <h6 class="mb-3">Summary</h6>
                             <div class="d-flex justify-content-between">
-                                <p class="mb-2">Total price:</p>
+                                <p class="mb-2">Subtotal price:</p>
                                 <p class="mb-2" id="totalAmount">₹0.00</p>
                             </div>
                             <!-- <div class="d-flex justify-content-between">
@@ -308,11 +308,11 @@
                                             </div> -->
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Shipping cost:</p>
-                                <p class="mb-2" id="shippingCost">+ ₹0.00</p>
+                                <p class="mb-2" id="shippingCost">+₹0.00</p>
                             </div>
 
                             <hr/>
-                            <div class="d-flex justify-content-between">
+                            <div id="finalPrice" style="display: none;"  class=" justify-content-between">
                                 <p class="mb-2">Total price:</p>
                                 <p class="mb-2 fw-bold" id="finalAmts">₹0.00</p>
                             </div>
@@ -331,7 +331,9 @@
                               </div>
                             <% } else { %>
                                 <div class="input-group mt-3 mb-4">
-                                    <h5 class="badge bg-secondary">Discount Applied</h5>
+                                    <% cartItems.forEach((user, index) => { %>
+                                    <h6 class=" text-danger">Discount Applied : % <%= user.product.discount %> </h6>
+                                    <% }) %>
                                   </div>
                                 <% } %>
                             <hr/>
@@ -366,11 +368,18 @@
                                             </div>
                                           </div>                                          
                                     </div>
+                                    
                                 </div>
+                               
                             <% }) %>
-
-                            <canvas id="myCanvas" width="400" height="200" willReadFrequently="true"></canvas>
-
+                                
+                            <canvas id="myCanvas" width="400" height="100" willReadFrequently="true"></canvas>
+                          
+                                <div class="d-flex card text-center badge-warning">
+                                    <h1>50% OFF</h1><span class="d-block">On Everything</span><span class="d-block">Today</span>
+                                    <div class="mt-4"><small>With Code : bbbootstrap2020</small></div>
+                                </div>
+                            
                         </div>
                     </div>
                 </div>

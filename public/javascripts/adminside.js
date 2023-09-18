@@ -490,3 +490,27 @@ forms.addEventListener('input', (event) => {
 function isValidInput(input) {
   return /^[A-Za-z0-9\s]+$/.test(input);
 }
+
+
+function editCata(orderID) {
+  fetch(`/editCata/${orderID}`, {
+    method: 'GET',
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Received data:', data);
+     document.getElementById('categoryNamess').value = data.categoryName;
+     document.getElementById('categoryIdss').value = data._id;
+    
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+

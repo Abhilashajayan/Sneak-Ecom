@@ -10,9 +10,10 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">ProductId</th>
-                <th scope="col">productCategory</th>
+                <th scope="col">Id</th>
+                <th scope="col">Categorys</th>
                 <th scope="col">Action</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <% categoryData.forEach((user, index) => { %>
@@ -25,6 +26,11 @@
                   <button class="btn"  onclick="deleteCategory('<%= user._id %>')">
                     <i class="fas fa-trash fa-lg"  style="color: #605F5F;"></i>
                   </button>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editCataModal" onclick="editCata('<%= user._id %>')">
+                    <i class="bi bi-pencil-square"></i> 
+                </button>
                 </td>
               </tr>
             </tbody>
@@ -53,6 +59,35 @@
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="submit" id="cataButton" form="categoryForm" class="btn btn-dark">Add Category</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="editCataModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="categoryModalLabel">Add Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="categoryForm" action="/update-category" method="post">
+            <div class="mb-3">
+              <label for="categoryName" class="form-label">Category Name</label>
+              
+              <input type="text" class="form-control" id="categoryNamess" name="categoryName" placeholder="Enter category name" >
+
+            </div>
+            <input type="hidden" id="categoryIdss" name="categoryId">
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit"  class="btn btn-dark">Change</button>
+            </div>
+          </form>
+          <p id="result"></p>
+        </div>
+        
       </div>
     </div>
   </div>

@@ -22,7 +22,10 @@ totAmy.value = totalAmount;
 const shippingMethodForm = document.getElementById('shippingMethodForm');
 
 shippingMethodForm.addEventListener('change', (event) => {
+ 
     const selectedShippingMethod = event.target.value;
+    
+
     console.log('Selected shipping method:', selectedShippingMethod);
 });
 
@@ -75,8 +78,8 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     
     shippingMethodForms.addEventListener('change', (event) => {
         const selectedShippingMethod = event.target.value;
-        
-
+        const totalDiv = document.getElementById('finalPrice');
+        totalDiv.style.display = "flex";
         const shippingCosts = {
             free: 0,
             express: 14

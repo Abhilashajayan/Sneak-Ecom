@@ -569,6 +569,46 @@ const adlogout = async (req, res) => {
   res.redirect("/admin-Login")
 };
 
+
+const editCatas  = async (req, res) => {
+  const orderID  = req.params.orderID;
+  try {
+    const order = await Cata.findOne({ _id: orderID });
+    console.log(order);
+    res.json(order);
+  console.log(orderID,"this isthe order d and this ");
+}catch(err){
+  console.log(err);
+}
+}
+
+
+const updateCatagory = async (req, res) => {
+  const categoryId = req.body.categoryId;
+  const updatedCategoryName = req.body.categoryName;
+  console.log(updatedCategoryName,'tjhedada');
+
+  const category = await Cata.findById(categoryId);
+
+  if (!category) {
+    return res.status(404).json({ error: 'Category not found' });
+  }
+  
+  category.CategoryName = updatedCategoryName;
+  console.log(category);
+  try {
+    await category.save();
+    return res.redirect('/admin-dashboard');
+  } catch (error) {
+    console.error('Error saving category:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+  
+};
+
+
+
+
 module.exports = {
     adminLog,
     adminLogin,
@@ -589,5 +629,7 @@ module.exports = {
     editCoupon,
     postCoponEdit,
     salesReportManagement,
-    adlogout
+    adlogout,
+    editCatas,
+    updateCatagory
 }
