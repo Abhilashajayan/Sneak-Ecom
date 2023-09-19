@@ -374,12 +374,17 @@
                             <% }) %>
                                 
                             <canvas id="myCanvas" width="400" height="100" willReadFrequently="true"></canvas>
-                          
+                            <% couponData.forEach((user, index) => { %>
                                 <div class="d-flex card text-center badge-warning">
-                                    <h1>50% OFF</h1><span class="d-block">On Everything</span><span class="d-block">Today</span>
-                                    <div class="mt-4"><small>With Code : bbbootstrap2020</small></div>
+                                    <h1><%= user.discountAmount %> OFF</h1><span class="d-block">On Everything</span><span class="d-block">Till : <%= formatDate(user.expiryDate) %></span>
+                                    <div class="mt-4"><small>With Code : <span class="text-success"><%= user.couponCode %></span></small></div>
                                 </div>
-                            
+                                <hr>
+                                <% }) %>
+                                <% function formatDate(date) {
+                                    const createdDate = new Date(date);
+                                    return createdDate.toDateString();
+                                } %>
                         </div>
                     </div>
                 </div>

@@ -332,7 +332,8 @@ const checkOut = async(req, res) => {
   if (user) {
     const add = user.addresses;
     // console.log(add[0].name);
-    res.render('userHome/checkout', { cartItems ,add, user });
+    const couponData =  await Coupon.find({},{});
+    res.render('userHome/checkout', { cartItems ,add, user, couponData });
   } else {
     res.render('animation/404');
   }
@@ -840,6 +841,7 @@ const userDelete = async (req, res) => {
   }
 };
 
+
 const showOrder = async (req, res) => {
   try {
     const orderId = req.params.orderId;
@@ -879,6 +881,27 @@ const showOrder = async (req, res) => {
   }
 };
 
+const filterProduct = async (req, res) => {
+  const selectedValue = req.query.sort;
+
+  let sortQuery = {};
+
+  if (selectedValue === 'low-to-high') {
+    sortQuery = { productPrice: 1 };
+  } else if (selectedValue === 'high-to-low') {
+    sortQuery = { productPrice: -1 };
+  }
+
+  try {
+    const products = await Product.find().sort(sortQuery);
+
+    res.json({ Datas: products });
+  } catch (error) {
+    console.error('Error fetching and sorting products:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 
 module.exports = {
@@ -909,5 +932,6 @@ module.exports = {
     contactUS,
     userImageAdd,
     userDelete,
-    showOrder
+    showOrder,
+    filterProduct
 }

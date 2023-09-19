@@ -514,3 +514,31 @@ function editCata(orderID) {
 }
 
 
+document.getElementById('editCataForm').addEventListener('submit', function (e) {
+  e.preventDefault(); // Prevent the default form submission
+
+  const form = e.target; // Get the form element
+
+  // Create an object to hold the form data
+  const formData = {
+      categoryName: form.querySelector('#categoryNamess').value,
+      categoryId: form.querySelector('#categoryIdss').value
+  };
+  fetch('/update-category', {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData) 
+  })
+  .then(response => {
+      if (response.ok) {
+          console.log('Form submitted successfully');
+      } else {
+          console.error('Form submission failed');
+      }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+});

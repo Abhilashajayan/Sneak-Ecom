@@ -583,27 +583,27 @@ const editCatas  = async (req, res) => {
 }
 
 
-const updateCatagory = async (req, res) => {
+const updateCategory = async (req, res) => {
   const categoryId = req.body.categoryId;
   const updatedCategoryName = req.body.categoryName;
-  console.log(updatedCategoryName,'tjhedada');
 
-  const category = await Cata.findById(categoryId);
-
-  if (!category) {
-    return res.status(404).json({ error: 'Category not found' });
-  }
-  
-  category.CategoryName = updatedCategoryName;
-  console.log(category);
+  console.log(updatedCategoryName);
   try {
-    await category.save();
-    return res.redirect('/admin-dashboard');
+    const updatedCategory = await Cata.findOneAndUpdate(
+      { _id: categoryId }, 
+      { categoryName: updatedCategoryName }, 
+      { new: true } 
+    );
+    if (!updatedCategory) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    console.log('Category updated:', updatedCategory);
+    res.status(200).json({ message: 'Category updated successfully' });
   } catch (error) {
-    console.error('Error saving category:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error('Error updating category:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-  
 };
 
 
@@ -631,5 +631,5 @@ module.exports = {
     salesReportManagement,
     adlogout,
     editCatas,
-    updateCatagory
+    updateCategory
 }
