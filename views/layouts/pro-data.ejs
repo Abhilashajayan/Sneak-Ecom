@@ -47,7 +47,7 @@
           <tr class="bg-white">
             <th scope="row" > <img src="<%= user.productImages[0].secure_url %>" alt="hugenerd" width="30" height="30" class="rounded-circle"></th>
            
-            <td ><%= user.productTitle %></td>
+            <td style="white-space: nowrap;max-width: 100px; text-overflow: ellipsis;" class="text-center text-truncate " ><%= user.productTitle %></td>
             <td><%= user.productCategory %></td>
             <td><%= user.productPrice %></td>
             <td><%= user.stock %></td>

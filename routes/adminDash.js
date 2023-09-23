@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const adminDatas = require('../controllers/admin.login');
+const adminDatas = require('../controllers/adminController');
 const cloudinary = require("../services/cloudinary");
 const upload = require("../services/multer");
 const Product = require("../models/productSchema");

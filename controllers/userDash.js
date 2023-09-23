@@ -107,7 +107,7 @@ const productCart = async (req, res) => {
       cartLength = cart[0].cartItems.length;
     }
     
-    if (!userCart) {  
+    if (!userCart.length <= 0) {  
       res.redirect('/empty-Cart');
     }
 
@@ -279,16 +279,18 @@ const addToCart = async (req, res) => {
 
 const increData = async (req, res) => {
   const { productId, quantity } = req.body;
+  const userId = req.userId;
 
   try {
     let cart;
 
     if (quantity <= 0) {
       cart = await Cart.findOneAndUpdate(
-        {},
+        {user : userId },
         { $pull: { cartItems: { product: productId } } },
         { new: true }
       );
+    
     } else {
       cart = await Cart.findOneAndUpdate(
         { 'cartItems.product': productId },
@@ -331,9 +333,10 @@ const checkOut = async(req, res) => {
   const user = await User.findOne({ _id: userId }, { addresses: 1 });
   if (user) {
     const add = user.addresses;
-    // console.log(add[0].name);
     const couponData =  await Coupon.find({},{});
-    res.render('userHome/checkout', { cartItems ,add, user, couponData });
+    const wallet = await Wallet.findOne({ userId: userId });
+    console.log(wallet);
+    res.render('userHome/checkout', { cartItems ,add, user, couponData, wallet });
   } else {
     res.render('animation/404');
   }
@@ -903,6 +906,31 @@ const filterProduct = async (req, res) => {
 };
 
 
+const removedProductCart = async (req, res) => {
+  const productId = req.body.id;
+  try {
+    console.log(productId, "the product id is here");
+    const cartId = req.userId; 
+
+    const updatedCart = await Cart.findOneAndUpdate(
+      {user : cartId},
+      { $pull: { cartItems: { product: productId } } },
+      { new: true } 
+    );
+
+    if (!updatedCart) {
+      res.redirect('/empty-Cart');
+    }
+    console.log(updatedCart);
+    res.status(200).json(updatedCart);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while removing the product from the cart.' });
+  }
+};
+
+
+
 
 module.exports = {
     userHome,
@@ -933,5 +961,6 @@ module.exports = {
     userImageAdd,
     userDelete,
     showOrder,
-    filterProduct
+    filterProduct,
+    removedProductCart
 }

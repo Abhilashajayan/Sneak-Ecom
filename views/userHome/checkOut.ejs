@@ -242,6 +242,30 @@
                         </div>
 
 
+                        <div class="card shadow border mt-4">
+                            <div class="p-4">
+                                <h5 class="card-title mb-3">Wallet</h5>
+                                <h6> Wallet Amount : <span class="text-danger"><%= wallet.balance %></span></h6>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div>
+                                        <label class="card-radio-label" for="pay-methodoption3">
+                                            <input type="radio" name="pay-method" id="pay-methodoption3" class="card-radio-input">
+                                            <span class="card-radio py-3 text-center text-truncate">
+                                                <i class="bx bx-money d-block h2 mb-3"></i>
+                                                <span>Purchase</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <button class="btn btn-outline-primary" id="disSelect">Don't User</button>
+                        </div>
+                        
+                        
+                        
+
+
                         <div class="card mt-2 border shadow">
                             <div class="card-header">
                                 <div
@@ -270,6 +294,7 @@
                                         <input type="hidden" name="delMethod" id="del">
                                         <input type="hidden" name="total" id="total">
                                         <input type="hidden" name="subtotal" id="subtotal">
+                                        <input type="hidden" name="status" class="statusData">
                                         <p class="mt-2">UPI Payment, or Unified Payments Interface, offers a convenient and seamless way to make transactions digitally. With UPI, you can link your bank account to a UPI ID and effortlessly transfer funds, pay bills, and make purchases. UPI transactions are fast, secure, and can be done 24/7, enabling you to make payments with just a few taps on your smartphone. It eliminates the need for sharing sensitive bank details during transactions and provides a swift and efficient way to manage your payments</p>
                                         <button type="button" id="creditCardPlaceOrderButton" class="btn btn-dark btn-block shadow-sm credit-card-placeOrderButton" onclick="handleCreditButtonClick()">Place Order</button>
                                     </div>
@@ -284,6 +309,7 @@
                                         <input type="hidden" name="delMethod" id="del">
                                         <input type="hidden" name="total" id="total">
                                         <input type="hidden" name="subtotal" id="subtotal">
+                                        <input type="hidden" name="status" class="statusData">
                                         <p class="mt-2">Cash on Delivery (COD) is a payment method where you can pay for your order in cash when it is delivered to your doorstep. Please note that COD orders may have additional fees or restrictions depending on your location and the store's policies.</p>
                                         <button type="button" id="codPlaceOrderButton" class="btn btn-dark btn-block shadow-sm " onclick="handleCodButtonClick()">Place Order</button>
                                     </form>
@@ -395,7 +421,33 @@
         <%- include('../partials/footer') %>
         <!-- Footer -->
         <script src="javascripts/check.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const radioButton = document.getElementById('pay-methodoption3');
+                const disSelected = document.getElementById('disSelect');
+                const statusInput = document.querySelector('.statusData');
+                const conditionMet = true;
+                disSelected.addEventListener('click', function() {
+                    if(radioButton.checked){
+                        radioButton.checked = false;
+                       
+                       
+                        statusInput.values = true;
+                        console.log(statusInput.values);
+                    }
+                });
 
+                radioButton.addEventListener('click', function() {
+                    if(radioButton.checked){
+                        statusInput.values =  false ;
+                        console.log(statusInput.values);
+                    }
+                })
+                console.log(conditionMet);
+            });
+           
+        </script>
+        
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     </body>
 </html>

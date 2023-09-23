@@ -52,7 +52,7 @@
                         <h5 class="text-grey price" >₹<%= user.product.productPrice %></h5>
                     </div>
                     <div class="d-flex align-items-center">
-                        <a href="" class="text-secondary ml-1">
+                        <a href="" class="text-secondary ml-1 remove-button" data-delete-Product="<%= user.product._id %>">
                           <i class="fa fa-trash mb-1" style="color: #605F5F; margin-right: 5px;"></i>
                           Remove
                         </a>
@@ -101,12 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
   decreaseButtons.forEach((decreaseButton, index) => {
     decreaseButton.addEventListener('click', async () => {
       let currentQuantity = parseInt(quantityElements[index].textContent);
-      if (currentQuantity > 0) {
+      if (currentQuantity >= 0) {
         currentQuantity--;
         quantityElements[index].textContent = currentQuantity;
         await updateQuantityInDatabase(decreaseButton.getAttribute('data-product-id'), currentQuantity);
         updateTotalAmounts(); // Update subtotal and total
-        if (currentQuantity <= 0) {
+        if (currentQuantity === 0) {
           window.location.reload();
         }
       }
@@ -162,6 +162,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var removeButtons = document.querySelectorAll(".remove-button");
+      removeButtons.forEach(function (button) {
+        button.addEventListener("click", function (e) {
+         
+    
+          var id = this.getAttribute("data-delete-Product");
+          console.log(id);
+          var backendURL = '/removeCart'; 
+          axios.post(backendURL, { id: id })
+            .then(function (response) {
+              console.log("Request to the backend was successful.");
+            })
+            .catch(function (error) {
+              console.error("Error sending request to the backend: " + error.message);
+            
+            });
+        });
+      });
+    });
     </script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 </html>

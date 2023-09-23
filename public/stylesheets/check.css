@@ -7,3 +7,29 @@ body{
 div{
     font-family: 'Space Grotesk', sans-serif;
 }
+
+
+.card-radio {
+    background-color: #fff;
+    border: 2px solid #eff0f2;
+    border-radius: .75rem;
+    padding: .5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block
+}
+.card-radio:hover {
+    cursor: pointer
+}
+
+.card-radio-label {
+    display: block
+}
+.card-radio-input {
+    display: none
+}
+
+.card-radio-input:checked+.card-radio {
+    border-color: #3b76e1!important
+}

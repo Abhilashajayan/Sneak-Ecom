@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const signinCont = require('../controllers/user.signin');
+const signinCont = require('../controllers/signController');
 const mailerAuth = require('../controllers/mailer');
 const upload = require("../services/multer");
 const userDas = require('../controllers/userDash');
@@ -52,5 +52,9 @@ router.post('/orders/:orderId/cancel',authMiddleware,userDas.cancelRequest);
 router.post('/verify-payment',authMiddleware,userDas.verifyPayment);
 router.post('/filterData',userDas.filterData);
 router.post('/address/:addressId',authMiddleware,userDas.userDelete);
+
+router.post('/removeCart',authMiddleware,userDas.removedProductCart);
+
+
 
 module.exports = router;

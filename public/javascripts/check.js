@@ -19,6 +19,7 @@ let totAmy = document.getElementById('total');
 totAmy.value = totalAmount;
 
 
+
 const shippingMethodForm = document.getElementById('shippingMethodForm');
 
 shippingMethodForm.addEventListener('change', (event) => {
@@ -59,6 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+
+
  
 function addCouponData(data) {
   console.log(data.couponData.minPurchase);
@@ -77,6 +80,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     const shippingCostElement = document.getElementById('shippingCost');
     
     shippingMethodForms.addEventListener('change', (event) => {
+      const statusInput = document.querySelector('.statusData');
         const selectedShippingMethod = event.target.value;
         const totalDiv = document.getElementById('finalPrice');
         totalDiv.style.display = "flex";
@@ -99,6 +103,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         console.log(newTotalAmt);
         let subtotal = document.getElementById('subtotal');
         subtotal.value = newTotalAmt;
+        console.log(statusInput.values);
         const totalAmt = document.getElementById('finalAmts');
         totalAmt.textContent = `₹${newTotalAmt.toFixed(2)}`;
 
