@@ -1,4 +1,6 @@
 let totalAmount = 0;
+let lastAmount = 0;
+let walletAmts = 0;
 const productDivs = document.querySelectorAll('.price');
 const couponAmount = 0;
 
@@ -103,12 +105,54 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         console.log(newTotalAmt);
         let subtotal = document.getElementById('subtotal');
         subtotal.value = newTotalAmt;
-        console.log(statusInput.values);
+        // console.log(statusInput.values);
         const totalAmt = document.getElementById('finalAmts');
         totalAmt.textContent = `₹${newTotalAmt.toFixed(2)}`;
+        const statusInputs = document.querySelector('.statusData');
+        statusInputs.values = true; 
+        lastAmount =  newTotalAmt.toFixed(2);
 
     });
 
+    document.addEventListener('DOMContentLoaded', function() {
+      const radioButton = document.getElementById('pay-methodoption3');
+      const disSelected = document.getElementById('disSelect');
+      const statusInput = document.querySelector('.statusData');
+      const finalAmountsData = document.getElementById('finalAmts');
+      const walletAmounts =  document.getElementById('walletBalance').textContent;
+      let conditionMet = false;
+      disSelected.addEventListener('click', function() {
+          if(radioButton.checked){
+              radioButton.checked = false;
+             
+              
+              conditionMet = true;
+              statusInput.values = conditionMet;
+              finalAmountsData.textContent = `₹${lastAmount}`;
+              let subtotal = document.getElementById('subtotal');
+              subtotal.value = lastAmount;
+              console.log(statusInput.values);
+             
+          }
+      });
+
+      radioButton.addEventListener('click', function() {
+          if(radioButton.checked){
+            let subtotal = document.getElementById('subtotal');
+              conditionMet =  false ;
+              statusInput.values = conditionMet;
+              if (walletAmounts > lastAmount) {
+                subtotal.value = 1;
+            } else {
+              let datas =  lastAmount - walletAmounts;
+              subtotal.value = datas;
+            }
+            
+          }
+      })
+      
+  });
+ 
 
     const creditCardTab = document.querySelector('[href="#credit-card"]');
     const codTab = document.querySelector('[href="#cod"]');
@@ -192,13 +236,16 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
       const methodAddress = document.getElementById('del').value;
       const totalAmount = document.getElementById('total').value;
       const newTotalAmt = document.getElementById('subtotal').value;
-      
+      const statusInput = document.querySelector('.statusData').values;
+      console.log(statusInput.values);
+
       const orderData = {
          paymentMethod: paymentMethod,
          address: addressId,
          methodAddress: methodAddress,
          totalAmount: totalAmount,
-         newTotalAmt: newTotalAmt
+         newTotalAmt: newTotalAmt,
+         statusPayment: statusInput
       };
       
      
@@ -238,6 +285,8 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
       const methodAddress = document.getElementById('del').value;
       const totalAmountInput = document.getElementById('total');
       const newTotalAmtInput = document.getElementById('subtotal');
+      const statusInput = document.querySelector('.statusData').values;
+      
     
       // Parse the input values as numbers
       const totalAmount = parseFloat(totalAmountInput.value);
@@ -254,6 +303,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         methodAddress: methodAddress,
         totalAmount: totalAmount,
         newTotalAmt: newTotalAmt,
+        statusPayment: statusInput
       };
       
 
@@ -309,7 +359,7 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
         })
         .catch((error) => {
           console.error('Error verifying payment:', error);
-          alert('An error occurred while verifying the payment.');
+          // alert('An error occurred while verifying the payment.');
         });
     }
 

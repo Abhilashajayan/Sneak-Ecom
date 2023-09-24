@@ -107,7 +107,7 @@ const productCart = async (req, res) => {
       cartLength = cart[0].cartItems.length;
     }
     
-    if (!userCart.length <= 0) {  
+    if (!userCart) {  
       res.redirect('/empty-Cart');
     }
 
@@ -466,6 +466,7 @@ const orderData = async (req, res) => {
       shippingCharge: orderData.methodAddress,
       subtotals: orderData.newTotalAmt,
       totalAmount: orderData.totalAmount,
+      paymentStatus: orderData.statusPayment
     });
 
     if (paymentMethod == "COD") {
@@ -524,6 +525,19 @@ const orderData = async (req, res) => {
     }
 
     await Cart.deleteOne({ user: userId });
+    if(orderData.statusPayment == false){
+      let wallet = await Wallet.findOne({ userId });
+
+    if (!wallet) {
+      wallet = new Wallet({ userId, balance: orderData.totalAmount, transactions: [] });
+      wallet.transactions.push({ type: 'purchase', amount: orderData.totalAmount, orderId : userId, timestamp: new Date() });
+    } else {
+      wallet.balance -= orderData.totalAmount;
+      console.log(wallet.balance);
+      wallet.transactions.push({ type: 'purchase', amount: orderData.totalAmount,orderId : user, timestamp: new Date() });
+    }
+     await wallet.save();
+    }
   } catch (error) {
     console.error('Error placing order:', error);
     return res.status(500).json({ error: 'An error occurred while placing the order' });
@@ -637,11 +651,23 @@ const verifyPayment = async (req, res) => {
     if (paymentData.response.razorpay_signature === generated_signature) {
       try {
         const order = await Order.findOne({ razorpayOrderId: paymentData.response.razorpay_order_id });
-  
+        const userId = req.userId;
         if (order) {
           order.status = 'Placed';
           await order.save();
-  
+          if(order.paymentStatus == false){
+            let wallet = await Wallet.findOne({ userId });
+      
+          if (!wallet) {
+            wallet = new Wallet({ userId, balance: order.totalAmount, transactions: [] });
+            wallet.transactions.push({ type: 'purchase', amount: order.totalAmount, orderId:order._id , timestamp: new Date() });
+          } else {
+            wallet.balance -= orderData.totalAmount;
+
+            wallet.transactions.push({ type: 'purchase', amount: order.totalAmount,orderId :order._id, timestamp: new Date() });
+          }
+           await wallet.save();
+          }
           console.log('Order status updated to "Placed"');
         } else {
           console.log('Order not found with razorpayOrderId:', paymentData.razorpay_order_id);
@@ -848,6 +874,7 @@ const userDelete = async (req, res) => {
 const showOrder = async (req, res) => {
   try {
     const orderId = req.params.orderId;
+    console.log(orderId);
     const order = await Order.findById(orderId).populate('items.productId');
     
     if (!order) {
@@ -872,6 +899,7 @@ const showOrder = async (req, res) => {
       subtotals: order.subtotals,
       totalAmount: order.totalAmount,
       createdOn: order.createdOn,
+      paymentStatus : order.paymentStatus,
       status: order.status,
       deliveredOn: order.deliveredOn,
       razorpayOrderId: order.razorpayOrderId,
@@ -880,7 +908,7 @@ const showOrder = async (req, res) => {
     res.json(orderWithProductInfo);
   } catch (error) {
     console.error('Error fetching order:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    // res.status(500).json({ error: 'Internal server error' });
   }
 };
 
