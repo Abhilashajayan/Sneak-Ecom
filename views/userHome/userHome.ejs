@@ -10,6 +10,8 @@
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css'>
         <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
         <link rel="stylesheet" type="text/css" href="stylesheets/home.css" /> 
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="path/to/aos.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Home</title>
@@ -41,9 +43,9 @@
             </button>
           </div>
         <div id="section-1" class="overlay-text col-6 col-md-6 col-lg-4 position-absolute top-0 mt-5 start-3 p-4 text-dark">
-            <h2 class="mt-5 ">Air Nags®</h2>
+            <h2 class="mt-5 text-sm" >Air Nags®</h2>
             <p class="d-none d-sm-block">Keep your everyday style chic and on-trend with our selection 20+ styles to choose from.</p>
-            <a style="text-decoration: underline;">See Your Collections<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <a style="text-decoration: underline;" class="text-sm d-none d-md-block ">See Your Collections<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 12H19" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M13 18L19 12" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M13 6L19 12" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -55,16 +57,16 @@
     <br>
     <section class="mt-4 ">
         <div class="container">
-            <div class="row">
+            <div class="row " >
                 <div class="col-md-12">
                     <h1 class="ml-2 col-6 fs-2">New Arrivals</h1>
                     
-                    <div id="news-slider" class="owl-carousel">
+                    <div id="news-slider" class="owl-carousel " >
                         <% userData.forEach((user, index) => { %>
                         <div  class=" post-slide">
                             <div class="post-img ml-2 r position-relative">
                                 <img  id="post-images" src="<%= user.productImages[0].secure_url %>" alt="">
-                                <div  class=" position-absolute top-50 col-md-6 col-6  start-50 mt-5 translate-middle">
+                                <div  class=" position-absolute top-50 col-md-6 col-6 mr-5  start-50 mt-5 translate-middle">
                                     <button  class="btn justify-content-center bg-white  over-layer btn-outline-none mt-2 ">    
                                         <a href="/product-Selection/<%= user._id %>" class="over-layer text-dark"> <%= user.productTitle %></a>
                                     </button>
@@ -78,11 +80,17 @@
                 </div>
             </div>
         </div>
+        
     </section>
+    <div class="mt-5 container" >
+        <h4 class="d-block d-md-none"  >Get Your Dream Sneakers From Us</h4>
+    </div>
+    
     <section class="mt-5 container">
+        
         <div>
             <div class=" position-relative  text-start "> <!-- Align content to the start -->
-                <img src="images/bnr2.png" alt="" class="img-fluid rounded">
+                <img  src="images/bnr2.png" alt="" class="img-fluid rounded d-none d-md-block">
                 <div id="section-1" class="overlay-text col-6 col-md-6 col-lg-4 position-absolute top-0 mt-5 start-3 text-dark">
                     <h2  class="run-smart-heading mt-5 ">RUN SMART</h2>
                     <p class="d-none d-sm-block ">Keep your everyday style chic and on-trend with our selection 20+ styles to choose from.</p>
@@ -167,7 +175,7 @@
         
     </section>
 
-    <section class="mt-5 container">
+    <section class="mt-5 container d-none d-md-block">
         <div class="row ml-4">
             <div class="col-md-6 col-lg-6 col-6 p-0 d-flex align-items-center" style="background-color: #F5F5F5;">
                 <div>
@@ -191,5 +199,6 @@
     <script src='https://code.jquery.com/jquery-1.12.0.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js'></script>
     <script src="javascripts/arrivals.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 </html>

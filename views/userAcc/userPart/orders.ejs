@@ -7,8 +7,8 @@
                     <tbody class="">
                         <% orders.forEach(order => { %>
                         <tr>
-                            <td>ID:<%= String(order._id).slice(-6) %></td>
-                            <td><%= order.createdOn.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
+                           
+                            <td><%= order.createdOn.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></td>
                             <td><% if (order.status === 'Pending') { %>
                                 <span class="badge badge-warning"><%= order.status %></span>
                               <% } else if (order.status === 'Delivered') { %>
@@ -17,7 +17,7 @@
                                 <span class="badge badge-secondary"><%= order.status %></span>
                               <% } %>
                             </td>
-                            <td>₹<%= order.totalAmount %></td>
+                          
                             <td>
                               <td>
                                 <% if (order.status === 'Delivered' && order.paymentMethod !== 'COD') { %>
@@ -91,7 +91,7 @@
                                 <% if (order.status === 'Delivered') { %>
                                   <form action="/Invoice" method="post">
                                     <input type="hidden" value="<%= order._id %>" name="orderId" id="">
-                                    <button data-order-id="" type="submit" class="btn btn-sm btn-danger" id="invoiceButton">Invoice</button>
+                                    <button data-order-id="" type="submit" class="btn btn-sm btn-danger" id="invoiceButton">In</button>
                                   </form>
                                  
                                   <% } %>
@@ -107,10 +107,10 @@
             
         </div>
         
-      <button class="btn btn-primary hBack d-md-none" type="button">Button</button>
+      <button class="btn btn-primary hBack d-md-none"  type="button"><a class="text-dark " style="text-decoration: none;" href="/user-Dash">Button</a></button>
 </section>
 
-<div class="modal fade " id="exa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade justify-content-center " id="exa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog ">
     <div class="modal-content">
       <div class="modal-header">

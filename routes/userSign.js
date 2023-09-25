@@ -15,7 +15,7 @@ router.get('/signin', signinCont.signin);
 router.get('/verify-email', signinCont.signemail);
 router.get('/forgot-password', signinCont.forgorPass);
 router.get('/change-password', signinCont.changepassword);
-router.get('/',authMiddleware,userDas.userHome);
+router.get('/',userDas.userHome);
 router.get('/product-Selection/:userId',authMiddleware, userDas.productData);
 router.get('/shope-data', authMiddleware, userDas.shopPage);
 router.get('/product-cart', authMiddleware, userDas.productCart);

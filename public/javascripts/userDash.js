@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     ordersLink.addEventListener('click', () => {
-        dashboardContent.style.display = 'none';
         ordersContent.style.display = 'block';
+        dashboardContent.style.display = 'none';
         addressContent.style.display ='none';
         walletLinkContent.style.display = 'none';
         toggleSidebar();
@@ -388,7 +388,7 @@ async function showOrder(orderId) {
         document.getElementById('Qty').textContent = data.items[0].quantity;
         document.getElementById('Ttl').textContent = data.subtotals;
         document.getElementById('pymt').textContent = data.paymentMethod;
-
+        // document.getElementById('dateOf').textContent  = data.create
         let im = document.getElementById('productImage')
         im.src = data.items[0].productImage[0].secure_url;
         
