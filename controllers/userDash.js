@@ -336,7 +336,7 @@ const checkOut = async(req, res) => {
     const couponData =  await Coupon.find({},{});
     const wallet = await Wallet.findOne({ userId: userId });
     // console.log(wallet);
-    res.render('userHome/checkout', { cartItems ,add, user, couponData, wallet });
+    return res.render('userHome/checkout', { cartItems ,add, user, couponData, wallet });
   } else {
     res.render('animation/404');
   }
