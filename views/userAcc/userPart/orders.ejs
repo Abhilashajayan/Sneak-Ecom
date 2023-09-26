@@ -7,8 +7,11 @@
                     <tbody class="">
                         <% orders.forEach(order => { %>
                         <tr>
+                          <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exa" onclick="showOrder('<%= order._id %>')" >
+                            <i class="fa fa-info"></i>
+                          </button></td>
                            
-                            <td><%= order.createdOn.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></td>
+                            <!-- <td><%= order.createdOn.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></td> -->
                             <td><% if (order.status === 'Pending') { %>
                                 <span class="badge badge-warning"><%= order.status %></span>
                               <% } else if (order.status === 'Delivered') { %>
@@ -96,9 +99,7 @@
                                  
                                   <% } %>
                               </td>
-                             <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exa" onclick="showOrder('<%= order._id %>')" >
-                              <i class="fa fa-info"></i>
-                            </button></td>
+                             
                            </tr>
                         <% }); %>
                     </tbody>
