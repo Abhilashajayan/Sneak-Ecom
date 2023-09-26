@@ -18,7 +18,7 @@
 </head>
 <body>
     <%- include('../partials/navbar') %>
-    <div class="container d-block d-md-none">
+    <div class="container d-block d-md-none mt-5">
         <h2  >Air Nags®</h2>
         <p class="d-block d-md-none text-dark">Keep your everyday style chic and on-trend with our selection 20+ styles to choose from.</p>
         <a style="text-decoration: underline;" href="/shope-data" class="text-sm text-dark d-block d-md-none ">See Your Collections<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -159,7 +159,7 @@
                         </div>
                       </div>
                     <div class="text-center">
-                        <h4 class="h5 mb-1"><a href="/product-Selection/<%= user._id %>" class="text-secondary"><%= user.productTitle %></a></h4>
+                        <h4 class="h5 "><a href="/product-Selection/<%= user._id %>" class="text-secondary"><%= user.productTitle %></a></h4>
                         <div class="product-rating mb-2">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -167,7 +167,7 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star mr-0"></i>
                         </div>
-                        <h5 class="mb-0 text-dark">₹<%= user.productPrice %></h5>
+                        <h5 class=" text-dark">₹<%= user.productPrice %></h5>
                     </div>
                 </a> 
                 </div> 
@@ -175,7 +175,7 @@
                 <% }) %>  
         </div>
         <div class="d-flex justify-content-center align-items-center">
-             <button class="btn  btn-dark"><a class="text-light" href="/shope-data" style="text-decoration: none;">Explore More</a></button>
+             <button class="btn  btn-outline-dark text-light"><a class="text-dark" href="/shope-data" style="text-decoration: none;">Shop Now</a></button>
         </div>
         </div>
     </section>
