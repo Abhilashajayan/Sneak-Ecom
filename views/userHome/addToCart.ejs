@@ -121,15 +121,15 @@
       </section>
      <!-- HTML for the Bootstrap 5 modal -->
       <!-- Updated Bootstrap modal structure -->
-<div class="modal fade" id="success-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog modal-md">
-    <div class="modal-content bg-light border-0 rounded-0">
-      <div class="modal-body text-center">
-        <p class="h4 text-success">Product added successfully to the cart!</p>
-      </div>
-    </div>
-  </div>
-</div>
+      <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="addedSuccesslabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addedSuccesslabel">Added to cart</h5>
+            </div>
+            </div>
+          </div>
+        </div> 
 
 
       
@@ -169,7 +169,7 @@ function selectSize(size) {
         const productId = document.getElementById('productId').value;
         const quantity = document.getElementById('quantity').value
         console.log(productId);
-        const successModal = new bootstrap.Modal(document.getElementById('success-modal'));
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
 
 fetch(`/add-to-cart`, {
   method: 'POST',
