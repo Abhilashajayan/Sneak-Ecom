@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
         addressContent.style.display ='none';
         walletLinkContent.style.display = 'none';
         toggleSidebar();
-        hideContent();
+       
     });
 
     walletLink.addEventListener('click', () => {
