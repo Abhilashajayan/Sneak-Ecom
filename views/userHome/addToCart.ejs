@@ -169,6 +169,7 @@ function selectSize(size) {
         const productId = document.getElementById('productId').value;
         const quantity = document.getElementById('quantity').value
         console.log(productId);
+        const successModal = new bootstrap.Modal(document.getElementById('success-modal'));
 
 fetch(`/add-to-cart`, {
   method: 'POST',
@@ -177,15 +178,13 @@ fetch(`/add-to-cart`, {
   },
   body: JSON.stringify({ productId, quantity, selectedSize })
 })
-.then(response => {
-  const successModal = new bootstrap.Modal(document.getElementById('success-modal'), { backdrop: 'static', keyboard: false });
-  
-  successModal.show();
-
-  setTimeout(() => {
-    successModal.hide();
-  }, 2000);
-})
+.then(response => response.json())
+    .then(data => {
+        successModal.show();
+        setTimeout(() => {
+          successModal.hide();
+        }, 1000);
+      })
   .catch(error => {
     console.error('Error:', error);
   });
