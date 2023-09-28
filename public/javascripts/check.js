@@ -226,7 +226,11 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     function handleCodButtonClick() {
       const selectedRadioButton = document.querySelector('input[name="flexRadioDefault"]:checked');
       if (!selectedRadioButton) {
-        alert('Please select an address before placing the order.');
+        const successModal = new bootstrap.Modal(document.getElementById('selectAddress'));
+        successModal.show();
+        setTimeout(() => {
+          successModal.hide();
+        }, 2000);
         return;
       }
     
@@ -275,7 +279,11 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     async function handleCreditButtonClick() {
       const selectedRadioButton = document.querySelector('input[name="flexRadioDefault"]:checked');
       if (!selectedRadioButton) {
-        alert('Please select an address before placing the order.');
+        const successModal = new bootstrap.Modal(document.getElementById('selectAddress'));
+        successModal.show();
+        setTimeout(() => {
+          successModal.hide();
+        }, 2000);
         return;
       }
     

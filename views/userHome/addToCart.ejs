@@ -129,7 +129,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="addedSuccesslabel">Added to cart</h5>
+              <h5 class="modal-title text-success"  id="addedSuccesslabel">Added to cart</h5>
             </div>
             </div>
           </div>
@@ -178,7 +178,7 @@ function selectSize(size) {
         setTimeout(() => {
           successModal.hide();
         }, 1000);
-        
+
 fetch(`/add-to-cart`, {
   method: 'POST',
   headers: {
