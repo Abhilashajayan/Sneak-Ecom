@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function toggleSidebar() {
         const sidebar = document.querySelector('.sidebar');
-        if (window.innerWidth <= 780) {
+        if (window.innerWidth <= 767) {
             sidebar.style.display = (sidebar.style.display === 'none') ? 'block' : 'none';
         }
     }
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    if (window.innerWidth <= 767) {
+    if (window.innerWidth <= 780) {
         showSidebar();
         hideContent();
     } else {
