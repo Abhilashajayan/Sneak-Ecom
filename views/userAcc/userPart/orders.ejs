@@ -1,9 +1,9 @@
 <section id="orders" style="display: none;" class="flex-grow-1">
     <div class="container mt-3 ml-3">
         <h2 class="d-flex justify-content-center">Orders</h2>
-        <div class="row d-flex justify-content-center">
-            <div class="table-responsive d-flex justify-content-center">
-                <table class="table table-responsive">
+        <div class="container col-12 col-md-12"> 
+            <div class="table-responsive">
+                <table class="table">
                     <tbody class="">
                         <% orders.forEach(order => { %>
                         <tr>
@@ -11,7 +11,7 @@
                             <i class="fa fa-info"></i>
                           </button></td>
                            
-                            <!-- <td><%= order.createdOn.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></td> -->
+                            <td><%= order.createdOn.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></td>
                             <td><% if (order.status === 'Pending') { %>
                                 <span class="badge badge-warning"><%= order.status %></span>
                               <% } else if (order.status === 'Delivered') { %>
@@ -21,7 +21,7 @@
                               <% } %>
                             </td>
                           
-                            <td>
+                            
                               <td>
                                 <% if (order.status === 'Delivered' && order.paymentMethod !== 'COD') { %>
                                   <button data-bs-toggle="modal" data-bs-target="#orderReturn<%= order._id %>" class="btn btn-sm btn-outline-secondary">Return</button>
@@ -94,7 +94,7 @@
                                 <% if (order.status === 'Delivered') { %>
                                   <form action="/Invoice" method="post">
                                     <input type="hidden" value="<%= order._id %>" name="orderId" id="">
-                                    <button data-order-id="" type="submit" class="btn btn-sm btn-danger" id="invoiceButton">In</button>
+                                    <button data-order-id="" type="submit" class="btn btn-sm btn-danger" id="invoiceButton"><i class="fa fa-download" aria-hidden="true"></i></button>
                                   </form>
                                  
                                   <% } %>
@@ -108,7 +108,7 @@
             
         </div>
         
-      <button class="btn btn-primary hBack d-md-none"  type="button"><a class="text-dark " style="text-decoration: none;" href="/user-Dash">Button</a></button>
+      <button class="btn btn-primary hBack d-md-none"  type="button"><a class="text-dark " style="text-decoration: none;" href="/user-Dash">Go Back</a></button>
 </section>
 
 <div class="modal fade justify-content-center " id="exa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
