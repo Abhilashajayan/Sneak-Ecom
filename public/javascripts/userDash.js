@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function toggleSidebar() {
-        const sidebar = document.querySelector('.sidebar');
         if (window.innerWidth <= 767) {
             sidebar.style.display = (sidebar.style.display === 'none') ? 'block' : 'none';
         }
@@ -49,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
         addressContent.style.display ='none';
         walletLinkContent.style.display = 'none';
         toggleSidebar();
-       
+        hideContent();
     });
 
     walletLink.addEventListener('click', () => {
