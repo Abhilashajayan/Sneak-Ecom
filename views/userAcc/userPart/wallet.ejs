@@ -18,12 +18,25 @@
 
 			<div class="txn-history">
 				<p><b>History</b></p>
-				<% walletData.transactions.forEach(transaction => { %>
-				  <p class="txn-list"><%= transaction.type === 'deposit' ? 'Deposit' : 'Purchase' %> - <%= transaction.amount %><span class="<%= transaction.type === 'deposit' ? 'credit-amount' : 'debit-amount' %>">
-					<%= transaction.type === 'deposit' ? '+₹' : '-₹' %><%= transaction.amount %></span>
-				  </p>
-				<% }); %>
+				<% if (walletData && walletData.transactions) { %>
+				  <% walletData.transactions.forEach(transaction => { %>
+					<p class="txn-list">
+					  <%= transaction.type === 'deposit' ? 'Deposit' : 'Purchase' %> - 
+					  <% if (typeof transaction.amount !== 'undefined') { %>
+						<%= transaction.amount %>
+						<span class="<%= transaction.type === 'deposit' ? 'credit-amount' : 'debit-amount' %>">
+						  <%= transaction.type === 'deposit' ? '+₹' : '-₹' %><%= transaction.amount %>
+						</span>
+					  <% } else { %>
+						N/A <!-- or any other placeholder text or value you prefer -->
+					  <% } %>
+					</p>
+				  <% }); %>
+				<% } else { %>
+				  No transaction data available <!-- or any other error message you prefer -->
+				<% } %>
 			  </div>
+			  
 			  
             </div>
 		

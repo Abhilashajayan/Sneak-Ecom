@@ -245,7 +245,7 @@
                         <div class="card shadow border mt-4">
                             <div class="p-4">
                                 <h5 class="card-title mb-3">Wallet</h5>
-                                <h6> Wallet Amount : <span id="walletBalance" class="text-danger"><%= wallet.balance %></span></h6>
+                                <h6> Wallet Amount : <span id="walletBalance" class="text-danger"><%= wallet && wallet.balance ? wallet.balance : 'N/A' %></span></h6>
                                 <div class="col-lg-3 col-sm-6">
                                     <div>
                                         <label class="card-radio-label" for="pay-methodoption3">
