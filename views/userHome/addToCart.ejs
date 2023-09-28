@@ -174,7 +174,11 @@ function selectSize(size) {
         const quantity = document.getElementById('quantity').value
         console.log(productId);
         const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-
+        successModal.show();
+        setTimeout(() => {
+          successModal.hide();
+        }, 1000);
+        
 fetch(`/add-to-cart`, {
   method: 'POST',
   headers: {
@@ -184,10 +188,7 @@ fetch(`/add-to-cart`, {
 })
 .then(response => response.json())
     .then(data => {
-        successModal.show();
-        setTimeout(() => {
-          successModal.hide();
-        }, 1000);
+       console.log(data);
       })
   .catch(error => {
     console.error('Error:', error);
@@ -211,7 +212,5 @@ const decreaseBtn = document.querySelector('.decrease-btn');
         quantityInput.value = parseInt(quantityInput.value) + 1;
     });
       </script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
