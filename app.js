@@ -6,6 +6,7 @@ const logger = require('morgan');
 const connectToMongoDB = require('./config/database');
 const session = require('express-session');
 const cors = require('cors');
+const flash = require('express-flash');
 const userRouter = require('./routes/userSign');
 const adminRouter = require('./routes/adminDash');
 connectToMongoDB();
@@ -37,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(flash());
 app.use('/', userRouter);
 app.use('/', adminRouter);
 

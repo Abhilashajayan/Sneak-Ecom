@@ -38,6 +38,7 @@
 
 </style>
 <body>
+  
     <nav class="navbar navbar-expand-md ">
         <div class="container ">
             <img src="images/logo.png" alt="" width="160" height="150">
@@ -62,13 +63,17 @@
                   <form id="otpForm" action="/otp-validate" method="POST">
                   <div class="d-flex flex-row mt-2">
                     <div class="d-flex flex-row">
-                      <input maxlength="1" class="form-control  form-control-lg m-2 text-center border-primary" name="otp1" type="text" placeholder="_" />
-                      <input maxlength="1"  class="form-control form-control-lg m-2 text-center border-primary" name="otp2" type="text" placeholder="_" />
-                      <input maxlength="1"  class="form-control form-control-lg m-2 text-center border-primary" name="otp3" type="text" placeholder="_" />
-                      <input maxlength="1" class="form-control form-control-lg m-2 text-center border-primary" name="otp4" type="text" placeholder="_" />
+                      <input maxlength="1" class="form-control  form-control-lg m-2 text-center border-primary" required name="otp1" type="text" placeholder="_" />
+                      <input maxlength="1"  class="form-control form-control-lg m-2 text-center border-primary" required name="otp2" type="text" placeholder="_" />
+                      <input maxlength="1"  class="form-control form-control-lg m-2 text-center border-primary" required name="otp3" type="text" placeholder="_" />
+                      <input maxlength="1" class="form-control form-control-lg m-2 text-center border-primary" required name="otp4" type="text" placeholder="_" />
                     </div>
                   </div>
-                
+                  <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                    <div class="alert alert-danger">
+                      <%= errors[0] %>
+                    </div>
+                  <% } %>
               <div class="pt-3 mb-4  ">
                 <button class="btn btn-dark col-lg-12 col-md-12 col-12 btn-lg btn-block" type="submit">VERIFY</button>
               </div>

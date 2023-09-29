@@ -130,7 +130,8 @@ const otpVerify = async (req, res) => {
       
     } catch (error) {
       console.error('Error finding OTP in the database:', error);
-      res.status(500).json({ error: 'Unable to verify OTP.' });
+      req.flash('error', 'OTP is not valid!'); // Set the flash message
+      return res.status(400).redirect('/otp');
     }
   }
   
