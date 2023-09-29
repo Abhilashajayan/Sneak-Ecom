@@ -63,9 +63,14 @@
               </li> -->
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <div class="mr-2">
-              <a style="text-decoration: none;" class="text-secondary h6" href="/signin">Sign In</a>
-            </div>
+            <% if (typeof user === 'undefined' || user === null) { %>
+              <div class="mr-2">
+                <a style="text-decoration: none;" class="text-secondary h6" href="/signin">Sign In</a>
+              </div>
+            <% } %>
+            
+            
+            
           
             <div class="mr-1">
                <a href='/user-Dash'><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">

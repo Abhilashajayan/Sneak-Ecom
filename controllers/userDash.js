@@ -14,7 +14,7 @@ const PDFDocument = require('pdfkit');
 const fs = require('fs');       
 const Coupon  = require('../models/couponSchema');
 const jwt = require('jsonwebtoken');
-
+const secretKey = process.env.SECRET_KEY;
 
 const instance = new Razorpay({
   key_id: process.env.RAZOR_KEY,
@@ -24,6 +24,13 @@ const instance = new Razorpay({
 
 const userHome = async (req, res)=>{
     try{
+        const token = req.cookies.jwt;
+        const decodedTokens = jwt.decode(token);
+        let user
+        if (decodedTokens) {
+           user = decodedTokens.userId;
+        }
+        console.log(user);
         const userData = await Product.find({}).sort({ createdAt: -1 }).limit(8);
         const cartItems = await Cart.find({},{});
         let cartLength = 0;
@@ -31,7 +38,7 @@ const userHome = async (req, res)=>{
           cartLength = cartItems[0].cartItems.length;
         }
         console.log(cartLength, "the length");
-        res.render('userHome/userHome',{ userData , cartItems , cartLength });
+        res.render('userHome/userHome',{ userData , cartItems , cartLength ,user });
     }
  
         catch(err){
@@ -42,6 +49,13 @@ const userHome = async (req, res)=>{
 
 const productData = async (req, res) => {
     try {
+      const token = req.cookies.jwt;
+      const decodedTokens = jwt.decode(token);
+      let user
+      if (decodedTokens) {
+         user = decodedTokens.userId;
+      }
+
       const productId = req.params.userId;
       const products = await Product.findById(productId);
       const cartItems = await Cart({},{});
@@ -49,7 +63,7 @@ const productData = async (req, res) => {
         if (cartItems.length > 0 && cartItems[0].cartItems) {
           cartLength = cartItems[0].cartItems.length;
         }
-      res.render('userHome/addToCart',{products , cartItems ,cartLength});
+      res.render('userHome/addToCart',{products , cartItems ,cartLength ,user });
       if (!products) {
         res.redirect('/404')
       }
@@ -72,11 +86,12 @@ const shopPage = async (req, res) => {
       .limit(ITEMS_PER_PAGE);
   const cart = await Cart.find({},{});
   const cartItems = await cata.find({},{});
+  const user  = req.userId;
   let cartLength = 0;
     if (cart.length > 0 && cart[0].cartItems) {
       cartLength = cart[0].cartItems.length;
     }
-  res.render('userHome/shopeList',{ userData, cartItems, cartLength , currentPage:page });
+  res.render('userHome/shopeList',{ userData, cartItems, cartLength , currentPage:page ,user});
 }
   
 catch(err){
@@ -97,6 +112,7 @@ catch(err){
 const productCart = async (req, res) => {
   try {
     const userId = req.userId;
+    const user = req.userId;
     const cart = await Cart.find({},{});
     const userCart = await Cart.findOne({ user: userId }).populate({
       path: "cartItems.product",
@@ -113,7 +129,7 @@ const productCart = async (req, res) => {
 
     const cartItems = userCart.cartItems;
     console.log(cartItems,"cartItems");
-    res.render('userHome/productCart', { cartItems , cartLength });
+    res.render('userHome/productCart', { cartItems , cartLength, user });
   } catch (err) {
     console.error(err);
     
@@ -125,14 +141,20 @@ const userDash = async (req, res) => {
   try{
     
     const userId = req.userId;
+    const user  = req.userId;
     const walletData = await Wallet.findOne({ userId: userId });
+    let cartLength = 0;
+    const cartItems = await Cart({},{});
+    if (cartItems.length > 0 && cartItems[0].cartItems) {
+      cartLength = cartItems[0].cartItems.length;
+    }
     const userData = await User.findById(userId);
     console.log(userData,"hfdhfad");
     const orders = await Order.find({ user: userId })
  
     .select('items.productTitle createdOn status totalAmount') 
     .populate('items.productId', 'productTitle');
-    res.render('userAcc/user-dash',{userData,orders,walletData});
+    res.render('userAcc/user-dash',{userData,orders,walletData,cartLength ,user});
   }catch(err){
     console.log(err);
   }
@@ -242,7 +264,7 @@ const addToCart = async (req, res) => {
   console.log(quantity,"the quantity");
   console.log(productId,"the product id");
   const userId = req.userId;
-
+ 
   try {
     const product = await Product.findById(productId, { productTitle: 1, productPrice: 1 });
 
@@ -280,7 +302,7 @@ const addToCart = async (req, res) => {
 const increData = async (req, res) => {
   const { productId, quantity } = req.body;
   const userId = req.userId;
-
+  
   try {
     let cart;
 
