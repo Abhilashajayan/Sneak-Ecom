@@ -185,7 +185,7 @@ const imageAdd =  async (req, res) => {
 
       console.log('Selected Sizes:', selectedSizes);
      
-      let products = new Product({
+      const products = new Product({
         productImages: uploadedImages ,
         productTitle: req.body.productTitle,
         productPrice: req.body.productPrice,

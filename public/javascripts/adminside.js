@@ -425,7 +425,7 @@ function populateEditCouponForm(couponData) {
   couponCodeInput.value = couponData.couponCode;
   expiryDateInput.value = formattedExpiryDate;
   coupId.value = couponData._id;
-  amountInput.value = couponData.  discountAmount;
+  amountInput.value = couponData.discountAmount;
   minPurchaseInput.value = couponData.minPurchase;
 }
 
@@ -542,3 +542,6 @@ document.getElementById('editCataForm').addEventListener('submit', function (e) 
       console.error('Error:', error);
   });
 });
+
+
+

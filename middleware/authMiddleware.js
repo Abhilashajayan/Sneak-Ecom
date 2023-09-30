@@ -38,7 +38,9 @@ const authMiddleware = async (req, res, next) => {
       console.log("Verified user:", user);
     } else {
       const error = "You are blocked by admin";
+      res.clearCookie('refreshToken'); 
       res.render('userLogin/Login', { error });
+      res.clearCookie('jwt');
       console.log("Blocked");
     }
   } catch (error) {
