@@ -979,7 +979,9 @@ const removedProductCart = async (req, res) => {
   }
 };
 
-
+const blocked = (req, res) => {
+  res.render('animation/block');
+};
 
 
 module.exports = {
@@ -1012,5 +1014,6 @@ module.exports = {
     userDelete,
     showOrder,
     filterProduct,
-    removedProductCart
+    removedProductCart,
+    blocked
 }

@@ -27,6 +27,7 @@ const emailotp = (req, res) => {
 };
 
 
+
 const forgorPass = (req, res) => {
     res.render('userLogin/forgotpass');
 };
@@ -61,6 +62,11 @@ const userSignin = async (req, res) => {
 
     if (!user) {
       const error = 'Check user username';
+      return res.render('userLogin/Login', { error });
+    }
+    const userStatus = user.status;
+    if (userStatus === true) {
+      const error = 'User  Is Blocked By Admin!';
       return res.render('userLogin/Login', { error });
     }
 
