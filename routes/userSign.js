@@ -1,20 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const signinCont = require('../controllers/signController');
 const mailerAuth = require('../controllers/mailer');
 const upload = require("../services/multer");
-const userDas = require('../controllers/userDash');
+const userDas = require('../controllers/userController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 
 
 //get methods
-router.get('/signup', signinCont.signup);
-router.get('/otp', signinCont.emailotp);
-router.get('/signin', signinCont.signin);
-router.get('/verify-email', signinCont.signemail);
-router.get('/forgot-password', signinCont.forgorPass);
-router.get('/change-password', signinCont.changepassword);
+router.get('/signup', userDas.signup);
+router.get('/otp', userDas.emailotp);
+router.get('/signin', userDas.signin);
+router.get('/verify-email', userDas.signemail);
+router.get('/forgot-password', userDas.forgorPass);
+router.get('/change-password', userDas.changepassword);
 router.get('/',userDas.userHome);
 router.get('/product-Selection/:userId',authMiddleware, userDas.productData);
 router.get('/shope-data', authMiddleware, userDas.shopPage);
@@ -37,10 +36,10 @@ router.get('/blocked',userDas.blocked);
 
 router.post('/Invoice',userDas.invoiceDownload);
 router.post('/upload',authMiddleware, upload.single('userImage'), userDas.userImageAdd);
-router.post('/signup',signinCont.userRegister);
+router.post('/signup',userDas.userRegister);
 router.post('/verify-email',mailerAuth.registerMail); 
 router.post('/otp-validate',mailerAuth.otpVerify);
-router.post('/signin',signinCont.userSignin);
+router.post('/signin',userDas.userSignin);
 router.post('/change-password',mailerAuth.changePass);
 router.post('/users/:userId',authMiddleware,userDas.updateDash);
 router.post('/updateAddress/:addressId',authMiddleware, userDas.editAddress);
@@ -53,7 +52,6 @@ router.post('/orders/:orderId/cancel',authMiddleware,userDas.cancelRequest);
 router.post('/verify-payment',authMiddleware,userDas.verifyPayment);
 router.post('/filterData',userDas.filterData);
 router.post('/address/:addressId',authMiddleware,userDas.userDelete);
-
 router.post('/removeCart',authMiddleware,userDas.removedProductCart);
 
 

@@ -349,6 +349,7 @@ document.querySelectorAll('.delete-button').forEach(button => {
 });
 
 function deleteAddress(addressId) {
+    window.location.reload();
     fetch(`/address/${addressId}`, {
         method: 'POST',
     })
@@ -356,6 +357,7 @@ function deleteAddress(addressId) {
         if (response.ok) {
             const cardToDelete = document.querySelector(`[data-address-id="${addressId}"]`).closest('.address-card');
             cardToDelete.remove();
+            
         } else {
             console.error('Error deleting address');
         }
@@ -398,3 +400,168 @@ async function showOrder(orderId) {
         console.error('Error:', error);
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.getElementById('name1');
+    const countryInput = document.getElementById('country');
+    const streetAddressInput = document.getElementById('streetAddress');
+    const cityInput = document.getElementById('city');
+    const stateInput = document.getElementById('state');
+    const pincodeInput = document.getElementById('pincode');
+    const addAddressButton = document.querySelector('#userAddAddressForm button');
+
+    function validateForm() {
+        // Reset error messages
+        document.getElementById('addr1').textContent = '';
+        document.getElementById('addr2').textContent = '';
+        document.getElementById('addr3').textContent = '';
+        document.getElementById('addr4').textContent = '';
+        document.getElementById('addr5').textContent = '';
+        document.getElementById('addr6').textContent = '';
+
+        // Validate Name
+        const name = nameInput.value.trim();
+        if (name === '') {
+            document.getElementById('addr1').textContent = 'Name cannot be empty.';
+            addAddressButton.disabled = true;
+        }
+
+        // Validate Country
+        const country = countryInput.value.trim();
+        if (country === '') {
+            document.getElementById('addr2').textContent = 'Country cannot be empty.';
+            addAddressButton.disabled = true;
+        }
+
+        // Validate Street Address
+        const streetAddress = streetAddressInput.value.trim();
+        if (streetAddress === '') {
+            document.getElementById('addr3').textContent = 'Street Address cannot be empty.';
+            addAddressButton.disabled = true;
+        }
+
+        // Validate City
+        const city = cityInput.value.trim();
+        if (city === '') {
+            document.getElementById('addr4').textContent = 'City cannot be empty.';
+            addAddressButton.disabled = true;
+        }
+
+        // Validate State
+        const state = stateInput.value.trim();
+        if (state === '') {
+            document.getElementById('addr5').textContent = 'State cannot be empty.';
+            addAddressButton.disabled = true;
+        }
+
+        // Validate Pincode
+        const pincode = pincodeInput.value.trim();
+        if (pincode === '' || isNaN(pincode) || pincode.length !== 6) {
+            document.getElementById('addr6').textContent = 'Pincode must be a valid 6-digit number.';
+            addAddressButton.disabled = true;
+        }
+
+        // Enable the button if all fields are filled correctly
+        if (document.getElementById('addr1').textContent === '' &&
+            document.getElementById('addr2').textContent === '' &&
+            document.getElementById('addr3').textContent === '' &&
+            document.getElementById('addr4').textContent === '' &&
+            document.getElementById('addr5').textContent === '' &&
+            document.getElementById('addr6').textContent === '') {
+            addAddressButton.disabled = false;
+        } else {
+            addAddressButton.disabled = true;
+        }
+    }
+
+    // Validate form on input change
+    nameInput.addEventListener('input', validateForm);
+    countryInput.addEventListener('input', validateForm);
+    streetAddressInput.addEventListener('input', validateForm);
+    cityInput.addEventListener('input', validateForm);
+    stateInput.addEventListener('input', validateForm);
+    pincodeInput.addEventListener('input', validateForm);
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.getElementById('name2');
+    const countryInput = document.getElementById('country2');
+    const streetAddressInput = document.getElementById('streetAddress2');
+    const cityInput = document.getElementById('city2');
+    const stateInput = document.getElementById('state2');
+    const pincodeInput = document.getElementById('pincode2');
+    const editAddressButton = document.getElementById('editButton');
+
+    function validateForm() {
+        // Reset error messages
+        document.getElementById('adde1').textContent = '';
+        document.getElementById('adde2').textContent = '';
+        document.getElementById('adde3').textContent = '';
+        document.getElementById('adde4').textContent = '';
+        document.getElementById('adde5').textContent = '';
+        document.getElementById('adde6').textContent = '';
+
+        // Validate Name
+        const name = nameInput.value.trim();
+        if (name === '') {
+            document.getElementById('adde1').textContent = 'Name cannot be empty.';
+            editAddressButton.disabled = true;
+        }
+
+        // Validate Country
+        const country = countryInput.value.trim();
+        if (country === '') {
+            document.getElementById('adde2').textContent = 'Country cannot be empty.';
+            editAddressButton.disabled = true;
+        }
+
+        // Validate Street Address
+        const streetAddress = streetAddressInput.value.trim();
+        if (streetAddress === '') {
+            document.getElementById('adde3').textContent = 'Street Address cannot be empty.';
+            editAddressButton.disabled = true;
+        }
+
+        // Validate City
+        const city = cityInput.value.trim();
+        if (city === '') {
+            document.getElementById('adde4').textContent = 'City cannot be empty.';
+            editAddressButton.disabled = true;
+        }
+
+        // Validate State
+        const state = stateInput.value.trim();
+        if (state === '') {
+            document.getElementById('adde5').textContent = 'State cannot be empty.';
+            editAddressButton.disabled = true;
+        }
+
+        // Validate Pincode
+        const pincode = pincodeInput.value.trim();
+        if (pincode === '' || isNaN(pincode) || pincode.length !== 6) {
+            document.getElementById('adde6').textContent = 'Pincode must be a valid 6-digit number.';
+            editAddressButton.disabled = true;
+        }
+
+        // Enable the button if all fields are filled correctly
+        if (document.getElementById('adde1').textContent === '' &&
+            document.getElementById('adde2').textContent === '' &&
+            document.getElementById('adde3').textContent === '' &&
+            document.getElementById('adde4').textContent === '' &&
+            document.getElementById('adde5').textContent === '' &&
+            document.getElementById('adde6').textContent === '') {
+            editAddressButton.disabled = false;
+        } else {
+            editAddressButton.disabled = true;
+        }
+    }
+
+    // Validate form on input change
+    nameInput.addEventListener('input', validateForm);
+    countryInput.addEventListener('input', validateForm);
+    streetAddressInput.addEventListener('input', validateForm);
+    cityInput.addEventListener('input', validateForm);
+    stateInput.addEventListener('input', validateForm);
+    pincodeInput.addEventListener('input', validateForm);
+});
