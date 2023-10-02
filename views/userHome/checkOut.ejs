@@ -352,10 +352,12 @@
                             <% }) %>
                             
                             <% if (!hasDiscount) { %>
-                              <div class="input-group mt-3 mb-4">
-                                <input type="text" class="form-control border" id="promoCodeInput" name="code" placeholder="Promo code" />
+                              <div id="coupDiv"  class="input-group mt-3 mb-4">
+                                <input  type="text" class="form-control border" id="promoCodeInput" name="code" placeholder="Promo code" />
                                 <button class="btn btn-light text-primary border" id="applyButton">Apply</button>
+                               
                               </div>
+                              <p class="text-success" id="couponResult"></p>
                             <% } else { %>
                                 <div class="input-group mt-3 mb-4">
                                     <% cartItems.forEach((user, index) => { %>

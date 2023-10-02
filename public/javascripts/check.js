@@ -68,13 +68,18 @@ document.addEventListener("DOMContentLoaded", function () {
 function addCouponData(data) {
   console.log(data.couponData.minPurchase);
 const couponMinPurchase = data.couponData.minPurchase;
+const innerData = document.getElementById("couponResult");
+const coupnDivs = document.getElementById("coupDiv");
+
 if (totalAmount >= couponMinPurchase) {
   const couponAmount = data.couponData.discountAmount;
   totalAmount = totalAmount - couponAmount;
   
-  console.log("Coupon applied successfully. New total amount: " + totalAmount);
+  innerData.innerHTML = "Coupon applied successfully. New total amount: " + totalAmount;
+  coupnDivs.style.display = "none"
+ 
 } else if ( totalAmount < couponMinPurchase) {
-  console.log("Coupon cannot be applied. Minimum purchase requirement not met.");
+  innerData.innerHTML ="Coupon cannot be applied. Minimum purchase requirement not met.";
 }
 }
 
