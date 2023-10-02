@@ -21,7 +21,7 @@
               <tr>
                 <th scope="row"><%= index+1 %></th>
                 <td><%= user._id %></td>
-                <td><%= user.categoryName %></td>
+                <td style="white-space: nowrap;max-width: 20px; text-overflow: ellipsis;" class="text-center text-truncate "><%= user.categoryName %></td>
                 <td >
                   <button class="btn"  onclick="deleteCategory('<%= user._id %>')">
                     <i class="fas fa-trash fa-lg"  style="color: #605F5F;"></i>

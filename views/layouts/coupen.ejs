@@ -59,21 +59,25 @@
                     <div class="mb-4">
                         <label for="couponCode" class="form-label">Coupon Code</label>
                         <input type="text" id="couponCode" name="couponCode" placeholder="Coupon code" class="form-control">
+                        <p class="text-danger" id="coup1"></p>
                     </div>
                     <!-- Expiry Date -->
                     <div class="mb-4">
                         <label for="expiryDate" class="form-label">Expiry Date</label>
                         <input type="date" id="expiryDate" name="expiryDate" class="form-control">
+                        <p class="text-danger" id="coup2"></p>
                     </div>
                     <!-- Amount -->
                     <div class="mb-4">
                         <label for="amount" class="form-label">Amount</label>
                         <input type="number" id="amount" name="amount" placeholder="Amount" class="form-control">
+                        <p class="text-danger" id="coup4"></p>
                     </div>
                     <!-- Minimum Purchase -->
                     <div class="mb-4">
                         <label for="minPurchase" class="form-label">Minimum Purchase</label>
                         <input type="number" id="minPurchase" name="minPurchase" placeholder="Minimum purchase" class="form-control">
+                        <p class="text-danger" id="coup3"></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
@@ -91,7 +95,7 @@
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
           <div class="modal-header">
-              <h1 class="modal-title font-semibold text-2xl">Add Coupon</h1>
+              <h1 class="modal-title font-semibold text-2xl">Edit Coupon</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
          
@@ -102,31 +106,39 @@
                   <div class="mb-4">
                       <label for="couponCode" class="form-label">Coupon Code</label>
                       <input type="text" id="couponCode1" name="couponCode" placeholder="Coupon code" class="form-control">
+                      <p class="text-danger"  id="errorCoupon3"></p>
                   </div>
                   <!-- Expiry Date -->
                   <div class="mb-4">
                       <label for="expiryDate" class="form-label">Expiry Date</label>
                       <input type="date" id="expiryDate1" name="expiryDate" class="form-control">
+                     
                   </div>
                   <!-- Amount -->
                   <div class="mb-4">
                       <label for="amount" class="form-label">Amount</label>
                       <input type="number" id="amount1" name="amount" placeholder="Amount" class="form-control">
+                      <p class="text-danger" id="errorCoupon2"></p>
                   </div>
                   <!-- Minimum Purchase -->
                   <div class="mb-4">
                       <label for="minPurchase" class="form-label">Minimum Purchase</label>
                       <input type="number" id="minPurchase1" name="minPurchase" placeholder="Minimum purchase" class="form-control">
+                      <p class="text-danger"  id="errorCoupon"></p>
                   </div>
                   <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
-                      <button type="submit"  class="btn btn-primary">ADD COUPON</button>
+                      <button type="submit"  class="btn btn-primary" id="editCouponForm" >ADD COUPON</button>
                   </div>
               </form>
           </div>
       </div>
   </div>
 </div>
+
+
+
+
 <% function formatDate(date) {
   const createdDate = new Date(date);
   return createdDate.toDateString();

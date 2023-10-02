@@ -427,6 +427,7 @@ function populateEditCouponForm(couponData) {
   coupId.value = couponData._id;
   amountInput.value = couponData.discountAmount;
   minPurchaseInput.value = couponData.minPurchase;
+  
 }
 
 
@@ -534,6 +535,7 @@ document.getElementById('editCataForm').addEventListener('submit', function (e) 
   .then(response => {
       if (response.ok) {
           console.log('Form submitted successfully');
+          window.location.reload();
       } else {
           console.error('Form submission failed');
       }
@@ -542,6 +544,217 @@ document.getElementById('editCataForm').addEventListener('submit', function (e) 
       console.error('Error:', error);
   });
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const couponCodeInput = document.getElementById('couponCode1');
+  const expiryDateInput = document.getElementById('expiryDate1');
+  const amountInput = document.getElementById('amount1');
+  const minPurchaseInput = document.getElementById('minPurchase1');
+  const errorCouponCode = document.getElementById('errorCoupon3');
+  const errorExpiryDate = document.getElementById('errorCoupon');
+  const errorAmount = document.getElementById('errorCoupon2');
+  const submitButton = document.getElementById('editCouponForm');
+
+  function validateForm() {
+
+    errorCouponCode.textContent = '';
+    errorExpiryDate.textContent = '';
+    errorAmount.textContent = '';
+
+    const couponCode = couponCodeInput.value.trim();
+    if (couponCode === '' || couponCode === null) {
+      errorCouponCode.textContent = 'Coupon code cannot be empty.';
+      submitButton.disabled = true;
+    }
+
+
+    const expiryDate = expiryDateInput.value.trim();
+    if (expiryDate === '' || expiryDate === null) {
+      errorExpiryDate.textContent = 'Expiry date cannot be empty.';
+      submitButton.disabled = true;
+    }
+
+    const amount = amountInput.value.trim();
+    if (amount === '' || amount === null || isNaN(amount) || parseFloat(amount) <= 0) {
+      errorAmount.textContent = 'Amount must be a valid positive number.';
+      submitButton.disabled = true;
+    }
+
+
+    const minPurchase = minPurchaseInput.value.trim();
+    if (minPurchase === '' || minPurchase === null || isNaN(minPurchase) || parseFloat(minPurchase) <= 0) {
+      errorCoupon.textContent = 'Minimum purchase must be a valid positive number.';
+      submitButton.disabled = true;
+    }
+
+    if (errorCouponCode.textContent === '' && errorExpiryDate.textContent === '' && errorAmount.textContent === '') {
+      submitButton.disabled = false;
+    } else {
+      submitButton.disabled = true;
+    }
+  }
+
+  couponCodeInput.addEventListener('input', validateForm);
+  expiryDateInput.addEventListener('input', validateForm);
+  amountInput.addEventListener('input', validateForm);
+  minPurchaseInput.addEventListener('input', validateForm);
+  submitButton.addEventListener('click', validateForm);
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const couponCodeInput = document.getElementById('couponCode');
+  const expiryDateInput = document.getElementById('expiryDate');
+  const amountInput = document.getElementById('amount');
+  const minPurchaseInput = document.getElementById('minPurchase');
+  const errorCouponCode = document.getElementById('coup1');
+  const errorExpiryDate = document.getElementById('coup2');
+  const errorAmount = document.getElementById('coup4');
+  const errorMinPurchase = document.getElementById('coup3');
+  const submitButton = document.querySelector('#addCouponForm button[type="submit"]');
+
+  function validateForm() {
+     
+      errorCouponCode.textContent = '';
+      errorExpiryDate.textContent = '';
+      errorAmount.textContent = '';
+      errorMinPurchase.textContent = '';
+
+    
+      const couponCode = couponCodeInput.value.trim();
+      if (couponCode === '') {
+          errorCouponCode.textContent = 'Coupon code cannot be empty.';
+          submitButton.disabled = true;
+      }
+
+   
+      const expiryDate = expiryDateInput.value.trim();
+      if (expiryDate === '') {
+          errorExpiryDate.textContent = 'Expiry date cannot be empty.';
+          submitButton.disabled = true;
+      }
+
+    
+      const amount = amountInput.value.trim();
+      if (amount === '' || isNaN(amount) || parseFloat(amount) <= 0) {
+          errorAmount.textContent = 'Amount must be a valid positive number.';
+          submitButton.disabled = true;
+      }
+
+      const minPurchase = minPurchaseInput.value.trim();
+      if (minPurchase === '' || isNaN(minPurchase) || parseFloat(minPurchase) <= 0) {
+          errorMinPurchase.textContent = 'Minimum purchase must be a valid positive number.';
+          submitButton.disabled = true;
+      }
+
+      if (errorCouponCode.textContent === '' && errorExpiryDate.textContent === '' && errorAmount.textContent === '' && errorMinPurchase.textContent === '') {
+          submitButton.disabled = false;
+      } else {
+          submitButton.disabled = true;
+      }
+  }
+
+
+  couponCodeInput.addEventListener('input', validateForm);
+  expiryDateInput.addEventListener('input', validateForm);
+  amountInput.addEventListener('input', validateForm);
+  minPurchaseInput.addEventListener('input', validateForm);
+
+
+  document.getElementById('addCouponForm').addEventListener('submit', function(event) {
+      validateForm(); 
+      if (submitButton.disabled) {
+          event.preventDefault(); 
+      }
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const productTitleInput = document.getElementById('productTitles');
+  const productPriceInput = document.getElementById('productPrices');
+  const discountInput = document.getElementById('discounts');
+  const stockInput = document.getElementById('stocks');
+  const isFeaturedInput = document.getElementById('isFeatured');
+  const errorProductTitle = document.getElementById('pro1');
+  const errorProductPrice = document.getElementById('pro2');
+  const errorDiscount = document.getElementById('pro3');
+  const errorStock = document.getElementById('pro4');
+  const errorIsFeatured = document.getElementById('pro5');
+  const submitButton = document.querySelector('#editProductForm button[type="submit"]');
+
+  function validateForm() {
+      // Reset error messages
+      errorProductTitle.textContent = '';
+      errorProductPrice.textContent = '';
+      errorDiscount.textContent = '';
+      errorStock.textContent = '';
+      errorIsFeatured.textContent = '';
+
+      // Validate Product Title
+      const productTitle = productTitleInput.value.trim();
+      if (productTitle === '') {
+          errorProductTitle.textContent = 'Product title cannot be empty.';
+          submitButton.disabled = true;
+      }
+
+      
+
+      // Validate Product Price
+      const productPrice = productPriceInput.value.trim();
+      if (productPrice === '' || isNaN(productPrice) || parseFloat(productPrice) <= 0) {
+          errorProductPrice.textContent = 'Product price must be a valid positive number.';
+          submitButton.disabled = true;
+      }
+
+      // Validate Discount
+      const discount = discountInput.value.trim();
+      if (discount === '' || isNaN(discount) || parseFloat(discount) < 0 || parseFloat(discount) >= 100) {
+          errorDiscount.textContent = 'Discount must be a valid percentage (0-99).';
+          submitButton.disabled = true;
+      }
+
+      // Validate Stock
+      const stock = stockInput.value.trim();
+      if (stock === '' || isNaN(stock) || parseInt(stock) < 0) {
+          errorStock.textContent = 'Stock must be a valid positive number.';
+          submitButton.disabled = true;
+      }
+
+      // Validate Is Featured
+      const isFeatured = isFeaturedInput.value;
+      if (isFeatured === '') {
+          errorIsFeatured.textContent = 'Please select whether the product is featured or not.';
+          submitButton.disabled = true;
+      }
+
+      // Enable the button if all fields are filled correctly
+      if (errorProductTitle.textContent === '' &&
+          errorProductPrice.textContent === '' && errorDiscount.textContent === '' && 
+          errorStock.textContent === '' && errorIsFeatured.textContent === '') {
+          submitButton.disabled = false;
+      } else {
+          submitButton.disabled = true;
+      }
+  }
+
+  productTitleInput.addEventListener('input', validateForm);
+  productPriceInput.addEventListener('input', validateForm);
+  discountInput.addEventListener('input', validateForm);
+  stockInput.addEventListener('input', validateForm);
+  isFeaturedInput.addEventListener('change', validateForm);
+
+
+  document.getElementById('editProductForm').addEventListener('submit', function(event) {
+      validateForm(); 
+      if (submitButton.disabled) {
+          event.preventDefault(); 
+      }
+  });
+});
+
+
 
 
 

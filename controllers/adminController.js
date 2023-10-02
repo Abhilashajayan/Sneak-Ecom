@@ -517,7 +517,7 @@ const postCoponEdit = async (req, res) => {
     }
     coupon.couponCode = couponCode;
     coupon.expiryDate = expiryDate;
-    coupon.amount = amount;
+    coupon.discountAmount = amount;
     coupon.minPurchase = minPurchase;
     await coupon.save();
     res.redirect('/admin-dashboard');
