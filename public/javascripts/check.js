@@ -404,3 +404,67 @@ const shippingMethodForms = document.getElementById('shippingMethodForm');
     
 
 
+    document.addEventListener('DOMContentLoaded', function() {
+      const nameInput = document.querySelector('input[name="name"]');
+      const countryInput = document.querySelector('input[name="country"]');
+      const streetAddressInput = document.querySelector('input[name="streetAddress"]');
+      const cityInput = document.querySelector('input[name="city"]');
+      const pincodeInput = document.querySelector('input[name="pincode"]');
+      const stateInput = document.querySelector('input[name="state"]');
+      const addAddressButton = document.querySelector('#userAddAddressForm button');
+  
+      function validateForm() {
+
+          document.getElementById('checkadd1').textContent = '';
+          document.getElementById('checkadd2').textContent = '';
+          document.getElementById('checkadd3').textContent = '';
+          document.getElementById('checkadd4').textContent = '';
+          document.getElementById('checkadd5').textContent = '';
+
+          if (nameInput.value.trim() === '') {
+              document.getElementById('checkadd1').textContent = 'Name cannot be empty.';
+              addAddressButton.disabled = true;
+          }
+  
+          if (countryInput.value.trim() === '') {
+              document.getElementById('checkadd2').textContent = 'Country cannot be empty.';
+              addAddressButton.disabled = true;
+          }
+
+          if (streetAddressInput.value.trim() === '') {
+              document.getElementById('checkadd3').textContent = 'Street Address cannot be empty.';
+              addAddressButton.disabled = true;
+          }
+  
+
+          if (cityInput.value.trim() === '') {
+              document.getElementById('checkadd4').textContent = 'City cannot be empty.';
+              addAddressButton.disabled = true;
+          }
+  
+
+          const pincodeValue = pincodeInput.value.trim();
+          if (pincodeValue === '' || isNaN(pincodeValue) || pincodeValue.length !== 6) {
+              document.getElementById('checkadd5').textContent = 'Pincode must be a valid 6-digit number.';
+              addAddressButton.disabled = true;
+          }
+
+          if (document.getElementById('checkadd1').textContent === '' &&
+              document.getElementById('checkadd2').textContent === '' &&
+              document.getElementById('checkadd3').textContent === '' &&
+              document.getElementById('checkadd4').textContent === '' &&
+              document.getElementById('checkadd5').textContent === '') {
+              addAddressButton.disabled = false;
+          } else {
+              addAddressButton.disabled = true;
+          }
+      }
+  
+      nameInput.addEventListener('input', validateForm);
+      countryInput.addEventListener('input', validateForm);
+      streetAddressInput.addEventListener('input', validateForm);
+      cityInput.addEventListener('input', validateForm);
+      pincodeInput.addEventListener('input', validateForm);
+      stateInput.addEventListener('input', validateForm);
+  });
+  

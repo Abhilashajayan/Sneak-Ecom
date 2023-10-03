@@ -152,11 +152,11 @@
                                                     <label class="form-check-label" for="flexRadioDefault1">
                                                         Address One
                                                         <br/>
-                                                        <small class="text-muted"><%= add.name %>,
+                                                        <small class=" text-muted " ><%= add.name %>,
                                                         </small>
-                                                        <small class="text-muted"><%= add.pincode %>
+                                                        <small class=" text-truncate " style="white-space: nowrap;max-width: 40px; text-overflow: ellipsis;"><%= add.pincode %>
                                                             ,</small>
-                                                        <small class="text-muted"><%= add.city %>
+                                                        <small class=" text-truncate " style="white-space: nowrap;max-width: 40px; text-overflow: ellipsis;"><%= add.city %>
                                                         </small>
                                                     </label>
                                                 </div>
@@ -173,6 +173,7 @@
                                                     <p class="mb-0">Name</p>
                                                     <div class="form-outline">
                                                         <input type="text" name="name" placeholder="Type here" class="form-control" required/>
+                                                        <p class="text-danger" id="checkadd1"></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 mb-3">
@@ -180,24 +181,28 @@
                                                     <div class="form-outline">
                                                         <input type="text" name="country" placeholder="Type here" class="form-control" required/>
                                                     </div>
+                                                    <p class="text-danger" id="checkadd2"></p>
                                                 </div>
                                                 <div class="col-sm-4 mb-3">
                                                     <p class="mb-0">Street Address</p>
                                                     <div class="form-outline">
                                                         <input type="text" name="streetAddress" placeholder="Type here" class="form-control" required/>
                                                     </div>
+                                                    <p class="text-danger" id="checkadd3"></p>
                                                 </div>
                                                 <div class="col-sm-4 col-6 mb-3">
                                                     <p class="mb-0">City</p>
                                                     <div class="form-outline">
                                                         <input type="text" name="city" class="form-control" required/>
                                                     </div>
+                                                    <p class="text-danger" id="checkadd4"></p>
                                                 </div>
                                                 <div class="col-sm-4 col-6 mb-3">
                                                     <p class="mb-0">Pincode</p>
                                                     <div class="form-outline">
                                                         <input type="text" name="pincode" class="form-control" required/>
                                                     </div>
+                                                    <p class="text-danger" id="checkadd5"></p>
                                                 </div>
                                                 <div class="col-sm-4 col-6 mb-3">
                                                     <input id="getUser" type="hidden" value="<%= user._id %>">

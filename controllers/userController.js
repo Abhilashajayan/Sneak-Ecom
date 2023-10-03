@@ -67,7 +67,7 @@ const userRegister = async (req, res) => {
     if (username && email && password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       req.session.userData = { username, email, password: hashedPassword };
-      console.log(hashedPassword);
+     
     }
 
     res.redirect('verify-email');
@@ -110,7 +110,7 @@ const userSignin = async (req, res) => {
       res.render('userLogin/Login', { error });
     }
   } catch (error) {
-    console.log(error);
+    
     res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -133,7 +133,7 @@ const userHome = async (req, res)=>{
         if (cartItems.length > 0 && cartItems[0].cartItems) {
           cartLength = cartItems[0].cartItems.length;
         }
-        console.log(cartLength, "the length");
+       
         res.render('userHome/userHome',{ userData , cartItems , cartLength ,user });
     }
  
@@ -221,7 +221,7 @@ const productCart = async (req, res) => {
     if (cart.length > 0 && cart[0].cartItems) {
       cartLength = cart[0].cartItems.length;
     }
-    console.log(userCart.cartItems,"the data");
+    
     
     if (!userCart) {  
       res.redirect('/empty-Cart');
@@ -232,7 +232,6 @@ const productCart = async (req, res) => {
     }
 
     const cartItems = userCart.cartItems;
-    console.log(cartItems,"cartItems");
     res.render('userHome/productCart', { cartItems , cartLength, user });
   } catch (err) {
     console.error(err);
@@ -253,7 +252,6 @@ const userDash = async (req, res) => {
       cartLength = cartItems[0].cartItems.length;
     }
     const userData = await User.findById(userId);
-    console.log(userData,"hfdhfad");
     const orders = await Order.find({ user: userId })
  
     .select('items.productTitle createdOn status totalAmount') 
@@ -269,13 +267,9 @@ const userDash = async (req, res) => {
 const updateDash = async (req, res) => {
   try {
     const userId = req.params.userId;
-    console.log(userId, "user Id");
     const { username, email, phone } = req.body;
     const data = { username, email, phone };
-    console.log(data);
     await User.findByIdAndUpdate(userId, data);
-
-    console.log(userId, "user Id");
     res.status(200).json({ message: "User updated successfully" });
   } catch (err) {
     console.error(err);
@@ -287,24 +281,18 @@ const updateDash = async (req, res) => {
 const addSearch = async (req, res) => {
   const addressId = req.params.addressId;
   const userId = req.userId;
-  console.log(userId, "user Id");
   try {
 
     const user = await User.findById(userId);
 
     if (user) {
       const matchingAddress = user.addresses.find(address => address.id == addressId);
-        console.log(matchingAddress.name, "address");
       if (matchingAddress) {
-        console.log("Matching Address:", matchingAddress);
-
         return res.status(200).json({ address: matchingAddress });
       } else {
-        console.log("Address not found for this user");
         return res.status(404).json({ error: "Address not found for this user" });
       }
     } else {
-      console.log("User not found");
       return res.status(404).json({ error: "User not found" });
     }
   } catch (error) {
@@ -346,14 +334,12 @@ const editAddress = async (req, res) => {
     'addresses.$.state': state,
     'addresses.$.pincode': pincode,
   };
-  console.log(updatedAddress);
 
   try {
     await User.updateOne(
       { _id: userId, 'addresses._id': addressId },
       { $set: updatedAddress }
     );
-      console.log("success");
     res.status(200);
   } catch (err) {
     console.error(err);
@@ -364,9 +350,6 @@ const editAddress = async (req, res) => {
 
 const addToCart = async (req, res) => {
   const { productId ,quantity, selectedSize } = req.body;
-  
-  console.log(quantity,"the quantity");
-  console.log(productId,"the product id");
   const userId = req.userId;
  
   try {
@@ -395,7 +378,6 @@ const addToCart = async (req, res) => {
 
     await userCart.save();
     res.status(201).json({ message: "Item added to cart"});
-    console.log("user cart is updated");
   } catch (error) {
     console.error("Error adding item to cart:", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -455,7 +437,6 @@ const checkOut = async(req, res) => {
   }
   const cartItems = userCart.cartItems;
  
-  console.log(cartItems.productTitle, "the data");
   const user = await User.findOne({ _id: userId }, { addresses: 1 });
   if (user) {
     const add = user.addresses;
@@ -605,7 +586,7 @@ const orderData = async (req, res) => {
           await product.save();
         }
       }
-      console.log("This is not Razorpay, it's implemented here");
+      // console.log("This is not Razorpay, it's implemented here");
     } else if (paymentMethod == "Razorpay") {
       try {
         const saveOrder = await order.save();
