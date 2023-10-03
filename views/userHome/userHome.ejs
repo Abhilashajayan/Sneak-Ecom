@@ -75,6 +75,7 @@
                         <% userData.forEach((user, index) => { %>
                             
                             <div class="post-slide" style="height: 420px;">
+                                
                                 <div class="post-img ml-2 r position-relative mx-auto text-center">
                                     <a href="/product-Selection/<%= user._id %>" >
                                     <img id="post-images" class="shadow" src="<%= user.productImages[0].secure_url %>" alt=""
@@ -86,12 +87,10 @@
                                         </button>
                                     </div>  
                                 </div>
-                            </div>
-                       
-                            
+                            </div>                         
                         <% }) %>  
                     </div>
-                   
+                 
                 </div>
             </div>
         </div>

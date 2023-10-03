@@ -118,7 +118,7 @@
             <h1 class="modal-title font-semibold text-2xl">Add Product</h1>
           </div>
           <div class="modal-body">
-            <div id="error-message" style="color: red;"></div>
+           
             <form action="/admin-add-product" method="post" id="ProForm" enctype="multipart/form-data">
               <!-- images simple upload -->
               <div class="mb-4">
@@ -133,6 +133,7 @@
               <div class="mb-4">
                 <label for="productTitle" class="form-label">Product Title</label>
                 <input type="text" required id="productTitle" value="" name="productTitle" placeholder="Product title" class="form-control">
+                <p id="error-message1" style="color: red;"></p>
               </div>
              
               <!-- product category -->
@@ -151,12 +152,14 @@
               <div class="mb-4">
                 <label for="productPrice" class="form-label">Product Price</label>
                 <input type="number" required id="productPrice" name="productPrice" placeholder="Product price" class="form-control">
+                <p id="error-message2" style="color: red;"></p>
               </div>
               <div class="mb-4">
                 <label class="form-label">Sizes (Select multiple)</label>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="sizes" id="size5" value="5">
                     <label class="form-check-label" for="size5">Size 5</label>
+                   
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="sizes" id="size6" value="6">
@@ -186,17 +189,20 @@
                     <input class="form-check-input" type="checkbox" name="sizes" id="size12" value="12">
                     <label class="form-check-label" for="size12">Size 12</label>
                 </div>
+                <p id="error-message3" style="color: red;"></p>
             </div>
             
               <!-- Sale price -->
               <div class="mb-4">
                 <label for="discount" class="form-label">Discount</label>
                 <input type="number" id="discount" name="discount" placeholder="Discount" class="form-control">
+                <p id="error-message4" style="color: red;"></p>
               </div>
               <!-- stock -->
               <div class="mb-4">
                 <label for="stock" class="form-label">Stock</label>
                 <input type="number" required id="stock" name="stock"  placeholder="Stock" class="form-control">
+                <p id="error-message5" style="color: red;"></p>
               </div>
               <div class="modal-footer">
                 <button type="submit" id="addProBtn" class="btn btn-primary">ADD PRODUCT</button>

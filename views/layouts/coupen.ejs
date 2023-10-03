@@ -28,7 +28,7 @@
           <!-- Dummy Data Row 1 -->
           <% CoupenData.forEach((data, index) => { %>
           <tr>
-            <td class="text-sm text-darkGray px-6 py-4 whitespace-nowrap"><%= data.couponCode %></td>
+            <td class="text-sm text-darkGray px-6 py-4 whitespace-nowrap  text-truncate "  style="white-space: nowrap;max-width: 100px; text-overflow: ellipsis;" ><%= data.couponCode %></td>
             <td class="text-sm text-darkGray px-6 py-4 whitespace-nowrap"><%= formatDate(data.expiryDate) %></td>
             <td class="text-sm text-darkGray font-semibold px-6 py-4 text-center"><%= data.discountAmount %></td>
             <td class="text-sm text-darkGray font-semibold px-6 py-4 text-center"><%= data.minPurchase %></td>

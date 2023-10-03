@@ -27,9 +27,11 @@ const instance = new Razorpay({
   key_secret: process.env.RAZOR_SECRET,
 });
 
+
 const signup  = (req, res) =>{
   res.render('userLogin/signup');
 }
+
 
 const signemail  = (req, res) => {
 
@@ -37,18 +39,22 @@ const signemail  = (req, res) => {
  
 };
 
+
 const signin = (req, res) => {
   res.render('userLogin/Login');
 };
+
 
 const emailotp = (req, res) => {
   const email = req.session.email;
     res.render('userLogin/otp',{email});
 };
 
+
 const forgorPass = (req, res) => {
   res.render('userLogin/forgotpass');
 };
+
 
 const changepassword = (req, res) => {
   res.render('userLogin/changePass');
@@ -119,10 +125,10 @@ const userHome = async (req, res)=>{
            user = decodedTokens.userId;
            users = decodedTokens.userId;
         }
-        console.log(user);
+      
         const userData = await Product.find({}).sort({ createdAt: -1 }).limit(8);
         const cartItems = await Cart.find({ user: users }).populate('cartItems.product');
-        console.log(cartItems,"the cart items");
+      
         let cartLength = 0;
         if (cartItems.length > 0 && cartItems[0].cartItems) {
           cartLength = cartItems[0].cartItems.length;

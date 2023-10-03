@@ -565,3 +565,8 @@ document.addEventListener('DOMContentLoaded', function() {
     stateInput.addEventListener('input', validateForm);
     pincodeInput.addEventListener('input', validateForm);
 });
+
+
+
+
+

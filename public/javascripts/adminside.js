@@ -452,41 +452,7 @@ async function editCoup(coupID) {
 }
 
 
-const forms = document.querySelector('#ProForm');
-const errorMessageDiv = document.getElementById('error-message'); // Get the error message div
 
-forms.addEventListener('input', (event) => {
-  const productTitle = document.getElementById('productTitle').value;
-  const productPrice = document.getElementById('productPrice').value;
-  const discount = document.getElementById('discount').value;
-  const stock = document.getElementById('stock').value;
-  const btn   = document.getElementById('addProBtn');
-  let errorMessage = '';
-
-  if (!isValidInput(productTitle)) {
-    errorMessage += 'Invalid input in Product Title field. ';
-  }
-
-  if (!isValidInput(productPrice)) {
-    errorMessage += 'Invalid input in Product Price field. ';
-  }
-
-  if (!isValidInput(discount)) {
-    errorMessage += 'Invalid input in Discount field. ';
-  }
-
-  if (!isValidInput(stock)) {
-    errorMessage += 'Invalid input in Stock field. ';
-  }
-
-  if (errorMessage) {
-    btn.disabled = true;
-    errorMessageDiv.textContent = errorMessage; 
-  }else{
-    errorMessageDiv.textContent = " ";
-    btn.disabled = false;
-  }
-});
 
 function isValidInput(input) {
   return /^[A-Za-z0-9\s]+$/.test(input);
@@ -752,6 +718,94 @@ document.addEventListener('DOMContentLoaded', function() {
           event.preventDefault(); 
       }
   });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const productTitleInput = document.getElementById('productTitle');
+  const productCategoryInput = document.getElementById('category');
+  const productPriceInput = document.getElementById('productPrice');
+  const sizeCheckboxes = document.querySelectorAll('input[name="sizes"]');
+  const discountInput = document.getElementById('discount');
+  const stockInput = document.getElementById('stock');
+  const addProductButton = document.getElementById('addProBtn');
+
+  function validateForm() {
+   
+      document.getElementById('error-message1').textContent = '';
+      document.getElementById('error-message2').textContent = '';
+      document.getElementById('error-message3').textContent = '';
+      document.getElementById('error-message4').textContent = '';
+      document.getElementById('error-message5').textContent = '';
+
+    
+      const productTitle = productTitleInput.value.trim();
+      if (productTitle === '') {
+          document.getElementById('error-message1').textContent = 'Product title cannot be empty.';
+          addProductButton.disabled = true;
+      }
+
+  
+      const productCategory = productCategoryInput.value.trim();
+      if (productCategory === '') {
+          document.getElementById('error-message2').textContent = 'Please select a product category.';
+          addProductButton.disabled = true;
+      }
+
+    
+      let atLeastOneSizeSelected = false;
+      sizeCheckboxes.forEach(function(checkbox) {
+          if (checkbox.checked) {
+              atLeastOneSizeSelected = true;
+          }
+      });
+      if (!atLeastOneSizeSelected) {
+          document.getElementById('error-message3').textContent = 'At least one size must be selected.';
+          addProductButton.disabled = true;
+      }
+
+     
+      const productPrice = productPriceInput.value.trim();
+      if (productPrice === '' || isNaN(productPrice) || parseFloat(productPrice) <= 0) {
+          document.getElementById('error-message4').textContent = 'Product price must be a valid positive number.';
+          addProductButton.disabled = true;
+      }
+
+  
+      const discount = discountInput.value.trim();
+      if (discount !== '' && (isNaN(discount) || parseFloat(discount) < 0)) {
+          document.getElementById('error-message4').textContent = 'Discount must be a valid non-negative number.';
+          addProductButton.disabled = true;
+      }
+
+
+      const stock = stockInput.value.trim();
+      if (stock === '' || isNaN(stock) || parseInt(stock) < 0) {
+          document.getElementById('error-message5').textContent = 'Stock must be a valid non-negative integer.';
+          addProductButton.disabled = true;
+      }
+
+    
+      if (document.getElementById('error-message1').textContent === '' &&
+          document.getElementById('error-message2').textContent === '' &&
+          document.getElementById('error-message3').textContent === '' &&
+          document.getElementById('error-message4').textContent === '' &&
+          document.getElementById('error-message5').textContent === '') {
+          addProductButton.disabled = false;
+      } else {
+          addProductButton.disabled = true;
+      }
+  }
+
+
+  productTitleInput.addEventListener('input', validateForm);
+  productCategoryInput.addEventListener('change', validateForm);
+  sizeCheckboxes.forEach(function(checkbox) {
+      checkbox.addEventListener('change', validateForm);
+  });
+  productPriceInput.addEventListener('input', validateForm);
+  discountInput.addEventListener('input', validateForm);
+  stockInput.addEventListener('input', validateForm);
 });
 
 
