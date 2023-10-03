@@ -114,12 +114,15 @@ const userHome = async (req, res)=>{
         const token = req.cookies.jwt;
         const decodedTokens = jwt.decode(token);
         let user
+        let users ;
         if (decodedTokens) {
            user = decodedTokens.userId;
+           users = decodedTokens.userId;
         }
         console.log(user);
         const userData = await Product.find({}).sort({ createdAt: -1 }).limit(8);
-        const cartItems = await Cart.find({},{});
+        const cartItems = await Cart.find({ user: users }).populate('cartItems.product');
+        console.log(cartItems,"the cart items");
         let cartLength = 0;
         if (cartItems.length > 0 && cartItems[0].cartItems) {
           cartLength = cartItems[0].cartItems.length;
@@ -139,13 +142,15 @@ const productData = async (req, res) => {
       const token = req.cookies.jwt;
       const decodedTokens = jwt.decode(token);
       let user
+      let users 
       if (decodedTokens) {
          user = decodedTokens.userId;
+         users = decodedTokens.userId;
       }
 
       const productId = req.params.userId;
       const products = await Product.findById(productId);
-      const cartItems = await Cart({},{});
+      const cartItems = await Cart.find({ user: users }).populate('cartItems.product');
       let cartLength = 0;
         if (cartItems.length > 0 && cartItems[0].cartItems) {
           cartLength = cartItems[0].cartItems.length;
@@ -171,7 +176,8 @@ const shopPage = async (req, res) => {
     ITEMS_PER_PAGE += (page - 1) * 4;
     const userData = await Product.find({ isListed: true })
       .limit(ITEMS_PER_PAGE);
-  const cart = await Cart.find({},{});
+  const users  = req.userId;
+  const cart =  await Cart.find({ user: users }).populate('cartItems.product');
   const cartItems = await cata.find({},{});
   const user  = req.userId;
   let cartLength = 0;
