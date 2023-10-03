@@ -848,6 +848,7 @@ const couponCheck = async (req, res) => {
       if (!couponData) {
         console.log("Invalid coupon code");
         const err =  'Invalid coupon Code';
+       return res.json({ err });
       }
       console.log("Coupon data:", couponData);
       return res.json({ couponData });

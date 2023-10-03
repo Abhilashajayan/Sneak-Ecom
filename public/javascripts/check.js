@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const applyButton = document.getElementById("applyButton");
   applyButton.addEventListener("click", function () {
     const promoCode = promoCodeInput.value;
+    const coupnDivs = document.getElementById("couponResult");
     console.log(promoCode);
     const url = `/checkCoupon/${promoCode}`;
 
@@ -54,6 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(data => {
         console.log(data);
+        coupnDivs.innerHTML = data.err;
+        coupnDivs.className = "text-danger";
         addCouponData(data);
       })
       .catch(error => {
@@ -80,6 +83,7 @@ if (totalAmount >= couponMinPurchase) {
  
 } else if ( totalAmount < couponMinPurchase) {
   innerData.innerHTML ="Coupon cannot be applied. Minimum purchase requirement not met.";
+  innerData.className = "text-danger";
 }
 }
 
