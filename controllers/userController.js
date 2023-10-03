@@ -209,8 +209,13 @@ const productCart = async (req, res) => {
     if (cart.length > 0 && cart[0].cartItems) {
       cartLength = cart[0].cartItems.length;
     }
+    console.log(userCart.cartItems,"the data");
     
     if (!userCart) {  
+      res.redirect('/empty-Cart');
+    }
+
+    if (userCart.cartItems.length <= 0) {  
       res.redirect('/empty-Cart');
     }
 
